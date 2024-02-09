@@ -11,22 +11,17 @@ assignees: ''
 
 En tant que
 Je veux que
-Afin de 
+Afin de
 
 ## Test d'acceptation
 
 ### Cas nominal
 
-**Étant donné **
-**Quand ** 
+**Étant donné ** **Quand ** 
 **Alors **
 
-### Cas limite
+### Cas limite 🟢
 
+### Cas d'erreur 🟡
 
-
-### Cas d'erreur
-
-
-
-## Pondération
+## Pondération 🔴
