@@ -2,7 +2,7 @@
 name: User Storie
 about: Créer une User storie
 title: ''
-labels: userStorie
+labels: UserStorie
 assignees: ''
 
 ---
