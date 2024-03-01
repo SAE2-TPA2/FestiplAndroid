@@ -1,0 +1,81 @@
+<resources>
+    <string name="app_name">FestiplAndroid</string>
+
+    <string-array name="login_form">
+        <item name="id_label">
+            Identifiant :
+        </item>
+
+        <item name="id_placeholder">
+            Votre identifiant
+        </item>
+
+        <item name="password_label">
+            Mot de passe :
+        </item>
+
+        <item name="password_placeholder">
+            •••••••••
+        </item>
+
+        <item name="login_button">
+            Se connecter
+        </item>
+    </string-array>
+
+    <string-array name="navigation">
+        <item name="all">
+            Tous
+        </item>
+
+        <item name="favorites">
+            Favoris
+        </item>
+
+        <item name="logout">
+            Déconnexion
+        </item>
+    </string-array>
+
+    <string-array name="scheduled">
+        <item name="page_title">
+            Festivals programmés
+        </item>
+    </string-array>
+    
+    <string-array name="favorites">
+        <item name="page_title">
+            Festivals favoris
+        </item>
+    </string-array>
+
+    <string-array name="details">
+        <item name="organizers">
+            Organisateurs :
+        </item>
+
+        <item name="shows">
+            Spectacles :
+        </item>
+
+        <item name="scenes">
+            Scènes :
+        </item>
+
+        <item name="seats">
+            %d places · %s
+        </item>
+
+        <item name="little_scene">
+            Petite scène
+        </item>
+
+        <item name="medium_scene">
+            Scène moyenne
+        </item>
+
+        <item name="big_scene">
+            Grande scène
+        </item>
+    </string-array>
+</resources>

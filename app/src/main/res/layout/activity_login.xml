@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <TableRow
+        style="@style/header">
+
+        <ImageView
+            style="@style/header.logo"
+            android:src="@drawable/logo"
+            android:contentDescription="TODO" />
+
+        <TextView
+            style="@style/header.appname"
+            android:text="@string/app_name" />
+    </TableRow>
+</TableLayout>
