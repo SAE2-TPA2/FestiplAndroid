@@ -87,7 +87,25 @@
         </item>
 
         <item name="android:layout_width">
-            wrap_content
+            0dp
+        </item>
+
+        <item name="android:layout_height">
+            0dp
+        </item>
+    </style>
+
+    <style name="body.section">
+        <item name="android:layout_marginBottom">
+            75dp
+        </item>
+    </style>
+
+    <style name="form" />
+
+    <style name="form.label">
+        <item name="android:layout_width">
+            match_parent
         </item>
 
         <item name="android:layout_height">
@@ -95,11 +113,9 @@
         </item>
     </style>
 
-    <style name="form" />
-
     <style name="form.input">
         <item name="android:background">
-            @color/input.background
+            @drawable/rounded_input   <!-- Vectoriel avec fond arrondi -->
         </item>
 
         <item name="android:paddingVertical">
@@ -116,6 +132,12 @@
 
         <item name="android:layout_height">
             wrap_content
+        </item>
+    </style>
+
+    <style name="form.button">
+        <item name="android:background">
+            @drawable/rounded_button
         </item>
     </style>
 
