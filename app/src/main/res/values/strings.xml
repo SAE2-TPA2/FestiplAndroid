@@ -1,81 +1,81 @@
 <resources>
     <string name="app_name">FestiplAndroid</string>
 
-    <string-array name="login_form">
-        <item name="id_label">
-            Identifiant :
-        </item>
+    <!-- Log in form -->
 
-        <item name="id_placeholder">
-            Votre identifiant
-        </item>
+    <string name="login_form.id.label">
+        Identifiant :
+    </string>
 
-        <item name="password_label">
-            Mot de passe :
-        </item>
+    <string name="login_form.id.placeholder">
+        Votre identifiant…
+    </string>
 
-        <item name="password_placeholder">
-            •••••••••
-        </item>
+    <string name="login_form.password.label">
+        Mot de passe :
+    </string>
 
-        <item name="login_button">
-            Se connecter
-        </item>
-    </string-array>
+    <string name="login_form.password.placeholder">
+        ••••••••
+    </string>
 
-    <string-array name="navigation">
-        <item name="all">
-            Tous
-        </item>
+    <string name="login_form.button.login">
+        Se connecter
+    </string>
 
-        <item name="favorites">
-            Favoris
-        </item>
+    <!-- Navigation -->
 
-        <item name="logout">
-            Déconnexion
-        </item>
-    </string-array>
+    <string name="navigation.all">
+        Tous
+    </string>
 
-    <string-array name="scheduled">
-        <item name="page_title">
-            Festivals programmés
-        </item>
-    </string-array>
+    <string name="navigation.favorites">
+        Favoris
+    </string>
+
+    <string name="navigation.logout">
+        Déconnexion
+    </string>
+
+    <!-- Scheduled festivals view -->
     
-    <string-array name="favorites">
-        <item name="page_title">
-            Festivals favoris
-        </item>
-    </string-array>
+    <string name="scheduled.page.title">
+        Festivals programmés
+    </string>
 
-    <string-array name="details">
-        <item name="organizers">
-            Organisateurs :
-        </item>
+    <!-- Favorites festivals view -->
+    
+    <string name="favorites.page.title">
+        Festivals favoris
+    </string>
 
-        <item name="shows">
-            Spectacles :
-        </item>
+    <!-- Festival details view -->
+    
+    <string name="details.organizers">
+        Organisateurs :
+    </string>
 
-        <item name="scenes">
-            Scènes :
-        </item>
+    <string name="details.shows">
+        Spectacles :
+    </string>
 
-        <item name="seats">
-            %d places · %s
-        </item>
+    <string name="details.scenes">
+        Scènes :
+    </string>
 
-        <item name="little_scene">
-            Petite scène
-        </item>
+    <string name="details.seats">
+        %d places · %s
+    </string>
 
-        <item name="medium_scene">
-            Scène moyenne
-        </item>
+    <string name="details.scene.little">
+        Petite scène
+    </string>
 
-        <item name="big_scene">
-            Grande scène
-        </item>
-    </string-array>
+    <string name="details.scene.medium">
+        Scène moyenne
+    </string>
+
+    <string name="details.scene.big">
+        Grande scène
+    </string>
 </resources>
