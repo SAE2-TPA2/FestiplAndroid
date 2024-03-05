@@ -17,11 +17,15 @@
         </item>
 
         <item name="android:paddingVertical">
-            10dp
+            5dp
         </item>
 
         <item name="android:gravity">
             center_vertical
+        </item>
+
+        <item name="android:layout_width">
+            match_parent
         </item>
     </style>
 
@@ -66,6 +70,32 @@
 
         <item name="android:textStyle">
             bold
+        </item>
+    </style>
+
+    <style name="body">
+        <item name="android:paddingVertical">
+            20dp
+        </item>
+    </style>
+
+    <style name="form" />
+
+    <style name="form.input">
+        <item name="android:background">
+            @color/input.background
+        </item>
+
+        <item name="android:paddingVertical">
+            10dp
+        </item>
+
+        <item name="android:paddingHorizontal">
+            20dp
+        </item>
+
+        <item name="android:layout_width">
+            match_parent
         </item>
     </style>
 
