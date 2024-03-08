@@ -136,6 +136,10 @@
     </style>
 
     <style name="form.button">
+        <item name="backgroundTint">
+            @color/button.background
+        </item>
+
         <item name="android:background">
             @drawable/rounded_button
         </item>
