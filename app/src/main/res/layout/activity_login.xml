@@ -43,14 +43,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/login_form"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/login_form.button_container"
+            app:layout_constraintBottom_toTopOf="@+id/login_form__button_container"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/login_form.id"
+                android:id="@+id/login_form__id"
                 style="@style/body.section"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/login_form.id.label"
+                    android:id="@+id/login_form__id__label"
                     style="@style/form.label"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +69,7 @@
                 <EditText
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/login_form.id.label"
+                    app:layout_constraintTop_toBottomOf="@+id/login_form__id__label"
                     style="@style/form.input"
                     android:hint="@string/login_form.id.placeholder" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -79,7 +79,7 @@
                 style="@style/body.section"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/login_form.id"
+                app:layout_constraintTop_toBottomOf="@id/login_form__id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -99,25 +99,42 @@
                     style="@style/form.input"
                     android:hint="@string/login_form.password.placeholder" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/login_form.button_container"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                style="@style/form.button"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                app:layout_constraintTop_toBottomOf="@id/login_form.password"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/login_form.login_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/login_form.button.login" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/login_form__error"
+                    style="@style/form.error"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"
+                    android:text="" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/login_form__button_container"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    style="@style/form.button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:id="@+id/login_form__login_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login_form.button.login" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
