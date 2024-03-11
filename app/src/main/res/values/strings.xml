@@ -23,10 +23,6 @@
         Se connecter
     </string>
 
-    <string name="login_form.error.invalid_credentials">
-        Identifiants invalides
-    </string>
-
     <!-- Navigation -->
 
     <string name="navigation.all">
