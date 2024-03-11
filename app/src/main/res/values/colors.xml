@@ -13,4 +13,6 @@
 
     <color name="star.icon">#FFAA05</color>
     <color name="star.active.background">#FFE2AA</color>
+
+    <color name="error.text">#FF0000</color>
 </resources>
