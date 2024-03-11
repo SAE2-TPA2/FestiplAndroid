@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import but2.s4.festiplandroid.errors.Error;
 import but2.s4.festiplandroid.navigation.Navigator;
+import but2.s4.festiplandroid.session.User;
 
 /**
  * LoginActivity est une classe qui gère l'activité de
@@ -59,12 +60,19 @@ public class LoginActivity extends AppCompatActivity {
      * affiche un message d'erreur si nécessaire.
      */
     private void attemptLogin() {
-        boolean stub = false;
+        boolean stub = true;
 
         if (stub) {
             if (this.error.getVisibility() == TextView.GONE) {
                 this.error.setVisibility(TextView.VISIBLE);
             }
+
+            User userInstance;
+            userInstance = User.getInstance();
+            userInstance.setFirstname("Jean");
+            userInstance.setLastname("Dupont");
+            userInstance.setId(10);
+            userInstance.setLogin("jeandup");
 
             Navigator.toActivity(this, this.getClass());
         } else {
