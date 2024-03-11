@@ -23,6 +23,10 @@
         Se connecter
     </string>
 
+    <string name="login_form.error.invalid_credentials">
+        Identifiants invalides
+    </string>
+
     <!-- Navigation -->
 
     <string name="navigation.all">
@@ -77,5 +81,11 @@
 
     <string name="details.scene.big">
         Grande scène
+    </string>
+
+    <!-- Global errors -->
+
+    <string name="error.introduction">
+        Une erreur s\'est produite :
     </string>
 </resources>
