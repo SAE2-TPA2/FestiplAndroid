@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="primary">#2A2A2A</color>
+    <color name="secondary">#FFFFFF</color>
+
+    <color name="input.background">#EBEBEB</color>
+    <color name="input.placeholder">#7B7979</color>
+
+    <color name="button.background">#595959</color>
+
+    <color name="star.icon">#FFAA05</color>
+    <color name="star.active.background">#FFE2AA</color>
+
+    <color name="error.text">#FF0000</color>
+</resources>

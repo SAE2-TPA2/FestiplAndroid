@@ -1,0 +1,163 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.FestiplAndroid" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <item name="android:background">
+            @color/white
+        </item>
+
+        <!-- TODO: changer android:fontFamily pour Inter -->
+    </style>
+
+    <style name="header">
+        <item name="android:background">
+            @color/primary
+        </item>
+
+        <item name="android:paddingVertical">
+            5dp
+        </item>
+
+        <item name="android:gravity">
+            center_vertical
+        </item>
+
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+    </style>
+
+    <style name="header.logo">
+        <item name="android:layout_width">
+            80dp
+        </item>
+
+        <item name="android:layout_height">
+            80dp
+        </item>
+
+        <item name="android:scaleType">
+            fitCenter
+        </item>
+
+        <item name="android:adjustViewBounds">
+            true
+        </item>
+    </style>
+
+    <style name="header.appname">
+        <item name="android:layout_weight">
+            1
+        </item>
+
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:textAlignment">
+            center
+        </item>
+
+        <item name="android:textColor">
+            @color/white
+        </item>
+
+        <item name="android:textSize">
+            30sp
+        </item>
+
+        <item name="android:textStyle">
+            bold
+        </item>
+    </style>
+
+    <style name="body">
+        <item name="android:paddingVertical">
+            20dp
+        </item>
+
+        <item name="android:layout_width">
+            0dp
+        </item>
+
+        <item name="android:layout_height">
+            0dp
+        </item>
+    </style>
+
+    <style name="body.section">
+        <item name="android:layout_marginBottom">
+            75dp
+        </item>
+    </style>
+
+    <style name="form" />
+
+    <style name="form.label">
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+    </style>
+
+    <style name="form.input">
+        <item name="android:background">
+            @drawable/rounded_input   <!-- Vectoriel avec fond arrondi -->
+        </item>
+
+        <item name="android:paddingVertical">
+            10dp
+        </item>
+
+        <item name="android:paddingHorizontal">
+            20dp
+        </item>
+
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+    </style>
+
+    <style name="form.button">
+        <item name="backgroundTint">
+            @color/button.background
+        </item>
+
+        <item name="android:background">
+            @drawable/rounded_button
+        </item>
+    </style>
+
+    <style name="form.error">
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:textColor">
+            @color/error.text
+        </item>
+    </style>
+
+    <style name="Theme.FestiplAndroid" parent="Base.Theme.FestiplAndroid" />
+</resources>

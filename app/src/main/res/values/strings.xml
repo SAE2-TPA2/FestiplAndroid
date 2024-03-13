@@ -1,0 +1,96 @@
+<resources>
+    <string name="app_name">FestiplAndroid</string>
+
+    <!-- Log in form -->
+
+    <string name="login_form.id.label">
+        Identifiant :
+    </string>
+
+    <string name="login_form.id.placeholder">
+        Votre identifiant…
+    </string>
+
+    <string name="login_form.password.label">
+        Mot de passe :
+    </string>
+
+    <string name="login_form.password.placeholder">
+        ••••••••
+    </string>
+
+    <string name="login_form.button.login">
+        Se connecter
+    </string>
+
+    <string name="login_form.error.wrong_credentials">
+        Identifiants incorrects.
+    </string>
+
+    <!-- Navigation -->
+
+    <string name="navigation.all">
+        Tous
+    </string>
+
+    <string name="navigation.favorites">
+        Favoris
+    </string>
+
+    <string name="navigation.logout">
+        Déconnexion
+    </string>
+
+    <!-- Scheduled festivals view -->
+    
+    <string name="scheduled.page.title">
+        Festivals programmés
+    </string>
+
+    <!-- Favorites festivals view -->
+    
+    <string name="favorites.page.title">
+        Festivals favoris
+    </string>
+
+    <!-- Festival details view -->
+    
+    <string name="details.organizers">
+        Organisateurs :
+    </string>
+
+    <string name="details.shows">
+        Spectacles :
+    </string>
+
+    <string name="details.scenes">
+        Scènes :
+    </string>
+
+    <string name="details.seats">
+        %d places · %s
+    </string>
+
+    <string name="details.scene.little">
+        Petite scène
+    </string>
+
+    <string name="details.scene.medium">
+        Scène moyenne
+    </string>
+
+    <string name="details.scene.big">
+        Grande scène
+    </string>
+
+    <!-- Global errors -->
+
+    <string name="error.introduction">
+        Une erreur s\'est produite :
+    </string>
+
+    <string name="error.server_down">
+        Impossible de se connecter au serveur pour le moment.
+        Veuillez réessayer plus tard.
+    </string>
+</resources>
