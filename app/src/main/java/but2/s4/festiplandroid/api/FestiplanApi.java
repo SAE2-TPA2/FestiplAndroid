@@ -56,9 +56,9 @@ public class FestiplanApi {
                 StringBuilder content;
 
                 content = new StringBuilder();
+                inputStream = connection.getInputStream();
                 reader = new BufferedReader(
                     new InputStreamReader(inputStream));
-                inputStream = connection.getInputStream();
 
                 while ((line = reader.readLine()) != null) {
                     content.append(line);
