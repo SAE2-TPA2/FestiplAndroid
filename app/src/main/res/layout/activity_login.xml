@@ -68,6 +68,7 @@
                 <EditText
                     android:maxLines="1"
                     android:id="@+id/login_form__id__input"
+                    android:inputType="text"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/login_form__id__label"
