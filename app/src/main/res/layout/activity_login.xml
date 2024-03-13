@@ -43,7 +43,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/login_form"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/login_form__button_container"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="match_parent"
@@ -67,6 +66,7 @@
                     android:text="@string/login_form.id.label" />
 
                 <EditText
+                    android:id="@+id/login_form__id__input"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/login_form__id__label"
@@ -92,6 +92,7 @@
                     android:text="@string/login_form.password.label" />
 
                 <EditText
+                    android:id="@+id/login_form__password__input"
                     android:inputType="textPassword"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
