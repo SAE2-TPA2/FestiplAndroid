@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import but2.s4.festiplandroid.api.ApiResponse;
+import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.errors.Error;
 import but2.s4.festiplandroid.navigation.Navigator;
 import but2.s4.festiplandroid.session.User;
@@ -19,10 +22,12 @@ import but2.s4.festiplandroid.session.User;
  * de base pour les activités qui utilisent la barre d'action.
  */
 public class LoginActivity extends AppCompatActivity {
-    // TextView pour afficher les erreurs
+    private EditText login;
+
+    private EditText password;
+
     private TextView error;
 
-    // Bouton pour déclencher la tentative de connexion
     private Button loginButton;
 
     /**
@@ -35,21 +40,27 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        this.setContentView(R.layout.activity_login);
 
         // Initialisation de la vue d'erreur
-        error = findViewById(R.id.login_form__error);
+        this.error = findViewById(R.id.login_form__error);
+
+        this.login = findViewById(R.id.login_form__id__input);
+        this.login.setText("");
+
+        this.password = findViewById(R.id.login_form__password__input);
+        this.login.setText("");
 
         // Initialisation du bouton de connexion et
         // définition de son comportement lorsqu'il est
         // cliqué
-        loginButton = findViewById(R.id.login_form__login_button);
-        loginButton.setOnClickListener(v -> attemptLogin());
+        this.loginButton = findViewById(R.id.login_form__login_button);
+        this.loginButton.setOnClickListener(v -> attemptLogin());
 
         // Appel de la méthode pour gérer le
         // redimensionnement de la mise en page lorsque
         // le clavier est affiché
-        onKeyboardToggling();
+        this.onKeyboardToggling();
     }
 
     /**
@@ -60,31 +71,69 @@ public class LoginActivity extends AppCompatActivity {
      * affiche un message d'erreur si nécessaire.
      */
     private void attemptLogin() {
-        boolean stub = true;
+        final String[] loginAttemptApiResponse = new String[1];
 
-        if (stub) {
-            if (this.error.getVisibility() == TextView.GONE) {
-                this.error.setVisibility(TextView.VISIBLE);
-            }
-
-            User userInstance;
-            userInstance = User.getInstance();
-            userInstance.setFirstname("Jean");
-            userInstance.setLastname("Dupont");
-            userInstance.setId(10);
-            userInstance.setLogin("jeandup");
-
-            Navigator.toActivity(this, this.getClass());
-        } else {
-            String introduction,
-                   message;
-
-            introduction = this.getText(R.string.error_introduction).toString();
-            message = "Identifiants incorrects [STUB]";  // TODO: STUB
-
-            this.error.setVisibility(TextView.VISIBLE);
-            this.error.setText(Error.getPreparedMessage(introduction, message));
+        if (this.login.getText().length() == 0 || this.password.getText().length() == 0) {
+            this.erreurIdentifiants();
+            return;
         }
+
+        ApiResponse response = new ApiResponse() {
+            @Override
+            public void onResponse(String response) {
+                loginAttemptApiResponse[0] = response;
+
+                if (loginAttemptApiResponse[0] == null) {
+                    if (error.getVisibility() == TextView.GONE) {
+                        error.setVisibility(TextView.VISIBLE);
+                    }
+
+                    String introduction,
+                        message;
+
+                    introduction = getText(R.string.error_introduction).toString();
+                    message = getText(R.string.error_server_down).toString();
+
+                    error.setText(Error.getPreparedMessage(introduction, message));
+
+                    return;
+                }
+
+                System.out.println(loginAttemptApiResponse[0]);
+
+                if (!loginAttemptApiResponse[0].equals("false")) {
+                    if (error.getVisibility() == TextView.GONE) {
+                        error.setVisibility(TextView.VISIBLE);
+                    }
+
+                    User userInstance;
+                    userInstance = User.getInstance();
+                    userInstance.setFirstname("Jean");
+                    userInstance.setLastname("Dupont");
+                    userInstance.setId(10);
+                    userInstance.setLogin("jeandup");
+
+                    Navigator.toActivity(LoginActivity.this, LoginActivity.class);
+                } else {
+                    erreurIdentifiants();
+                }
+            }
+        };
+
+        FestiplanApi.createLoginApiListener(this.login.getText().toString(),
+                                            this.password.getText().toString(),
+                                            response);  // TODO: STUB
+    }
+
+    private void erreurIdentifiants() {
+        String introduction,
+               message;
+
+        introduction = getText(R.string.error_introduction).toString();
+        message = getText(R.string.login_form_error_wrong_credentials).toString();
+
+        error.setVisibility(TextView.VISIBLE);
+        error.setText(Error.getPreparedMessage(introduction, message));
     }
 
     /**
