@@ -66,6 +66,7 @@
                     android:text="@string/login_form.id.label" />
 
                 <EditText
+                    android:maxLines="1"
                     android:id="@+id/login_form__id__input"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -92,6 +93,7 @@
                     android:text="@string/login_form.password.label" />
 
                 <EditText
+                    android:maxLines="1"
                     android:id="@+id/login_form__password__input"
                     android:inputType="textPassword"
                     app:layout_constraintStart_toStartOf="parent"
