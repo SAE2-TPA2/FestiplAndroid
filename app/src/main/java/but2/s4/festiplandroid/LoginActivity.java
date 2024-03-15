@@ -17,11 +17,13 @@ import but2.s4.festiplandroid.session.User;
 /**
  * LoginActivity est une classe qui gère l'activité de
  * connexion de l'application.
- *
+ * <p>
  * Elle hérite de AppCompatActivity qui est une classe
  * de base pour les activités qui utilisent la barre d'action.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity
+extends AppCompatActivity {
+
     private EditText login;
 
     private EditText password;
