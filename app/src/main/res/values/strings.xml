@@ -83,6 +83,14 @@
         Grande scène
     </string>
 
+    <string name="details.organizers.title">
+        Organisateurs :
+    </string>
+
+    <string name="details.scenes.title">
+        Scènes :
+    </string>
+
     <!-- Global errors -->
 
     <string name="error.introduction">
