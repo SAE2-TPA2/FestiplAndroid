@@ -97,6 +97,14 @@
         Une erreur s\'est produite :
     </string>
 
+    <string name="favoris">
+        Favoris
+    </string>
+
+    <string name="detail.title.button">
+        Voir les détails
+    </string>
+
     <string name="error.server_down">
         Impossible de se connecter au serveur pour le moment.
         Veuillez réessayer plus tard.

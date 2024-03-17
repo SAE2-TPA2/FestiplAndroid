@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <!-- Première colonne: Image du festival -->
+
+    <!-- Deuxième colonne: Textes du festival -->
+    <ImageView
+        android:id="@+id/festivalImageView"
+        android:layout_width="104dp"
+        android:layout_height="96dp"
+        android:adjustViewBounds="true"
+        android:padding="16dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/default_festival_image" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/festivalNameTextView"
+            android:layout_width="141dp"
+            android:layout_height="wrap_content"
+            android:text="Nom du festival(stub)"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/festivalDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="info scene (stub)"
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray"/>
+
+        <Button
+            android:id="@+id/festivalDetailsButton"
+            android:layout_width="115dp"
+            android:layout_height="wrap_content"
+            android:text="@string/detail.title.button"
+            android:background="@color/button.background"
+            android:textSize="8sp" />
+
+    </LinearLayout>
+
+    <!-- Troisième colonne: Texte et image -->
+    <LinearLayout
+        android:layout_width="108dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/festivalLocationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date debut(stub)"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/festivalLocationMapImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_map_image" />
+
+        <TextView
+            android:id="@+id/festivalDescriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date fin (stub)"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <!-- Quatrième colonne: Bouton avec image -->
+    <ImageButton
+        android:id="@+id/festivalFavoriButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/location_icon"
+        android:background="@android:color/transparent"
+        android:padding="16dp"/>
+
+</LinearLayout>
