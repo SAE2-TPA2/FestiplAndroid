@@ -14,14 +14,6 @@
         app:layout_constraintTop_toTopOf="parent"
         style="@style/header">
 
-        <TextView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            style="@style/header.appname"
-            android:text="@string/app_name" />
-
         <ImageView
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -41,7 +33,7 @@
         style="@style/body">
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/festivalName"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +43,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/introduction"
             style="@style/details.section"
-            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/festivalName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -66,7 +58,7 @@
                 style="@style/details.description"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/picture"
-                app:layout_constraintEnd_toEndOf="@id/dates"
+                app:layout_constraintEnd_toStartOf="@id/dates"
                 android:text="festival.description" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -135,11 +127,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="@string/details.scenes.title" />
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/scenes_list"
                 app:layout_constraintTop_toBottomOf="@id/scenes_title"
                 app:layout_constraintStart_toStartOf="parent"
-                style="@style/details.organizers.list" />
+                style="@style/details.organizers.list">
+
+                <!-- Chaque scène du festival -->
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
