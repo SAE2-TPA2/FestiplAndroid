@@ -43,8 +43,16 @@
 
     <!-- Scheduled festivals view -->
     
-    <string name="scheduled.page.title">
-        Festivals programmés
+    <string name="favorites.page.title">
+        Festivals favoris
+    </string>
+
+    <string name="favoris">
+        Favoris
+    </string>
+
+    <string name="detail.title.button">
+        Voir les détails
     </string>
 
     <!-- Favorites festivals view -->
@@ -97,13 +105,6 @@
         Une erreur s\'est produite :
     </string>
 
-    <string name="favoris">
-        Favoris
-    </string>
-
-    <string name="detail.title.button">
-        Voir les détails
-    </string>
 
     <string name="error.server_down">
         Impossible de se connecter au serveur pour le moment.

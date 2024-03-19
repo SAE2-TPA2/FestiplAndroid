@@ -47,7 +47,7 @@
                         android:layout_width="54dp"
                         android:layout_height="57dp"
                         android:layout_gravity="left"
-                        android:layout_marginHorizontal="5"
+                        android:layout_marginHorizontal="5dp"
                         android:background="@color/button.background"
                         android:src="@drawable/menu_barr" />
 
@@ -68,7 +68,7 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:background="@drawable/sign_out"
-                    android:layout_marginTop="5"/>
+                    android:layout_marginTop="5dp"/>
 
             </TableRow>
         </TableLayout>
