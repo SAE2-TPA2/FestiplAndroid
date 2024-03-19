@@ -14,50 +14,64 @@
         app:layout_constraintTop_toTopOf="parent"
         style="@style/header">
 
-        <ImageView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            style="@style/header.logo"
-            android:src="@drawable/logo"
-            android:contentDescription="Logo" />
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1">
+            <TableRow>
 
-        <LinearLayout
-            android:id="@+id/linearLayout5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            tools:layout_editor_absoluteX="193dp"
-            tools:layout_editor_absoluteY="10dp"
-            android:background="@drawable/rounded_button">
+                <ImageView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/header.logo"
+                    android:src="@drawable/logo"
+                    android:contentDescription="Logo"/>
 
-            <ImageView
-                android:id="@+id/Img4"
-                android:layout_width="54dp"
-                android:layout_height="57dp"
-                android:layout_gravity="left"
-                android:background="@color/button.background"
-                android:src="@drawable/menu_barr" />
+                <Space
+                    android:layout_width="100dp"
+                    android:layout_column="0"
+                    android:layout_row="0"
+                    android:background="@color/button.background"/>
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/favoris"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:background="@color/button.background"
-                android:textColor="@color/secondary"
-                android:padding="10dp"/>
-        </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearLayout5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_button"
+                    android:orientation="horizontal"
+                    android:layout_margin="10">
 
-        <ImageButton
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/sign_out"
-            tools:layout_editor_absoluteX="325dp"
-            tools:layout_editor_absoluteY="5dp"/>
+                    <ImageView
+                        android:id="@+id/Img4"
+                        android:layout_width="54dp"
+                        android:layout_height="57dp"
+                        android:layout_gravity="left"
+                        android:layout_marginHorizontal="5"
+                        android:background="@color/button.background"
+                        android:src="@drawable/menu_barr" />
 
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/button.background"
+                        android:padding="10dp"
+                        android:text="@string/favoris"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/secondary"/>
+
+                </LinearLayout>
+
+                <ImageButton
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/sign_out"
+                    android:layout_marginTop="5"/>
+
+            </TableRow>
+        </TableLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
