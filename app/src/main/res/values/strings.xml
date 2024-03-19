@@ -41,8 +41,8 @@
         Déconnexion
     </string>
 
-    <!-- Scheduled festivals view -->
-    
+    <!-- Favorites festivals view -->
+
     <string name="favorites.page.title">
         Festivals favoris
     </string>
@@ -53,12 +53,6 @@
 
     <string name="detail.title.button">
         Voir les détails
-    </string>
-
-    <!-- Favorites festivals view -->
-    
-    <string name="favorites.page.title">
-        Festivals favoris
     </string>
 
     <!-- Festival details view -->
