@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".ScheduledActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
@@ -51,7 +51,8 @@
                         android:layout_gravity="left"
                         android:layout_marginHorizontal="5dp"
                         android:background="@color/button.background"
-                        android:src="@drawable/menu_barr" />
+                        android:src="@drawable/menu_barr"
+                        android:contentDescription="barreIcon"/>
 
                     <TextView
                         android:id="@+id/textView4"
@@ -69,7 +70,8 @@
                 <ImageButton
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:background="@drawable/sign_out"/>
+                    android:background="@drawable/sign_out"
+                    android:contentDescription="LeaveIcon"/>
 
             </TableRow>
         </TableLayout>

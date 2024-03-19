@@ -1,92 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-
-    <ImageView
-        android:id="@+id/festivalImageView"
-        android:layout_width="104dp"
-        android:layout_height="96dp"
-        android:adjustViewBounds="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/default_festival_image"/>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/festivalNameTextView"
-            android:layout_width="141dp"
-            android:layout_height="wrap_content"
-            android:text="Nom du festival(stub)"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/festivalDateTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="info scene (stub)"
-            android:textSize="16sp"
-            android:textColor="@android:color/darker_gray"/>
-
-        <Button
-            android:id="@+id/festivalDetailsButton"
-            android:layout_width="115dp"
-            android:layout_height="wrap_content"
-            android:text="@string/detail.title.button"
-            android:background="@color/button.background"
-            android:textSize="8sp" />
-
-    </LinearLayout>
-
-    <!-- Troisième colonne: Texte et image -->
-    <LinearLayout
-        android:layout_width="108dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <TextView
-            android:id="@+id/festivalLocationTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date debut(stub)"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:id="@+id/festivalLocationMapImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/default_map_image" />
-
-        <TextView
-            android:id="@+id/festivalDescriptionTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date fin (stub)"
-            android:textSize="14sp" />
-
-    </LinearLayout>
-
-    <!-- Quatrième colonne: Bouton avec image -->
-    <ImageButton
-        android:id="@+id/festivalFavoriButton"
+    android:layout_height="match_parent"
+    tools:context=".ScheduledActivity">
+    <TableLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/location_icon"
-        android:background="@android:color/transparent"
-        android:padding="16dp"/>
+        android:layout_height="wrap_content">
+        <TableRow>
 
-</LinearLayout>
+            <ImageView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/header.logo"
+                android:layout_margin="10dp"
+                android:background="@drawable/default_festival_image"
+                android:contentDescription="image"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_margin="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nom_Festival(stub)"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Catégorie(stub)"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/detail.title.button"
+                    android:background="@drawable/rounded_button"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_margin="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date_Debut(stub)"
+                    android:layout_marginTop="5dp"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/chevron_down_date">
+
+                </ImageView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date_Fin(stub)"/>
+            </LinearLayout>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/favorites_selected"
+                android:layout_marginTop="20dp">
+            </ImageButton>
+        </TableRow>
+    </TableLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
