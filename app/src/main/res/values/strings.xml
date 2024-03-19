@@ -47,11 +47,13 @@
         Festivals favoris
     </string>
 
-    <string name="favoris">
+    <string name="favorites">
         Favoris
     </string>
 
-    <string name="detail.title.button">
+    <!-- Scheduled festivals view -->
+
+    <string name="details.title.button">
         Voir les détails
     </string>
 
