@@ -42,9 +42,17 @@
     </string>
 
     <!-- Favorites festivals view -->
-    
+
     <string name="favorites.page.title">
         Festivals favoris
+    </string>
+
+    <string name="favoris">
+        Favoris
+    </string>
+
+    <string name="detail.title.button">
+        Voir les détails
     </string>
 
     <!-- Festival details view -->

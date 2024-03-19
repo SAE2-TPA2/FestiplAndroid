@@ -80,7 +80,7 @@
         style="@style/form.label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/scheduled_page_title"
+        android:text="@string/favorites.page.title"
         android:textSize="20sp"
         android:textStyle="bold"
         android:paddingStart="20dp"
