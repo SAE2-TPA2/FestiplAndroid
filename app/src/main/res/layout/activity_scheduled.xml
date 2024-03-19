@@ -11,14 +11,15 @@
         android:layout_width="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/header">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:stretchColumns="1">
-            <TableRow>
+            <TableRow
+
+                style="@style/header">
 
                 <ImageView
                     app:layout_constraintTop_toTopOf="parent"
@@ -67,8 +68,7 @@
                 <ImageButton
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:background="@drawable/sign_out"
-                    android:layout_marginTop="5dp"/>
+                    android:background="@drawable/sign_out"/>
 
             </TableRow>
         </TableLayout>
