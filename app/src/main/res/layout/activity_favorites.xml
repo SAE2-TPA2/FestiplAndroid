@@ -19,7 +19,6 @@
             android:layout_height="match_parent"
             android:stretchColumns="1">
             <TableRow
-
                 style="@style/header">
 
                 <ImageView
@@ -51,7 +50,7 @@
                         android:layout_gravity="left"
                         android:layout_marginHorizontal="5dp"
                         android:background="@color/button.background"
-                        android:src="@drawable/menu_barr" />
+                        android:src="@drawable/menu_barr"/>
 
                     <TextView
                         android:id="@+id/textView4"
@@ -60,7 +59,7 @@
                         android:layout_gravity="center"
                         android:background="@color/button.background"
                         android:padding="10dp"
-                        android:text="@string/favoris.menu.button"
+                        android:text="@string/all.menu.button"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/secondary"/>
 
@@ -81,7 +80,7 @@
         style="@style/form.label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/schelduled.page.title"
+        android:text="@string/favorites.page.title"
         android:textSize="20sp"
         android:textStyle="bold"
         android:paddingStart="20dp"
