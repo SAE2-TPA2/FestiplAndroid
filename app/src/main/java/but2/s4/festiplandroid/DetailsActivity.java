@@ -2,9 +2,12 @@ package but2.s4.festiplandroid;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spanned;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +31,19 @@ import but2.s4.festiplandroid.session.User;
 public class DetailsActivity
 extends AppCompatActivity {
 
+    private TextView festivalName;
+
+    private View picture;
+
+    private TextView description;
+
+    private TextView startDate;
+
+    private TextView endDate;
+
     private TextView organizersList;
+
+    private LinearLayout scenesList;
 
     /**
      * Cette méthode est appelée à la création de
@@ -42,15 +57,33 @@ extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_details);
 
+        this.festivalName = this.findViewById(R.id.festivalName);
+        this.festivalName.setText("Festival STUB");
+
+        this.picture = this.findViewById(R.id.picture);
+        // TODO: Set picture
+
+        this.description = this.findViewById(R.id.description);
+        this.description.setText(R.string.LOREM_TEMP);
+
+        this.startDate = this.findViewById(R.id.start);
+        this.startDate.setText("01/01/1970");
+
+        this.endDate = this.findViewById(R.id.end);
+        this.endDate.setText("02/01/1970");
+
         this.organizersList = this.findViewById(R.id.organizers_list);
         this.updateOrganizersList();
+
+        this.scenesList = this.findViewById(R.id.scenes_list);
+        this.updateScenesList();
     }
 
     private void updateOrganizersList() {
         final String PATTERN_LIST
             = "<ul>%s</ul>";
 
-        String[] listeStub = new String[] {
+        String[] organizersStub = new String[] {
             "Organisateur 1",
             "Organisateur 2",
             "Organisateur 3"
@@ -60,9 +93,9 @@ extends AppCompatActivity {
 
         listContent = new StringBuilder();
 
-        for (String o: listeStub) {
+        for (String organizer: organizersStub) {
             listContent.append("<li>&nbsp;&nbsp;&nbsp;")
-                       .append(o)
+                       .append(organizer)
                        .append("</li>");
         }
 
@@ -72,5 +105,9 @@ extends AppCompatActivity {
         this.organizersList
             .setText(Html.fromHtml(listContent.toString(),
                                    Html.FROM_HTML_MODE_COMPACT));
+    }
+
+    private void updateScenesList() {
+        
     }
 }
