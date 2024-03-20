@@ -40,6 +40,19 @@
     <string name="navigation.logout">
         Déconnexion
     </string>
+    <!-- Scheduled festivals view -->
+
+    <string name="favoris.menu.button">
+        Favoris
+    </string>
+
+    <string name="detail.title.button">
+        Voir les détails
+    </string>
+
+    <string name="schelduled.page.title">
+        Festivals programmés
+    </string>
 
     <!-- Favorites festivals view -->
 
@@ -47,12 +60,8 @@
         Festivals favoris
     </string>
 
-    <string name="favoris">
-        Favoris
-    </string>
-
-    <string name="detail.title.button">
-        Voir les détails
+    <string name="all.menu.button">
+        Tous
     </string>
 
     <!-- Festival details view -->

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScheduledActivity">
+    tools:context=".LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
@@ -12,15 +12,13 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/header">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:stretchColumns="1">
             <TableRow
-
                 style="@style/header">
 
                 <ImageView
@@ -38,7 +36,7 @@
                     android:background="@color/button.background"/>
 
                 <LinearLayout
-                    android:id="@+id/buttonFavoritesFestival"
+                    android:id="@+id/buttonAllFestival"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_button"
@@ -52,8 +50,7 @@
                         android:layout_gravity="left"
                         android:layout_marginHorizontal="5dp"
                         android:background="@color/button.background"
-                        android:src="@drawable/menu_barr"
-                        android:contentDescription="barreIcon"/>
+                        android:src="@drawable/menu_barr"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -61,18 +58,17 @@
                         android:layout_gravity="center"
                         android:background="@color/button.background"
                         android:padding="10dp"
-                        android:text="@string/favoris.menu.button"
+                        android:text="@string/all.menu.button"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/secondary"/>
 
                 </LinearLayout>
 
                 <ImageButton
-                    android:id="@+id/sign_out_from_scheduled"
+                    android:id="@+id/sign_out_from_favorites"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:background="@drawable/sign_out"
-                    android:contentDescription="LeaveIcon"/>
+                    android:background="@drawable/sign_out"/>
 
             </TableRow>
         </TableLayout>
@@ -84,12 +80,12 @@
         style="@style/form.label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/schelduled.page.title"
+        android:text="@string/favorites.page.title"
         android:textSize="20sp"
         android:textStyle="bold"
         android:paddingStart="20dp"
-        android:paddingEnd="20dp"
         android:paddingTop="5dp"
+        android:paddingEnd="20dp"
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

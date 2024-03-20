@@ -9,9 +9,20 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import but2.s4.festiplandroid.festivals.Festival;
+
 public class FestiplanApi {
     private static final String URI_LOGIN_API_REQUEST
         = "http://10.0.2.2:8888/festiplan/api/connexion?login=%s&mdp=%s";
+
+    private static final String URI_FESTIVAL_API_REQUEST
+        = "http://10.0.2.2:8888/festiplan/api/detailsfestival/%s";
+
+    private static final String URI_FESTIVAL_ORGANIZERS_API_REQUEST
+        = "http://10.0.2.2:8888/festiplan/api/organisateursfestival/%s";
+
+    private static final String URI_FESTIVAL_SCENES_API_REQUEST
+        = "http://10.0.2.2:8888/festiplan/api/scenesfestival/%s";
 
     public static void createLoginApiListener(String login,
                                               String password,
@@ -24,6 +35,67 @@ public class FestiplanApi {
         handler = new Handler(Looper.getMainLooper());
 
         requestUri = String.format(URI_LOGIN_API_REQUEST, login, password);
+
+        new Thread(() -> {
+            String test;
+
+            test = callApi(requestUri);
+            handler.post(() -> callback.onResponse(test));
+        }).start();
+    }
+
+    public static void createFestivalApiListener(int id,
+                                                 ApiResponse callback) {
+
+        String requestUri;
+
+        Handler handler;
+
+        handler = new Handler(Looper.getMainLooper());
+
+        requestUri = String.format(URI_FESTIVAL_API_REQUEST, id);
+
+        new Thread(() -> {
+            String test;
+
+            test = callApi(requestUri);
+            handler.post(() -> callback.onResponse(test));
+        }).start();
+    }
+
+    public static void createFestivalOrganizersApiListener(
+        Festival festivalInstance,
+        ApiResponse callback) {
+
+        String requestUri;
+
+        Handler handler;
+
+        handler = new Handler(Looper.getMainLooper());
+
+        requestUri = String.format(URI_FESTIVAL_ORGANIZERS_API_REQUEST,
+                                   festivalInstance.getIdFestival());
+
+        new Thread(() -> {
+            String test;
+
+            test = callApi(requestUri);
+            handler.post(() -> callback.onResponse(test));
+        }).start();
+    }
+
+    public static void createFestivalScenesApiListener(
+        Festival festivalInstance,
+        ApiResponse callback) {
+
+        String requestUri;
+
+        Handler handler;
+
+        handler = new Handler(Looper.getMainLooper());
+
+        requestUri = String.format(URI_FESTIVAL_SCENES_API_REQUEST,
+                                   festivalInstance.getIdFestival());
 
         new Thread(() -> {
             String test;

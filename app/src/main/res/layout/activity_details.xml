@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,134 +7,138 @@
     tools:context=".LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/header"
         android:layout_width="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/header">
-
-        <ImageView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            style="@style/header.logo"
-            android:src="@drawable/logo"
-            android:contentDescription="Logo" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        app:layout_constraintTop_toBottomOf="@+id/header"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent=".8"
-        app:layout_constraintWidth_percent=".9"
-        style="@style/body">
-
-        <TextView
-            android:id="@+id/festivalName"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            style="@style/details.title"
-            android:text="festival.name" />
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/introduction"
-            style="@style/details.section"
-            app:layout_constraintTop_toBottomOf="@id/festivalName"
+            android:id="@+id/header"
+            android:layout_width="match_parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/header">
 
-            <View
-                android:id="@+id/picture"
-                style="@style/details.picture"
+            <ImageView
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/header.logo"
+                android:src="@drawable/logo"
+                android:contentDescription="Logo" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintTop_toBottomOf="@+id/header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintWidth_percent=".9"
+            style="@style/body_details">
 
             <TextView
-                android:id="@+id/description"
-                style="@style/details.description"
+                android:id="@+id/festivalName"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/picture"
-                app:layout_constraintEnd_toStartOf="@id/dates"
-                android:text="festival.description" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/details.title"
+                android:text="festival.name" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                style="@style/details.dates"
-                android:id="@+id/dates"
-                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/introduction"
+                style="@style/details.section"
+                app:layout_constraintTop_toBottomOf="@id/festivalName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <View
+                    android:id="@+id/picture"
+                    style="@style/details.picture"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/description"
+                    style="@style/details.description"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/picture"
+                    app:layout_constraintEnd_toStartOf="@id/dates"
+                    android:text="festival.description" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    style="@style/details.dates"
+                    android:id="@+id/dates"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:id="@+id/start"
+                        style="@style/details.dates.date"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:text="festival.start" />
+
+                    <ImageView
+                        android:id="@+id/angle_dates"
+                        style="@style/details.dates.angle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/start"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:src="@drawable/angle_down_dates"
+                        android:contentDescription="Icône flèche des dates" />
+
+                    <TextView
+                        android:id="@+id/end"
+                        style="@style/details.dates.date"
+                        app:layout_constraintTop_toBottomOf="@id/angle_dates"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:text="festival.end" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/organizers"
+                style="@style/details.section"
+                app:layout_constraintTop_toBottomOf="@id/introduction"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <TextView
-                    android:id="@+id/start"
-                    style="@style/details.dates.date"
+                    android:id="@+id/organizers_title"
+                    style="@style/details.section.title"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:text="festival.start" />
-
-                <ImageView
-                    android:id="@+id/angle_dates"
-                    style="@style/details.dates.angle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/start"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:src="@drawable/angle_down_dates"
-                    android:contentDescription="Icône flèche des dates" />
+                    android:text="@string/details.organizers.title" />
 
                 <TextView
-                    android:id="@+id/end"
-                    style="@style/details.dates.date"
-                    app:layout_constraintTop_toBottomOf="@id/angle_dates"
+                    android:id="@+id/organizers_list"
+                    app:layout_constraintTop_toBottomOf="@id/organizers_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:text="festival.end" />
+                    style="@style/details.organizers.list" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/scenes"
+                style="@style/details.section"
+                app:layout_constraintTop_toBottomOf="@id/organizers"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/scenes_title"
+                    style="@style/details.section.title"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/details.scenes.title" />
+
+                <LinearLayout
+                    android:id="@+id/scenes_list"
+                    app:layout_constraintTop_toBottomOf="@id/scenes_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/details.organizers.list">
+
+                    <!-- Chaque scène du festival -->
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/organizers"
-            style="@style/details.section"
-            app:layout_constraintTop_toBottomOf="@id/introduction"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <TextView
-                android:id="@+id/organizers_title"
-                style="@style/details.section.title"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:text="@string/details.organizers.title" />
-
-            <TextView
-                android:id="@+id/organizers_list"
-                app:layout_constraintTop_toBottomOf="@id/organizers_title"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/details.organizers.list" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/scenes"
-            style="@style/details.section"
-            app:layout_constraintTop_toBottomOf="@id/organizers"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <TextView
-                android:id="@+id/scenes_title"
-                style="@style/details.section.title"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:text="@string/details.scenes.title" />
-
-            <LinearLayout
-                android:id="@+id/scenes_list"
-                app:layout_constraintTop_toBottomOf="@id/scenes_title"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/details.organizers.list">
-
-                <!-- Chaque scène du festival -->
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
