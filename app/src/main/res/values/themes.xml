@@ -91,6 +91,20 @@
         </item>
     </style>
 
+    <style name="body_details">
+        <item name="android:layout_width">
+            0dp
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:paddingTop">
+            30dp
+        </item>
+    </style>
+
     <style name="body.section">
         <item name="android:layout_marginBottom">
             75dp
@@ -314,6 +328,42 @@
 
         <item name="android:orientation">
             vertical
+        </item>
+    </style>
+
+    <style name="details.organizers.list.item" />
+
+    <style name="details.organizers.list.item.title">
+        <item name="android:textSize">
+            30sp
+        </item>
+
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:fontw"
+    </style>
+
+    <style name="details.organizers.list.item.description">
+        <item name="android:textSize">
+            25sp
+        </item>
+
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:textColor">
+            @color/button.background
         </item>
     </style>
 
