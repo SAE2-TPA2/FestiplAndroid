@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Arrays;
+import java.util.HashMap;
+
 import but2.s4.festiplandroid.api.ApiResponse;
 import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.errors.Error;
@@ -73,12 +76,14 @@ extends AppCompatActivity {
      * affiche un message d'erreur si nécessaire.
      */
     private void attemptLogin() {
+        System.out.println("Click");
         final String[] loginAttemptApiResponse = new String[1];
 
         if (this.login.getText().length() == 0 || this.password.getText().length() == 0) {
             this.erreurIdentifiants();
             return;
         }
+        System.out.println("Credential valide");
 
         ApiResponse response = new ApiResponse() {
             @Override
@@ -104,9 +109,12 @@ extends AppCompatActivity {
                 System.out.println(loginAttemptApiResponse[0]);
 
                 if (!loginAttemptApiResponse[0].equals("false")) {
+                    // Si on a pas "false" en réponse, c'est que la connexion a réussi
                     if (error.getVisibility() == TextView.GONE) {
                         error.setVisibility(TextView.VISIBLE);
                     }
+
+                    System.out.println(Arrays.toString(loginAttemptApiResponse));
 
                     User userInstance;
                     userInstance = User.getInstance();
@@ -115,7 +123,11 @@ extends AppCompatActivity {
                     userInstance.setId(10);
                     userInstance.setLogin("jeandup");
 
-                    Navigator.toActivity(LoginActivity.this, LoginActivity.class);
+                    HashMap<String, String> extras = new HashMap<>();
+                    extras.put(ScheduledActivity.EXTRA_LOGIN, login.getText().toString());
+                    extras.put(ScheduledActivity.EXTRA_PASSWORD, password.getText().toString());
+
+                    Navigator.toActivity(LoginActivity.this, ScheduledActivity.class, extras);
                 } else {
                     erreurIdentifiants();
                 }
@@ -125,6 +137,7 @@ extends AppCompatActivity {
         FestiplanApi.createLoginApiListener(this.login.getText().toString(),
                                             this.password.getText().toString(),
                                             response);  // TODO: STUB
+
     }
 
     private void erreurIdentifiants() {
