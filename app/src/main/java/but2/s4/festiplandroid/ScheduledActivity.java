@@ -3,9 +3,13 @@ package but2.s4.festiplandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class ScheduledActivity
         extends AppCompatActivity {
@@ -35,7 +39,8 @@ public class ScheduledActivity
             @Override
             public void onClick(View v) {
                 // Redirection vers SecondActivity lors du clic sur le bouton
-                Intent intent = new Intent(ScheduledActivity.this, FavoritesActivity.class);
+                Intent intent = new Intent(ScheduledActivity.this,
+                        null); // stub activite de favori
                 intention.putExtra(EXTRA_LOGIN, login);
                 intention.putExtra(EXTRA_PASSWORD, password);
                 startActivity(intent);
@@ -53,7 +58,10 @@ public class ScheduledActivity
                 startActivity(intent);
             }
         });
+        // association de la listeView avec le template d'item
+        // d'un festival
+        NodeList festivals;
 
-
+        //ArrayAdapter<Node> adaptaterFestival
     }
 }
