@@ -3,7 +3,7 @@
 SAE-S3-WEB
 Nom du projet : FestiplAndroid
 
-Description : Le projet "FestiplAndroid" est une application mobile pour gérer la planification de festivals. Elle permet à l'utilisateur de voir des différents festivals programmés. Elle permet également de mettre en favoris des festivals programmée.
+Description : Le projet "FestiplAndroid" est une application mobile pour gérer la planification de festivals. Elle permet à l'utilisateur de voir les différents festivals programmés lors de l'évènement festiplan. Elle permet également de mettre en favoris des festivals programmée.
 
 Membres
 |             | email iut     | Identifiant Github | 
