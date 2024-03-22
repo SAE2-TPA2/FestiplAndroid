@@ -24,6 +24,9 @@ public class FestiplanApi {
     private static final String URI_FESTIVAL_SCENES_API_REQUEST
         = "http://10.0.2.2:8888/festiplan/api/scenesfestival/%s";
 
+    private static final String URI_FESTIVAL_SHOWS_API_REQUEST
+            = "http://10.0.2.2:8888/festiplan/api/spectaclesfestival/%s";
+
     public static void createLoginApiListener(String login,
                                               String password,
                                               ApiResponse callback) {
@@ -96,6 +99,27 @@ public class FestiplanApi {
 
         requestUri = String.format(URI_FESTIVAL_SCENES_API_REQUEST,
                                    festivalInstance.getIdFestival());
+
+        new Thread(() -> {
+            String test;
+
+            test = callApi(requestUri);
+            handler.post(() -> callback.onResponse(test));
+        }).start();
+    }
+
+    public static void createFestivalShowsApiListener(
+            Festival festivalInstance,
+            ApiResponse callback) {
+
+        String requestUri;
+
+        Handler handler;
+
+        handler = new Handler(Looper.getMainLooper());
+
+        requestUri = String.format(URI_FESTIVAL_SCENES_API_REQUEST,
+                festivalInstance.getIdFestival());
 
         new Thread(() -> {
             String test;
