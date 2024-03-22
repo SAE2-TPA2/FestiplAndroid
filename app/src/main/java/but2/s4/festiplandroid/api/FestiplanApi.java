@@ -118,7 +118,7 @@ public class FestiplanApi {
 
         handler = new Handler(Looper.getMainLooper());
 
-        requestUri = String.format(URI_FESTIVAL_SCENES_API_REQUEST,
+        requestUri = String.format(URI_FESTIVAL_SHOWS_API_REQUEST,
                 festivalInstance.getIdFestival());
 
         new Thread(() -> {
