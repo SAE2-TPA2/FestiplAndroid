@@ -167,12 +167,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <View
+                        <ImageView
                             android:id="@+id/show_picture"
                             style="@style/details.shows.list.item.picture"
                             android:backgroundTint="@color/black"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:contentDescription="TODO" />
                         
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/show_information"

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -54,6 +55,26 @@ extends AppCompatActivity {
     private LinearLayout scenesList;
 
     private LinearLayout showsList;
+
+    private ConstraintLayout showLayout;
+
+    private ConstraintLayout showInformation;
+
+    private ConstraintLayout showDates;
+
+    private TextView showTitle;
+
+    private TextView showCategory;
+
+    private TextView showDescription;
+
+    private TextView showStartDate;
+
+    private TextView showEndDate;
+
+    private ImageView showPicture;
+
+    private ImageView showDatesAngle;
 
     private Festival currentFestival;
 
@@ -255,29 +276,23 @@ extends AppCompatActivity {
                 this.createShowRow(currentShow);
             }
         };
+
+        FestiplanApi.createFestivalShowsApiListener(this.currentFestival,
+                                                    callback);
     }
 
     private void createShowRow(Show currentShow) {
-        ConstraintLayout showLayout,
-                         showDates;
-
-        TextView showTitle,
-                 showCategory,
-                 showDescription,
-                 showStartDate,
-                 showEndDate;
-
-        ImageView showDatesAngle;
-
         ConstraintLayout.LayoutParams showLayoutParams;
 
         showLayoutParams
                 = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
                                                     ConstraintLayout.LayoutParams.WRAP_CONTENT);
-        showLayout = new ConstraintLayout(this);
-        showLayout.setLayoutParams(showLayoutParams);
+        this.showLayout = new ConstraintLayout(this);
+        this.showLayout.setLayoutParams(showLayoutParams);
 
-        this.newShowPicture(showLayout);
+        this.newShowPicture();
+        this.createShowDatesContainer();
+        this.newShowInformation(currentShow);
 
         /*
         showDatesAngle = new ImageView(DetailsActivity.this);
@@ -294,53 +309,218 @@ extends AppCompatActivity {
         showDatesAngleParams
         */
 
-        this.showsList.addView(showLayout);
+        this.showsList.addView(this.showLayout);
     }
 
     /**
      * Ajout d'une image pour un spectacle.
-     *
-     * @param showLayout
      */
-    private void newShowPicture(ConstraintLayout showLayout) {
-        View showPicture;
+    private void newShowPicture() {
+        int showPictureWidth,
+            showPictureHeight;
 
         ConstraintSet showPictureSet;
 
-        showPicture = new View(this);
-        showPicture.getContext().setTheme(R.style.details_shows_list_item_picture);
+        ConstraintLayout.LayoutParams showPictureParams;
+
+        showPictureWidth
+                = this.getResources()
+                      .getDimensionPixelSize(R.dimen.show_picture_width);
+
+        showPictureHeight
+                = this.getResources()
+                      .getDimensionPixelSize(R.dimen.show_picture_height);
+
+        showPictureParams
+                = new ConstraintLayout.LayoutParams(showPictureWidth,
+                                                    showPictureHeight);
+
+        this.showPicture = new ImageView(this);
+        this.showPicture.setId(View.generateViewId());
+        this.showPicture.setLayoutParams(showPictureParams);
+        this.showPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        this.showPicture.setPadding(0, 10, 0, 10);
+
+        Glide.with(this)
+             .load("https://picsum.photos/800/600")
+             .into(this.showPicture);
 
         showPictureSet = new ConstraintSet();
-        showPictureSet.clone(showLayout);
+        showPictureSet.clone(this.showLayout);
         showPictureSet.connect(
-                showPicture.getId(),
+                this.showPicture.getId(),
                 ConstraintSet.TOP,
                 ConstraintSet.PARENT_ID,
                 ConstraintSet.TOP,
                 0);
         showPictureSet.connect(
-                showPicture.getId(),
+                this.showPicture.getId(),
                 ConstraintSet.START,
                 ConstraintSet.PARENT_ID,
                 ConstraintSet.START,
                 0);
-        showPictureSet.applyTo(showLayout);
+        showPictureSet.applyTo(this.showLayout);
+
+        this.showLayout.addView(this.showPicture);
     }
 
-    private void newShowInformation(ConstraintLayout showLayout,
-                                    Show currentShow) {
-
-        ConstraintLayout showInformation;
-
+    private void newShowInformation(Show currentShow) {
+        //  CONTAINER INFORMATIONS SPECTACLE
         ConstraintLayout.LayoutParams showInformationParams;
 
-        showInformation = new ConstraintLayout(this);
-        showInformation.getContext().setTheme(R.style.details_shows_list_item);
+        this.showInformation = new ConstraintLayout(this);
+        this.showInformation.setId(View.generateViewId());
+        this.showInformation.getContext().setTheme(R.style.details_shows_list_item);
 
         showInformationParams = new ConstraintLayout.LayoutParams(
                 0,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         showInformationParams.topToTop = ConstraintLayout.LayoutParams.MATCH_PARENT;
-        // TODO: showInformationParams.startToEnd =
+        showInformationParams.startToEnd = this.showPicture.getId();
+        //showInformationParams.endToStart = this.showDates.getId();
+
+        this.showInformation.setLayoutParams(showInformationParams);
+
+        //  TITRE SPECTACLE
+        this.createShowTitle(currentShow.getTitreSpectacle());
+
+        this.showLayout.addView(this.showInformation);
+    }
+
+    /**
+     * Crée l'élément de titre du spectacle à afficher.
+     *
+     * @param title Titre du spectacle en chaîne de
+     *              caractères
+     */
+    private void createShowTitle(String title) {
+        ConstraintSet showTitleSet;
+
+        this.showTitle = new TextView(this);
+        this.showTitle.setTextAppearance(R.style.details_shows_list_item_title);
+        this.showTitle.setText(title);
+
+        showTitleSet = new ConstraintSet();
+        showTitleSet.clone(this.showInformation);
+        showTitleSet.connect(
+                this.showTitle.getId(),
+                ConstraintSet.TOP,
+                ConstraintSet.PARENT_ID,
+                ConstraintSet.TOP,
+                0);
+        showTitleSet.connect(
+                this.showTitle.getId(),
+                ConstraintSet.START,
+                ConstraintSet.PARENT_ID,
+                ConstraintSet.START,
+                0);
+        showTitleSet.applyTo(this.showInformation);
+
+        this.showInformation.addView(this.showTitle);
+    }
+
+    /**
+     * Crée le container des dates de spectacle.
+     */
+    private void createShowDatesContainer() {
+        ConstraintLayout.LayoutParams showDatesParams,
+                                      showStartDateParams,
+                                      showAngleParams,
+                                      showEndDateParams;
+
+        //  CONTAINER DATES SPECTACLE
+        showDatesParams = new ConstraintLayout.LayoutParams(
+                0,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT);
+
+        this.showDates = new ConstraintLayout(this);
+        this.showDates.setId(View.generateViewId());
+        this.showDates.getContext().setTheme(
+                R.style.details_shows_list_item_dates);
+
+        showDatesParams.topToTop
+                = ConstraintLayout.LayoutParams.PARENT_ID;
+        showDatesParams.bottomToBottom
+                = ConstraintLayout.LayoutParams.PARENT_ID;
+        showDatesParams.endToEnd
+                = ConstraintLayout.LayoutParams.PARENT_ID;
+
+        this.showDates.setLayoutParams(showDatesParams);
+
+        //  START DATE
+        showStartDateParams = new ConstraintLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT);
+
+        this.showStartDate = this.addDateToShow("01/01/1980");
+
+        showStartDateParams.topToTop
+                = ConstraintLayout.LayoutParams.PARENT_ID;
+        showStartDateParams.startToStart
+                = ConstraintLayout.LayoutParams.PARENT_ID;
+        showStartDateParams.endToEnd
+                = ConstraintLayout.LayoutParams.PARENT_ID;
+
+        this.showStartDate.setLayoutParams(showStartDateParams);
+
+        //  ANGLE DOWN
+        showAngleParams = new ConstraintLayout.LayoutParams(
+                getResources().getDimensionPixelSize(
+                        R.dimen.show_dates_angle_width),
+                ConstraintLayout.LayoutParams.WRAP_CONTENT);
+
+        this.showDatesAngle = new ImageView(this);
+        this.showDatesAngle.setId(View.generateViewId());
+        this.showDatesAngle.getContext().setTheme(
+                R.style.details_shows_list_item_dates_angle);
+        this.showDatesAngle.setImageResource(
+                R.drawable.angle_down_dates);
+
+        showAngleParams.topToBottom
+                = this.showStartDate.getId();
+        showAngleParams.startToStart
+                = ConstraintLayout.LayoutParams.PARENT_ID;
+        showAngleParams.endToEnd
+                = ConstraintLayout.LayoutParams.PARENT_ID;
+
+        this.showDatesAngle.setLayoutParams(showAngleParams);
+
+        //  END DATE
+        showEndDateParams = new ConstraintLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT);
+
+        this.showEndDate = this.addDateToShow("02/01/1980");
+
+        showEndDateParams.topToBottom
+                = this.showDatesAngle.getId();
+        showEndDateParams.startToStart
+                = ConstraintLayout.LayoutParams.PARENT_ID;
+        showEndDateParams.endToEnd
+                = ConstraintLayout.LayoutParams.PARENT_ID;
+
+        this.showEndDate.setLayoutParams(showEndDateParams);
+
+        this.showLayout.addView(this.showDates);
+    }
+
+    /**
+     * Ajoute une date de spectacle à son container des
+     * dates.
+     *
+     * @param date Date à afficher
+     * @return Élément d'affichage de la date créé
+     */
+    private TextView addDateToShow(String date) {
+        TextView showDate;
+
+        showDate = new TextView(this);
+        showDate.setId(View.generateViewId());
+        showDate.setTextAppearance(R.style.details_shows_list_item_dates_date);
+        showDate.setText(date);
+
+        this.showDates.addView(showDate);
+
+        return showDate;
     }
 }

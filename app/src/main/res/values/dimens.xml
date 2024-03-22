@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="show.picture.width">
+        142dp
+    </dimen>
+
+    <dimen name="show.picture.height">
+        142dp
+    </dimen>
+
+    <dimen name="show.dates.angle.width">
+        100dp
+    </dimen>
+
+    <dimen name="show.dates.angle.paddingVertical">
+        10dp
+    </dimen>
+</resources>
