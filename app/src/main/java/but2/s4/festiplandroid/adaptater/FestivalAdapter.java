@@ -1,7 +1,5 @@
 package but2.s4.festiplandroid.adaptater;
 
-import static but2.s4.festiplandroid.api.FestiplanApi.deleteFavoritesFestivalsPostListener;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -14,11 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.List;
 
 import but2.s4.festiplandroid.DetailsActivity;
@@ -26,6 +19,7 @@ import but2.s4.festiplandroid.R;
 import but2.s4.festiplandroid.api.ApiResponse;
 import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.festivals.Festival;
+import but2.s4.festiplandroid.session.User;
 
 public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.FestivalViewHolder> {
     private final List<Festival> festivalList;
@@ -63,12 +57,30 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
             @Override
             public void onClick(View v) {
                 ImageButton imageButton = (ImageButton) v;
-
+                int idUser = User.getInstance().getId();
                 if(festival.getFavorite()) {
                     imageButton.setImageResource(R.drawable.favorites_deselected);
+                    final String[] apiResponse = new String[1];
+                    ApiResponse response = new ApiResponse() {
+                        @Override
+                        public void onResponse(String response) {
+                            apiResponse[0] = response;
+                            System.out.println(apiResponse[0]);
+                        }
+                    };
+                    FestiplanApi.deleteFavoritesFestivalsDeleteListener(idUser,festival.getIdFestival(),response);
 
                 } else {
                     imageButton.setImageResource(R.drawable.favorites_selected);
+                    final String[] apiResponse = new String[1];
+                    ApiResponse response = new ApiResponse() {
+                        @Override
+                        public void onResponse(String response) {
+                            apiResponse[0] = response;
+                            System.out.println(apiResponse[0]);
+                        }
+                    };
+                    FestiplanApi.createFavoritesFestivalsPostListener(idUser,festival.getIdFestival(),response);
                 }
             }
         });

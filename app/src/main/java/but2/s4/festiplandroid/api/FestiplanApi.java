@@ -213,7 +213,21 @@ public class FestiplanApi {
             handler.post(() -> callback.onResponse(test));
         }).start();
     }
+    public static void deleteFavoritesFestivalsDeleteListener(int idUser, int idFestival, ApiResponse callback) {
+        String requestUri = URI_FESTIVAL_DELETE_FAVORITES;
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("userId", idUser);
+            requestBody.put("festivalId", idFestival);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+        new Thread(() -> {
+            String test = callApiDelete(requestUri, requestBody);
+            new Handler(Looper.getMainLooper()).post(() -> callback.onResponse(test));
+        }).start();
+    }
 
     private static String callApi(String uri) {
         URL apiUrl;
@@ -343,6 +357,4 @@ public class FestiplanApi {
             return null;
         }
     }
-
-
 }
