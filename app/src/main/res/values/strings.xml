@@ -118,6 +118,10 @@
         Veuillez réessayer plus tard.
     </string>
 
+    <string name="error.festival.not.found">
+        Aucun festival n\'est encore programmé
+    </string>
+
 
 
 
