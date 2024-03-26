@@ -12,24 +12,27 @@ import java.net.URL;
 import but2.s4.festiplandroid.festivals.Festival;
 
 public class FestiplanApi {
+    public static final String DOMAIN_API
+        = "http://10.0.2.2:8888";
+
     private static final String URI_LOGIN_API_REQUEST
-        = "http://10.0.2.2:8888/festiplan/api/connexion?login=%s&mdp=%s";
+        = "%s/sae-s4-festiplan-b-green-b/festiplan/api/connexion?login=%s&mdp=%s";
 
     private static final String URI_FESTIVAL_API_REQUEST
-        = "http://10.0.2.2:8888/festiplan/api/detailsfestival/%s";
+        = "%s/sae-s4-festiplan-b-green-b/festiplan/api/detailsfestival/%s";
 
     private static final String URI_FESTIVAL_ORGANIZERS_API_REQUEST
-        = "http://10.0.2.2:8888/festiplan/api/organisateursfestival/%s";
+        = "%s/sae-s4-festiplan-b-green-b/festiplan/api/organisateursfestival/%s";
 
     private static final String URI_FESTIVAL_SCENES_API_REQUEST
-        = "http://10.0.2.2:8888/festiplan/api/scenesfestival/%s";
+        = "%s/sae-s4-festiplan-b-green-b/festiplan/api/scenesfestival/%s";
 
     private static final String URI_FESTIVAL_SHOWS_API_REQUEST
-            = "http://10.0.2.2:8888/festiplan/api/spectaclesfestival/%s";
+        = "%s/sae-s4-festiplan-b-green-b/festiplan/api/spectaclesfestival/%s";
     private static final String URI_FESTIVAL_ALL_SCHEDULED
-            = "http://10.0.2.2:8888/festiplan/api/tousLesFestivals";
+            = "%s/sae-s4-festiplan-b-green-b/festiplan/api/tousLesFestivals";
     private static final String URI_FESTIVAL_ALL_FAVORITES
-            = "http://10.0.2.2:8888/festiplan/api/tousLesFavoris/%s";
+            = "%s/sae-s4-festiplan-b-green-b/festiplan/api/tousLesFavoris/%s";
 
     public static void createLoginApiListener(String login,
                                               String password,
@@ -41,7 +44,10 @@ public class FestiplanApi {
 
         handler = new Handler(Looper.getMainLooper());
 
-        requestUri = String.format(URI_LOGIN_API_REQUEST, login, password);
+        requestUri = String.format(URI_LOGIN_API_REQUEST,
+                                   DOMAIN_API,
+                                   login,
+                                   password);
 
         new Thread(() -> {
             String test;
@@ -60,7 +66,9 @@ public class FestiplanApi {
 
         handler = new Handler(Looper.getMainLooper());
 
-        requestUri = String.format(URI_FESTIVAL_API_REQUEST, id);
+        requestUri = String.format(URI_FESTIVAL_API_REQUEST,
+                                   DOMAIN_API,
+                                   id);
 
         new Thread(() -> {
             String test;
@@ -81,6 +89,7 @@ public class FestiplanApi {
         handler = new Handler(Looper.getMainLooper());
 
         requestUri = String.format(URI_FESTIVAL_ORGANIZERS_API_REQUEST,
+                                   DOMAIN_API,
                                    festivalInstance.getIdFestival());
 
         new Thread(() -> {
@@ -102,6 +111,7 @@ public class FestiplanApi {
         handler = new Handler(Looper.getMainLooper());
 
         requestUri = String.format(URI_FESTIVAL_SCENES_API_REQUEST,
+                                   DOMAIN_API,
                                    festivalInstance.getIdFestival());
 
         new Thread(() -> {
@@ -122,8 +132,10 @@ public class FestiplanApi {
 
         handler = new Handler(Looper.getMainLooper());
 
-        requestUri = String.format(URI_FESTIVAL_SHOWS_API_REQUEST,
-                festivalInstance.getIdFestival());
+        requestUri
+                = String.format(URI_FESTIVAL_SHOWS_API_REQUEST,
+                                DOMAIN_API,
+                                festivalInstance.getIdFestival());
 
         new Thread(() -> {
             String test;
