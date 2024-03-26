@@ -67,9 +67,10 @@ public class ScheduledActivity extends AppCompatActivity {
                 } else {
                     System.out.println(listeAllFestival[0]);
                     ArrayList<Festival> festivalList = new ArrayList<>();
-                    //for (Festival festival:ArrayList<Object> listeAllFestival[0]) {
-                        //festivalList.add
-                    //}
+                    for (:
+                         ) {
+                        
+                    }
                 }
             }
         };
