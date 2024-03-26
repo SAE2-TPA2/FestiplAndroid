@@ -71,6 +71,10 @@ public final class User {
         this.APIKey = APIKey;
     }
 
+    public void logout() {
+        instance = new User();
+    }
+
     public static User getInstance() {
         if (instance == null) {
             return instance = new User();
