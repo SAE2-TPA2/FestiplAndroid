@@ -197,7 +197,7 @@ public class FestiplanApi {
 
         handler = new Handler(Looper.getMainLooper());
 
-        requestUri = String.format(URI_FESTIVAL_ALL_SCHEDULED);
+        requestUri = String.format(URI_FESTIVAL_ALL_SCHEDULED, DOMAIN_API);
 
         new Thread(() -> {
             String test;
@@ -221,7 +221,7 @@ public class FestiplanApi {
 
         handler = new Handler(Looper.getMainLooper());
 
-        requestUri = String.format(URI_FESTIVAL_ALL_FAVORITES, id);
+        requestUri = String.format(URI_FESTIVAL_ALL_FAVORITES, DOMAIN_API, id);
 
         new Thread(() -> {
             String test;
@@ -270,6 +270,8 @@ public class FestiplanApi {
 
                 reader.close();
                 return content.toString();
+            } else if (responseCode == 400) {
+                return "false";
             } else {
                 return null;
             }
