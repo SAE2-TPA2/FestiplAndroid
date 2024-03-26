@@ -1,0 +1,13 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="10dp" /> <!-- Vous pouvez ajuster le rayon pour modifier le niveau d'arrondi -->
+            <solid android:color="@color/button.background" /> <!-- Couleur de fond de l'EditText -->
+        </shape>
+    </item>
+
+    <item>
+        <inset
+            android:drawable="@drawable/logout_icon" />
+    </item>
+</layer-list>
