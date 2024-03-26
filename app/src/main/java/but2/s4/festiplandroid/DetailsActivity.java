@@ -287,27 +287,14 @@ extends AppCompatActivity {
         showLayoutParams
                 = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
                                                     ConstraintLayout.LayoutParams.WRAP_CONTENT);
+        showLayoutParams.bottomMargin
+                = getResources().getDimensionPixelSize(R.dimen.show_bottomMargin);
         this.showLayout = new ConstraintLayout(this);
         this.showLayout.setLayoutParams(showLayoutParams);
 
         this.newShowPicture();
         this.createShowDatesContainer();
         this.newShowInformation(currentShow);
-
-        /*
-        showDatesAngle = new ImageView(DetailsActivity.this);
-        showDatesAngle.getContext().setTheme(R.style.details_shows_list_item_dates_angle);
-        showDatesAngle.setImageResource(R.drawable.angle_down_dates);
-
-        ConstraintLayout.LayoutParams showDatesAngleParams
-                = new ConstraintLayout.LayoutParams(
-                100,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT);
-
-        showDatesAngleParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
-        showDatesAngleParams.bottomToBottom = R.id.show_start;
-        showDatesAngleParams
-        */
 
         this.showsList.addView(this.showLayout);
     }
@@ -339,10 +326,10 @@ extends AppCompatActivity {
         this.showPicture.setId(View.generateViewId());
         this.showPicture.setLayoutParams(showPictureParams);
         this.showPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        this.showPicture.setPadding(0, 10, 0, 10);
+        this.showPicture.setAdjustViewBounds(true);
 
         Glide.with(this)
-             .load("https://picsum.photos/800/600")
+             .load("https://picsum.photos/800/800")
              .into(this.showPicture);
 
         showPictureSet = new ConstraintSet();
@@ -377,7 +364,9 @@ extends AppCompatActivity {
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         showInformationParams.topToTop = ConstraintLayout.LayoutParams.MATCH_PARENT;
         showInformationParams.startToEnd = this.showPicture.getId();
-        //showInformationParams.endToStart = this.showDates.getId();
+        showInformationParams.endToStart = this.showDates.getId();
+        showInformationParams.leftMargin
+                = getResources().getDimensionPixelSize(R.dimen.show_picture_endMargin);
 
         this.showInformation.setLayoutParams(showInformationParams);
 
@@ -414,6 +403,7 @@ extends AppCompatActivity {
                 ConstraintSet.PARENT_ID,
                 ConstraintSet.START,
                 0);
+
         showTitleSet.applyTo(this.showInformation);
 
         this.showInformation.addView(this.showTitle);
@@ -484,6 +474,7 @@ extends AppCompatActivity {
                 = ConstraintLayout.LayoutParams.PARENT_ID;
 
         this.showDatesAngle.setLayoutParams(showAngleParams);
+        this.showDates.addView(this.showDatesAngle);
 
         //  END DATE
         showEndDateParams = new ConstraintLayout.LayoutParams(
