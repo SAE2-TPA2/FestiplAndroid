@@ -60,8 +60,8 @@
         Festivals favoris
     </string>
 
-    <string name="all.menu.button">
-        Tous
+    <string name="scheduled.menu.button">
+        Programmé
     </string>
 
     <!-- Festival details view -->

@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-//import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,46 +12,45 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
+import but2.s4.festiplandroid.adaptater.FestivalAdapter;
 import but2.s4.festiplandroid.api.ApiResponse;
 import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.festivals.Festival;
 import but2.s4.festiplandroid.navigation.Navigator;
 import but2.s4.festiplandroid.session.User;
 
-public class ScheduledActivity extends AppCompatActivity {
-
-    // Conservation du login et du password pour identifier
-    // l'utilisateur dans les différentes activités
-    String login;
-    String password;
-
+public class FavoritesActivity extends AppCompatActivity {
+    RecyclerView recyclerView;
     private TextView textError;
-    private List<Festival> festivalList;
-
-    public ScheduledActivity() {
-    }
-
+    private List<Festival> festivalFavoritesList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scheduled);
+        setContentView(R.layout.activity_favorites);
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_festival_favori);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         textError = this.findViewById(R.id.error_festival_not_found);
         textError.setVisibility(View.INVISIBLE);
 
-        LinearLayout favorisButton = findViewById(R.id.buttonFavoritesFestival);
-        favorisButton.setOnClickListener(v -> navigateToFavorites());
-        ImageButton deconnexionButton = findViewById(R.id.sign_out_from_scheduled);
+        //recyclerView.setAdapter(festivalAdapter);
+        LinearLayout scheduledButton = findViewById(R.id.buttonAllFestival);
+        scheduledButton.setOnClickListener(v -> navigateToScheduled());
+        ImageButton deconnexionButton = findViewById(R.id.sign_out_from_favorites);
         deconnexionButton.setOnClickListener(v -> navigateTosignOut());
 
-        loadAllFestivalsObject();
+        loadFavoritesFestivalsObject();
+    }
+
+    private void navigateToScheduled() {
+        Navigator.toActivity(FavoritesActivity.this, ScheduledActivity.class);
     }
 
     private void navigateTosignOut() {
@@ -60,14 +58,10 @@ public class ScheduledActivity extends AppCompatActivity {
         User.getInstance().setLastname(null);
         User.getInstance().setId(-1);
         User.getInstance().setLogin(null);
-        Navigator.toActivity(ScheduledActivity.this, LoginActivity.class);
+        Navigator.toActivity(FavoritesActivity.this, LoginActivity.class);
     }
 
-    private void navigateToFavorites() {
-        Navigator.toActivity(ScheduledActivity.this, FavoritesActivity.class);
-    }
-
-    private void loadAllFestivalsObject() {
+    private void loadFavoritesFestivalsObject() {
         ApiResponse callback = response -> {
             Gson gson = new Gson();
             Type festivalType = new TypeToken<List<Festival>>() {
@@ -77,9 +71,9 @@ public class ScheduledActivity extends AppCompatActivity {
             if (festivalFound.isEmpty()) {
                 textError.setVisibility(View.VISIBLE);
             } else {
-                festivalList.addAll(festivalFound);
+                festivalFavoritesList.addAll(festivalFound);
             }
         };
-        FestiplanApi.createAllFestivalsApiListener(callback);
+        FestiplanApi.createFavoritesFestivalsApiListener(User.getInstance().getId(), callback);
     }
 }

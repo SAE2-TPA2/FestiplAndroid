@@ -93,33 +93,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <TextView
+        android:id="@+id/error_festival_not_found"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="20dp"
+        android:text="@string/error.festival.not.found"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/header">
-        <TextView
-            android:id="@+id/error_festival_not_found"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/error.festival.not.found"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:paddingTop="5dp"
-            android:visibility="invisible"/>
+        android:padding="10dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:visibility="invisible"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-            android:clipToPadding="false"
-            android:scrollbars="vertical"
-            android:visibility="invisible"/>
 
-    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
