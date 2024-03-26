@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -84,7 +86,6 @@ extends AppCompatActivity {
             this.erreurIdentifiants();
             return;
         }
-        System.out.println("Credential valide");
 
         ApiResponse response = new ApiResponse() {
             @Override
@@ -97,7 +98,7 @@ extends AppCompatActivity {
                     }
 
                     String introduction,
-                        message;
+                           message;
 
                     introduction = getText(R.string.error_introduction).toString();
                     message = getText(R.string.error_server_down).toString();
@@ -107,28 +108,32 @@ extends AppCompatActivity {
                     return;
                 }
 
-                System.out.println(loginAttemptApiResponse[0]);
-
                 if (!loginAttemptApiResponse[0].equals("false")) {
                     // Si on a pas "false" en réponse, c'est que la connexion a réussi
-                    if (error.getVisibility() == TextView.GONE) {
-                        error.setVisibility(TextView.VISIBLE);
+                    if (error.getVisibility() == TextView.VISIBLE) {
+                        error.setVisibility(TextView.GONE);
                     }
 
-                    System.out.println(Arrays.toString(loginAttemptApiResponse));
-                    Log.d("QUENTIN", Arrays.toString(loginAttemptApiResponse));
+                    Gson gson;
+                    User user;
+
+                    gson = new Gson();
+                    System.out.println(loginAttemptApiResponse[0]);
+                    user = gson.fromJson(loginAttemptApiResponse[0], User.class);
+
+                    System.out.println(user.getIdUser());
 
                     User userInstance;
                     userInstance = User.getInstance();
 
-                    userInstance.setFirstname(loginAttemptApiResponse[0]);
-                    userInstance.setLastname(loginAttemptApiResponse[1]);
-                    userInstance.setId(Integer.parseInt(loginAttemptApiResponse[2]));
-                    userInstance.setLogin(login.getText().toString());
-                    userInstance.setAPIKey(loginAttemptApiResponse[3]);
+                    userInstance.setIdUser(user.getIdUser());
+                    userInstance.setPrenomUser(user.getPrenomUser());
+                    userInstance.setNomUser(user.getNomUser());
+                    userInstance.setLoginUser(user.getLoginUser());
+                    userInstance.setAPIKey(user.getAPIKey());
 
                     HashMap<String, String> extras = new HashMap<>();
-                    extras.put(ScheduledActivity.EXTRA_LOGIN, login.getText().toString());
+                    extras.put(ScheduledActivity.EXTRA_LOGIN, userInstance.getLoginUser());
                     extras.put(ScheduledActivity.EXTRA_PASSWORD, password.getText().toString());
 
                     Navigator.toActivity(LoginActivity.this, ScheduledActivity.class, extras);
