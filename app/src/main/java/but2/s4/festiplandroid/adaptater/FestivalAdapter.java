@@ -1,7 +1,9 @@
 package but2.s4.festiplandroid.adaptater;
 
+import static but2.s4.festiplandroid.api.FestiplanApi.deleteFavoritesFestivalsPostListener;
+
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +15,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.List;
 
+import but2.s4.festiplandroid.DetailsActivity;
 import but2.s4.festiplandroid.R;
+import but2.s4.festiplandroid.api.ApiResponse;
+import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.festivals.Festival;
 
 public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.FestivalViewHolder> {
-    private List<Festival> festivalList;
+    private final List<Festival> festivalList;
     private Context context;
 
-    public FestivalAdapter(List<Festival> festivalList, Context context) {
+    public FestivalAdapter(List<Festival> festivalList) {
         this.festivalList = festivalList;
-        this.context = context;
     }
 
     @NonNull
@@ -42,20 +50,23 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
         holder.categorie.setText(festival.getCategorieFestival());
         holder.dateDebut.setText(festival.getDateDebutFestival());
         holder.dateFin.setText(festival.getDateFinFestival());
+        holder.buttonAddToFavorites.setId(festival.getIdFestival());
         holder.buttonShowDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Ajoutez ici le code pour afficher les détails du festival lorsque le bouton est cliqué
+                Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+                intent.putExtra("ID_EXTRA", festival.getDateFinFestival());
+                v.getContext().startActivity(intent);
             }
         });
         holder.buttonAddToFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ImageButton imageButton = (ImageButton) v;
-                Drawable currentDrawable = imageButton.getDrawable();
 
                 if(festival.getFavorite()) {
                     imageButton.setImageResource(R.drawable.favorites_deselected);
+
                 } else {
                     imageButton.setImageResource(R.drawable.favorites_selected);
                 }
