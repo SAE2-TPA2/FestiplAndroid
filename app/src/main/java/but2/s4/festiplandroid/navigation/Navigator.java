@@ -21,5 +21,10 @@ public class Navigator {
         activity.startActivity(intent);
     }
 
+    public static void clearAndGoToActivity(AppCompatActivity activity, Class<?> target) {
+        Intent intent = new Intent(activity, target);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        activity.startActivity(intent);
+    }
 
 }
