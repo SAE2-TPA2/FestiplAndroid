@@ -11,7 +11,8 @@ public final class User {
 
     private String login;
 
-    private String passwordHash;
+
+    private String APIKey;
 
     private static User instance;
 
@@ -20,6 +21,7 @@ public final class User {
         this.firstname = null;
         this.id = DISCONNECTED_ID_VALUE;
         this.login = null;
+        this.APIKey = null;
     }
 
     public boolean isLogged() {
@@ -59,6 +61,14 @@ public final class User {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public String getAPIKey() {
+        return APIKey;
+    }
+
+    public void setAPIKey(String APIKey) {
+        this.APIKey = APIKey;
     }
 
     public static User getInstance() {
