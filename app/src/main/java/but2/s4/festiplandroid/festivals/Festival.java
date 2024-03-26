@@ -1,5 +1,7 @@
 package but2.s4.festiplandroid.festivals;
 
+import but2.s4.festiplandroid.api.FestiplanApi;
+
 public class Festival {
     private int idFestival;
 
@@ -8,6 +10,8 @@ public class Festival {
     private String descriptionFestival;
 
     private int idImage;
+
+    private String imagePath;
 
     private String dateDebutFestival;
 
@@ -35,6 +39,10 @@ public class Festival {
 
     public int getIdImage() {
         return this.idImage;
+    }
+
+    public String getImagePath() {
+        return FestiplanApi.DOMAIN_API + this.imagePath;
     }
 
     public String getDateDebutFestival() {
@@ -75,6 +83,10 @@ public class Festival {
 
     public void setIdImage(int idImage) {
         this.idImage = idImage;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public void setDateDebutFestival(String dateDebutFestival) {
