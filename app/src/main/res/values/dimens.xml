@@ -15,4 +15,12 @@
     <dimen name="show.dates.angle.paddingVertical">
         10dp
     </dimen>
+
+    <dimen name="show.picture.endMargin">
+        20dp
+    </dimen>
+
+    <dimen name="show.bottomMargin">
+        30dp
+    </dimen>
 </resources>
