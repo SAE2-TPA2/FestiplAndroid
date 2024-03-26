@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".itemFestival">
+    tools:context=".MainActivity">
     <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TableRow>
 
             <ImageView
+                android:id="@+id/image_festival"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -23,15 +24,17 @@
                 android:orientation="vertical"
                 android:layout_margin="5dp">
                 <TextView
+                    android:id="@+id/nom_festival"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nom_Spectacle(stub)"/>
+                    android:text="Nom_Festival(stub)"/>
                 <TextView
+                    android:id="@+id/categorie_festival"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Catégorie(stub)"/>
                 <Button
-                    android:id="@+id/buttonShowDetails"
+                    android:id="@+id/button_show_details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -43,6 +46,7 @@
                 android:orientation="vertical"
                 android:layout_margin="5dp">
                 <TextView
+                    android:id="@+id/date_debut_festival"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Date_Debut(stub)"
@@ -55,10 +59,18 @@
 
                 </ImageView>
                 <TextView
+                    android:id="@+id/date_fin_festival"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Date_Fin(stub)"/>
             </LinearLayout>
+            <ImageButton
+                android:id="@+id/button_add_to_favorites"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/favorites_selected"
+                android:layout_marginTop="20dp">
+            </ImageButton>
         </TableRow>
     </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

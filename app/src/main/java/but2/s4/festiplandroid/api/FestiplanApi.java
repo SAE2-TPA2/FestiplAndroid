@@ -26,6 +26,10 @@ public class FestiplanApi {
 
     private static final String URI_FESTIVAL_SHOWS_API_REQUEST
             = "http://10.0.2.2:8888/festiplan/api/spectaclesfestival/%s";
+    private static final String URI_FESTIVAL_ALL_SCHEDULED
+            = "http://10.0.2.2:8888/festiplan/api/tousLesFestivals";
+    private static final String URI_FESTIVAL_ALL_FAVORITES
+            = "http://10.0.2.2:8888/festiplan/api/tousLesFavoris/%s";
 
     public static void createLoginApiListener(String login,
                                               String password,
@@ -120,6 +124,42 @@ public class FestiplanApi {
 
         requestUri = String.format(URI_FESTIVAL_SHOWS_API_REQUEST,
                 festivalInstance.getIdFestival());
+
+        new Thread(() -> {
+            String test;
+
+            test = callApi(requestUri);
+            handler.post(() -> callback.onResponse(test));
+        }).start();
+    }
+
+    public static void createAllFestivalsApiListener(ApiResponse callback) {
+
+        String requestUri;
+
+        Handler handler;
+
+        handler = new Handler(Looper.getMainLooper());
+
+        requestUri = String.format(URI_FESTIVAL_ALL_SCHEDULED);
+
+        new Thread(() -> {
+            String test;
+
+            test = callApi(requestUri);
+            handler.post(() -> callback.onResponse(test));
+        }).start();
+    }
+    public static void createFavoritesFestivalsApiListener(int id,
+                                                           ApiResponse callback) {
+
+        String requestUri;
+
+        Handler handler;
+
+        handler = new Handler(Looper.getMainLooper());
+
+        requestUri = String.format(URI_FESTIVAL_ALL_FAVORITES, id);
 
         new Thread(() -> {
             String test;

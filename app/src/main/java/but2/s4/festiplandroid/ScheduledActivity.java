@@ -3,70 +3,76 @@ package but2.s4.festiplandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class ScheduledActivity
-        extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+import but2.s4.festiplandroid.api.ApiResponse;
+import but2.s4.festiplandroid.api.FestiplanApi;
+import but2.s4.festiplandroid.festivals.Festival;
+import but2.s4.festiplandroid.adaptater.FestivalAdapter;
+
+public class ScheduledActivity extends AppCompatActivity {
     public static final String EXTRA_LOGIN = "com.exemple.intention.login";
     public static final String EXTRA_PASSWORD = " com.exemple.intention.password";
 
     // Conservation du login et du password pour identifier
-    // l'utilisateur dans les différentes activitées
+    // l'utilisateur dans les différentes activités
     String login;
     String password;
 
-    /**
-     * Cette méthode est appelée à la création de
-     * l'activité.
-     *
-     * Elle initialise les vues et définit les
-     * comportements des boutons.
-     */
+    private RecyclerView recyclerView;
+    private FestivalAdapter festivalAdapter;
+    private List<Festival> festivalList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_scheduled);
 
-        Intent intention = getIntent();
+        Intent intent = getIntent();
+        login = intent.getStringExtra(EXTRA_LOGIN);
+        password = intent.getStringExtra(EXTRA_PASSWORD);
 
-        login = intention.getStringExtra(EXTRA_LOGIN);
-        password = intention.getStringExtra(EXTRA_PASSWORD);
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        festivalList = new ArrayList<>();
+        festivalAdapter = new FestivalAdapter(festivalList, this);
+        recyclerView.setAdapter(festivalAdapter);
 
-        // Initialisation du bouton de redirection vers les favoris et
-        // redirige vers la page des favoris
-        Button favoriteButton = findViewById(R.id.login_form__login_button);
-        favoriteButton.setOnClickListener(new View.OnClickListener() {
+        getAllFestivals();
+    }
+
+    private void getAllFestivals() {
+
+        final String[] listeAllFestival = new String[1];
+        ApiResponse response = new ApiResponse() {
             @Override
-            public void onClick(View v) {
-                // Redirection vers SecondActivity lors du clic sur le bouton
-                Intent intent = new Intent(ScheduledActivity.this,
-                        null); // stub activite de favori
-                intention.putExtra(EXTRA_LOGIN, login);
-                intention.putExtra(EXTRA_PASSWORD, password);
-                startActivity(intent);
+            public void onResponse(String response) {
+                listeAllFestival[0] = response;
+                if (listeAllFestival[0] == null) {
+                    //TODO build un texteView avec réponse
+                    System.out.println(listeAllFestival[0]);
+                } else {
+                    System.out.println(listeAllFestival[0]);
+                    ArrayList<Festival> festivalList = new ArrayList<>();
+                    //for (Festival festival:ArrayList<Object> listeAllFestival[0]) {
+                        //festivalList.add
+                    //}
+                }
             }
-        });
-
-        // Initialisation du bouton de deconnexion
-        // redirige vers la page de connexion
-        Button signOutButton = findViewById(R.id.login_form__login_button);
-        signOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Redirection vers SecondActivity lors du clic sur le bouton
-                Intent intent = new Intent(ScheduledActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-        // association de la listeView avec le template d'item
-        // d'un festival
-        NodeList festivals;
-
-        //ArrayAdapter<Node> adaptaterFestival
+        };
+        FestiplanApi.createAllFestivalsApiListener(response);
     }
 }

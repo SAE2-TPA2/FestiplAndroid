@@ -5,6 +5,8 @@ public class Festival {
 
     private String nomFestival;
 
+    private String categorie;
+
     private String descriptionFestival;
 
     private int idImage;
@@ -21,6 +23,8 @@ public class Festival {
 
     private String codePostal;
 
+    private boolean favorite;
+
     public int getIdFestival() {
         return this.idFestival;
     }
@@ -29,6 +33,7 @@ public class Festival {
         return this.nomFestival;
     }
 
+    public String getCategorieFestival(){ return this.categorie; }
     public String getDescriptionFestival() {
         return this.descriptionFestival;
     }
@@ -61,6 +66,8 @@ public class Festival {
         return this.codePostal;
     }
 
+    public boolean getFavorite(){ return this.favorite; }
+
     public void setIdFestival(int idFestival) {
         this.idFestival = idFestival;
     }
@@ -68,6 +75,9 @@ public class Festival {
     public void setNomFestival(String nomFestival) {
         this.nomFestival = nomFestival;
     }
+
+    public void setCategorieFestival(String categorieFestival){
+        this.categorie = categorieFestival; }
 
     public void setDescriptionFestival(String descriptionFestival) {
         this.descriptionFestival = descriptionFestival;
@@ -100,4 +110,6 @@ public class Festival {
     public void setCodePostal(String codePostal) {
         this.codePostal = codePostal;
     }
+
+    public void setFavorite(boolean favoris){ this.favorite = favoris; }
 }
