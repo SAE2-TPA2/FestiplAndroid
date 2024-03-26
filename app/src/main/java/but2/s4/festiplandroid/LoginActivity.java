@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Arrays;
-import java.util.HashMap;
 
 import but2.s4.festiplandroid.api.ApiResponse;
 import but2.s4.festiplandroid.api.FestiplanApi;
@@ -123,11 +122,7 @@ extends AppCompatActivity {
                     userInstance.setId(10);
                     userInstance.setLogin("jeandup");
 
-                    HashMap<String, String> extras = new HashMap<>();
-                    extras.put(ScheduledActivity.EXTRA_LOGIN, login.getText().toString());
-                    extras.put(ScheduledActivity.EXTRA_PASSWORD, password.getText().toString());
-
-                    Navigator.toActivity(LoginActivity.this, ScheduledActivity.class, extras);
+                    Navigator.toActivity(LoginActivity.this, ScheduledActivity.class);
                 } else {
                     erreurIdentifiants();
                 }
