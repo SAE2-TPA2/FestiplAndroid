@@ -3,6 +3,7 @@ package but2.s4.festiplandroid;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -115,13 +116,16 @@ extends AppCompatActivity {
                     }
 
                     System.out.println(Arrays.toString(loginAttemptApiResponse));
+                    Log.d("QUENTIN", Arrays.toString(loginAttemptApiResponse));
 
                     User userInstance;
                     userInstance = User.getInstance();
-                    userInstance.setFirstname("Jean");
-                    userInstance.setLastname("Dupont");
-                    userInstance.setId(10);
-                    userInstance.setLogin("jeandup");
+
+                    userInstance.setFirstname(loginAttemptApiResponse[0]);
+                    userInstance.setLastname(loginAttemptApiResponse[1]);
+                    userInstance.setId(Integer.parseInt(loginAttemptApiResponse[2]));
+                    userInstance.setLogin(login.getText().toString());
+                    userInstance.setAPIKey(loginAttemptApiResponse[3]);
 
                     HashMap<String, String> extras = new HashMap<>();
                     extras.put(ScheduledActivity.EXTRA_LOGIN, login.getText().toString());
