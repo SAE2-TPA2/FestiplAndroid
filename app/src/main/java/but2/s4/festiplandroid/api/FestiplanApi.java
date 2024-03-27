@@ -391,6 +391,13 @@ public class FestiplanApi {
             return null;
         }
     }
+
+    /**
+     * Appel api en méthode DEL
+     * @param uri
+     * @param requestBody
+     * @return
+     */
     private static String callApiDelete(String uri, JSONObject requestBody) {
         URL apiUrl;
         HttpURLConnection connection;
