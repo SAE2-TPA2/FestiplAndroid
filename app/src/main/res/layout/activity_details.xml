@@ -25,6 +25,58 @@
                 style="@style/header.logo"
                 android:src="@drawable/logo"
                 android:contentDescription="Logo" />
+
+            <LinearLayout
+                android:id="@+id/all_festivals_button"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/logout_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:orientation="horizontal"
+                android:layout_margin="10dp"
+                android:onClick="goToScheduled">
+
+                <ImageView
+                    android:id="@+id/Img4"
+                    android:layout_width="54dp"
+                    android:layout_height="57dp"
+                    android:layout_gravity="left"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/button.background"
+                    android:src="@drawable/menu_barr"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/button.background"
+                    android:padding="10dp"
+                    android:text="@string/all.menu.button"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/secondary"/>
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/logout_button"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/header.button.logout"
+                android:gravity="center"
+                android:onClick="logout">
+
+                <ImageView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/header.button.logout.icon"
+                    android:src="@drawable/logout_icon"
+                    android:contentDescription="Icône de déconnexion" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,7 +102,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
-                <View
+                <ImageView
                     android:id="@+id/picture"
                     style="@style/details.picture"
                     app:layout_constraintTop_toTopOf="parent"

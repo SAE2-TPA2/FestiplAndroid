@@ -3,62 +3,76 @@ package but2.s4.festiplandroid.session;
 public final class User {
     private static final int DISCONNECTED_ID_VALUE = -1;
 
-    private String lastname;
+    private String nomUser;
 
-    private String firstname;
+    private String prenomUser;
 
-    private int id;
+    private int idUser;
 
-    private String login;
+    private String loginUser;
 
-    private String passwordHash;
+
+    private String APIKey;
 
     private static User instance;
 
     private User() {
-        this.lastname = null;
-        this.firstname = null;
-        this.id = DISCONNECTED_ID_VALUE;
-        this.login = null;
+        this.nomUser = null;
+        this.prenomUser = null;
+        this.idUser = DISCONNECTED_ID_VALUE;
+        this.loginUser = null;
+        this.APIKey = null;
     }
 
     public boolean isLogged() {
-        return this.firstname != null
-               && this.lastname != null
-               && this.id > -1
-               && this.login != null;
+        return this.prenomUser != null
+               && this.nomUser != null
+               && this.idUser > -1
+               && this.loginUser != null;
     }
 
-    public String getLastname() {
-        return this.lastname;
+    public String getNomUser() {
+        return this.nomUser;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setNomUser(String nomUser) {
+        this.nomUser = nomUser;
     }
 
-    public String getFirstname() {
-        return this.firstname;
+    public String getPrenomUser() {
+        return this.prenomUser;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setPrenomUser(String prenomUser) {
+        this.prenomUser = prenomUser;
     }
 
-    public int getId() {
-        return this.id;
+    public int getIdUser() {
+        return this.idUser;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
 
-    public String getLogin() {
-        return this.login;
+    public String getLoginUser() {
+        return this.loginUser;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setLoginUser(String loginUser) {
+        this.loginUser = loginUser;
+    }
+
+    public String getAPIKey() {
+        return APIKey;
+    }
+
+    public void setAPIKey(String APIKey) {
+        this.APIKey = APIKey;
+    }
+
+    public void logout() {
+        instance = new User();
     }
 
     public static User getInstance() {

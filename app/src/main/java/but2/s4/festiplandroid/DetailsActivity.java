@@ -26,6 +26,7 @@ import but2.s4.festiplandroid.festivals.Organizer;
 import but2.s4.festiplandroid.festivals.Scene;
 import but2.s4.festiplandroid.festivals.Show;
 import but2.s4.festiplandroid.navigation.Navigator;
+import but2.s4.festiplandroid.session.User;
 
 /**
  * DetailsActivity est une classe qui présente davantage de
@@ -42,7 +43,7 @@ extends AppCompatActivity {
 
     private TextView festivalName;
 
-    private View picture;
+    private ImageView picture;
 
     private TextView description;
 
@@ -119,15 +120,21 @@ extends AppCompatActivity {
 
             System.out.println(festivalFound.get(0));
 
-            currentFestival = festivalFound.get(0);
+            this.currentFestival = festivalFound.get(0);
 
-            festivalName.setText(currentFestival
+            this.picture.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            Glide.with(this)
+                    .load(this.currentFestival.getImagePath())
+                    .into(this.picture);
+
+            this.festivalName.setText(this.currentFestival
                                   .getNomFestival());
-            description.setText(currentFestival
+            this.description.setText(this.currentFestival
                                  .getDescriptionFestival());
-            startDate.setText(currentFestival
+            this.startDate.setText(this.currentFestival
                                .getDateDebutFestival());
-            endDate.setText(currentFestival
+            this.endDate.setText(this.currentFestival
                              .getDateFinFestival());
 
             updateOrganizersList();
@@ -291,7 +298,7 @@ extends AppCompatActivity {
         this.showLayout = new ConstraintLayout(this);
         this.showLayout.setLayoutParams(showLayoutParams);
 
-        this.newShowPicture();
+        this.newShowPicture(currentShow);
         this.createShowDatesContainer();
         this.newShowInformation(currentShow);
 
@@ -301,7 +308,7 @@ extends AppCompatActivity {
     /**
      * Ajout d'une image pour un spectacle.
      */
-    private void newShowPicture() {
+    private void newShowPicture(Show currentShow) {
         int showPictureWidth,
             showPictureHeight;
 
@@ -325,10 +332,9 @@ extends AppCompatActivity {
         this.showPicture.setId(View.generateViewId());
         this.showPicture.setLayoutParams(showPictureParams);
         this.showPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        this.showPicture.setAdjustViewBounds(true);
 
         Glide.with(this)
-             .load("https://picsum.photos/800/800")
+             .load(currentShow.getImagePath())
              .into(this.showPicture);
 
         showPictureSet = new ConstraintSet();
@@ -512,5 +518,18 @@ extends AppCompatActivity {
         this.showDates.addView(showDate);
 
         return showDate;
+    }
+
+    public void goToScheduled(View view) {  // FIXME: vérifier si redirection effective
+        Navigator.toActivity(this, ScheduledActivity.class);
+    }
+
+    /**
+     * Déconnexion du compte utilisateur courant,
+     * et redirection vers l'activité de connexion.
+     */
+    public void logout(View view) {
+        User.getInstance().logout();
+        Navigator.clearAndGoToActivity(this, LoginActivity.class);
     }
 }

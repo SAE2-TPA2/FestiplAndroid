@@ -3,10 +3,13 @@ package but2.s4.festiplandroid;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import java.util.Arrays;
 
@@ -82,7 +85,6 @@ extends AppCompatActivity {
             this.erreurIdentifiants();
             return;
         }
-        System.out.println("Credential valide");
 
         ApiResponse response = new ApiResponse() {
             @Override
@@ -95,7 +97,7 @@ extends AppCompatActivity {
                     }
 
                     String introduction,
-                        message;
+                           message;
 
                     introduction = getText(R.string.error_introduction).toString();
                     message = getText(R.string.error_server_down).toString();
@@ -105,22 +107,29 @@ extends AppCompatActivity {
                     return;
                 }
 
-                System.out.println(loginAttemptApiResponse[0]);
-
                 if (!loginAttemptApiResponse[0].equals("false")) {
                     // Si on a pas "false" en réponse, c'est que la connexion a réussi
-                    if (error.getVisibility() == TextView.GONE) {
-                        error.setVisibility(TextView.VISIBLE);
+                    if (error.getVisibility() == TextView.VISIBLE) {
+                        error.setVisibility(TextView.GONE);
                     }
 
-                    System.out.println(Arrays.toString(loginAttemptApiResponse));
+                    Gson gson;
+                    User user;
+
+                    gson = new Gson();
+                    System.out.println(loginAttemptApiResponse[0]);
+                    user = gson.fromJson(loginAttemptApiResponse[0], User.class);
+
+                    System.out.println(user.getIdUser());
 
                     User userInstance;
                     userInstance = User.getInstance();
-                    userInstance.setFirstname("Jean");
-                    userInstance.setLastname("Dupont");
-                    userInstance.setId(10);
-                    userInstance.setLogin("jeandup");
+
+                    userInstance.setIdUser(user.getIdUser());
+                    userInstance.setPrenomUser(user.getPrenomUser());
+                    userInstance.setNomUser(user.getNomUser());
+                    userInstance.setLoginUser(user.getLoginUser());
+                    userInstance.setAPIKey(user.getAPIKey());
 
                     Navigator.toActivity(LoginActivity.this, ScheduledActivity.class);
                 } else {
