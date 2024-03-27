@@ -57,7 +57,7 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
             @Override
             public void onClick(View v) {
                 ImageButton imageButton = (ImageButton) v;
-                int idUser = User.getInstance().getId();
+                int idUser = User.getInstance().getIdUser();
                 if(festival.getFavorite()) {
                     imageButton.setImageResource(R.drawable.favorites_deselected);
                     final String[] apiResponse = new String[1];

@@ -54,10 +54,10 @@ public class FavoritesActivity extends AppCompatActivity {
     }
 
     private void navigateTosignOut() {
-        User.getInstance().setFirstname(null);
-        User.getInstance().setLastname(null);
-        User.getInstance().setId(-1);
-        User.getInstance().setLogin(null);
+        User.getInstance().setPrenomUser(null);
+        User.getInstance().setNomUser(null);
+        User.getInstance().setIdUser(-1);
+        User.getInstance().setLoginUser(null);
         Navigator.toActivity(FavoritesActivity.this, LoginActivity.class);
     }
 
@@ -74,6 +74,6 @@ public class FavoritesActivity extends AppCompatActivity {
                 festivalFavoritesList.addAll(festivalFound);
             }
         };
-        FestiplanApi.createFavoritesFestivalsApiListener(User.getInstance().getId(), callback);
+        FestiplanApi.createFavoritesFestivalsApiListener(User.getInstance().getIdUser(), callback);
     }
 }
