@@ -79,6 +79,8 @@ extends AppCompatActivity {
 
     private Festival currentFestival;
 
+    private int festivalId;
+
     /**
      * Cette méthode est appelée à la création de
      * l'activité.
@@ -100,6 +102,8 @@ extends AppCompatActivity {
         this.showsList = this.findViewById(R.id.shows_list);
         this.scenesList = this.findViewById(R.id.scenes_list);
 
+        this.festivalId = 1;  // TODO STUB
+
         this.loadFestivalObject();
     }
 
@@ -117,8 +121,6 @@ extends AppCompatActivity {
                                      ScheduledActivity.class);
                 return;
             }
-
-            System.out.println(festivalFound.get(0));
 
             this.currentFestival = festivalFound.get(0);
 
@@ -142,7 +144,7 @@ extends AppCompatActivity {
             updateShowsList();
         };
 
-        FestiplanApi.createFestivalApiListener(1, callback);
+        FestiplanApi.createFestivalApiListener(this.festivalId, callback);
     }
 
     private void updateOrganizersList() {
