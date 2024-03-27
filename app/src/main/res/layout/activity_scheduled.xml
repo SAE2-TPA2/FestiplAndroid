@@ -46,7 +46,6 @@
                     android:layout_margin="10dp">
 
                     <ImageView
-                        android:id="@+id/Img4"
                         android:layout_width="54dp"
                         android:layout_height="57dp"
                         android:layout_gravity="left"
@@ -94,21 +93,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <TextView
+        android:id="@+id/error_festival_not_found"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="20dp"
+        android:text="@string/error.festival.not.found"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/header"
-        tools:context=".ScheduledActivity">
+        android:padding="10dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:visibility="invisible"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-            android:clipToPadding="false"
-            android:scrollbars="vertical" />
 
-    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

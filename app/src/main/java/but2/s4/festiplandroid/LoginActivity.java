@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import java.util.Arrays;
-import java.util.HashMap;
 
 import but2.s4.festiplandroid.api.ApiResponse;
 import but2.s4.festiplandroid.api.FestiplanApi;
@@ -132,11 +131,7 @@ extends AppCompatActivity {
                     userInstance.setLoginUser(user.getLoginUser());
                     userInstance.setAPIKey(user.getAPIKey());
 
-                    HashMap<String, String> extras = new HashMap<>();
-                    extras.put(ScheduledActivity.EXTRA_LOGIN, userInstance.getLoginUser());
-                    extras.put(ScheduledActivity.EXTRA_PASSWORD, password.getText().toString());
-
-                    Navigator.toActivity(LoginActivity.this, ScheduledActivity.class, extras);
+                    Navigator.toActivity(LoginActivity.this, ScheduledActivity.class);
                 } else {
                     erreurIdentifiants();
                 }

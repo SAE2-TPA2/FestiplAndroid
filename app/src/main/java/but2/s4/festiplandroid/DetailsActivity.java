@@ -114,8 +114,7 @@ extends AppCompatActivity {
 
             if (festivalFound.isEmpty()) {
                 Navigator.toActivity(DetailsActivity.this,
-                                     LoginActivity.class);
-                // TODO: remplacer LoginActivity par la page des festivals programmés
+                                     ScheduledActivity.class);
                 return;
             }
 

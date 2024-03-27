@@ -60,8 +60,8 @@
         Festivals favoris
     </string>
 
-    <string name="all.menu.button">
-        Tous
+    <string name="scheduled.menu.button">
+        Programmé
     </string>
 
     <!-- Festival details view -->
@@ -116,6 +116,10 @@
     <string name="error.server_down">
         Impossible de se connecter au serveur pour le moment.
         Veuillez réessayer plus tard.
+    </string>
+
+    <string name="error.festival.not.found">
+        Aucun festival n\'est encore programmé
     </string>
 
 
