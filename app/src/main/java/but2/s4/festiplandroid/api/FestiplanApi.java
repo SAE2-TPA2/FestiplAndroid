@@ -19,9 +19,15 @@ import but2.s4.festiplandroid.festivals.Festival;
  * Classe pour gérer les appels API pour l'application Festiplan.
  */
 public class FestiplanApi {
+
+    /**
+     * Le port pour le serveur API.
+     */
+    public static final String PORT_API = "";
+
     // Domaine de l'API
     public static final String DOMAIN_API
-            = "http://10.0.2.2:8888";
+            = "http://10.0.2.2" + PORT_API;
 
     // URI pour la requête de connexion
     private static final String URI_LOGIN_API_REQUEST
@@ -442,5 +448,9 @@ public class FestiplanApi {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static String getURLConnexon(String login, String mdp) {
+        return String.format(URI_LOGIN_API_REQUEST, DOMAIN_API, login, mdp);
     }
 }
