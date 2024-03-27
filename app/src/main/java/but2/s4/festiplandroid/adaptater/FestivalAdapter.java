@@ -15,15 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import but2.s4.festiplandroid.DetailsActivity;
+import but2.s4.festiplandroid.FavoritesActivity;
 import but2.s4.festiplandroid.R;
+import but2.s4.festiplandroid.ScheduledActivity;
 import but2.s4.festiplandroid.api.ApiResponse;
 import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.festivals.Festival;
+import but2.s4.festiplandroid.navigation.Navigator;
 import but2.s4.festiplandroid.session.User;
 
 public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.FestivalViewHolder> {
+
     private final List<Festival> festivalList;
-    private Context context;
 
     public FestivalAdapter(List<Festival> festivalList) {
         this.festivalList = festivalList;
@@ -32,6 +35,7 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
     @NonNull
     @Override
     public FestivalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_festival, parent, false);
         return new FestivalViewHolder(itemView);
@@ -70,18 +74,17 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
                     };
                     FestiplanApi.deleteFavoritesFestivalsDeleteListener(idUser,festival.getIdFestival(),response);
 
-                } else {
-                    imageButton.setImageResource(R.drawable.favorites_selected);
-                    final String[] apiResponse = new String[1];
-                    ApiResponse response = new ApiResponse() {
-                        @Override
-                        public void onResponse(String response) {
-                            apiResponse[0] = response;
-                            System.out.println(apiResponse[0]);
-                        }
-                    };
-                    FestiplanApi.createFavoritesFestivalsPostListener(idUser,festival.getIdFestival(),response);
-                }
+            } else {
+                imageButton.setImageResource(R.drawable.favorites_selected);
+                final String[] apiResponse = new String[1];
+                ApiResponse response = new ApiResponse() {
+                    @Override
+                    public void onResponse(String response) {
+                        apiResponse[0] = response;
+                        System.out.println(apiResponse[0]);
+                    }
+                };
+                FestiplanApi.createFavoritesFestivalsPostListener(idUser,festival.getIdFestival(),response);
             }
         });
     }
@@ -91,6 +94,9 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
         return festivalList.size();
     }
 
+    /**
+     * Association des fetivals à la vue du recyclerView
+     */
     public static class FestivalViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageFestival;
         public TextView nomFestival;
