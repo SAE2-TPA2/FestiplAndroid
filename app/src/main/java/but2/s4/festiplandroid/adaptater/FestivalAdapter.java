@@ -62,7 +62,7 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
             public void onClick(View v) {
                 ImageButton imageButton = (ImageButton) v;
                 int idUser = User.getInstance().getIdUser();
-                if(festival.getFavorite()) {
+                if (festival.getFavorite()) {
                     imageButton.setImageResource(R.drawable.favorites_deselected);
                     final String[] apiResponse = new String[1];
                     ApiResponse response = new ApiResponse() {
@@ -72,20 +72,22 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
                             System.out.println(apiResponse[0]);
                         }
                     };
-                    FestiplanApi.deleteFavoritesFestivalsDeleteListener(idUser,festival.getIdFestival(),response);
+                    FestiplanApi.deleteFavoritesFestivalsDeleteListener(idUser, festival.getIdFestival(), response);
 
-            } else {
-                imageButton.setImageResource(R.drawable.favorites_selected);
-                final String[] apiResponse = new String[1];
-                ApiResponse response = new ApiResponse() {
-                    @Override
-                    public void onResponse(String response) {
-                        apiResponse[0] = response;
-                        System.out.println(apiResponse[0]);
-                    }
-                };
-                FestiplanApi.createFavoritesFestivalsPostListener(idUser,festival.getIdFestival(),response);
+                } else {
+                    imageButton.setImageResource(R.drawable.favorites_selected);
+                    final String[] apiResponse = new String[1];
+                    ApiResponse response = new ApiResponse() {
+                        @Override
+                        public void onResponse(String response) {
+                            apiResponse[0] = response;
+                            System.out.println(apiResponse[0]);
+                        }
+                    };
+                    FestiplanApi.createFavoritesFestivalsPostListener(idUser, festival.getIdFestival(), response);
+                }
             }
+
         });
     }
 
