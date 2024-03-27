@@ -239,6 +239,13 @@ public class FestiplanApi {
             handler.post(() -> callback.onResponse(test));
         }).start();
     }
+    /**
+     * Crée un écouteur pour l'API permettant de mettre en en favoris un festival.
+     *
+     * @param idUser       L'ID de l'utilisateur.
+     * @param idFestival    L'ID du festival.
+     * @param callback La fonction de rappel à exécuter après la réponse de l'API.
+     */
     public static void createFavoritesFestivalsPostListener(int idUser, int idFestival, ApiResponse callback) {
 
         String requestUri;
@@ -263,6 +270,13 @@ public class FestiplanApi {
             handler.post(() -> callback.onResponse(test));
         }).start();
     }
+
+    /**
+     * Crée un écouteur pour l'API permettant de retirer un festival des favoris.
+     * @param idUser
+     * @param idFestival
+     * @param callback
+     */
     public static void deleteFavoritesFestivalsDeleteListener(int idUser, int idFestival, ApiResponse callback) {
         String requestUri = URI_FESTIVAL_DELETE_FAVORITES;
         JSONObject requestBody = new JSONObject();
@@ -328,6 +342,13 @@ public class FestiplanApi {
             return null;
         }
     }
+
+    /**
+     * Appel api en méthode POST
+     * @param uri
+     * @param requestBody
+     * @return
+     */
     private static String callApiPost(String uri, String requestBody) {
         URL apiUrl;
         HttpURLConnection connection;
