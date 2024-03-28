@@ -26,11 +26,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.List;
 
 import but2.s4.festiplandroid.api.ApiResponse;
@@ -121,7 +116,7 @@ public class DetailsActivity
         this.showsList = this.findViewById(R.id.shows_list);
         this.scenesList = this.findViewById(R.id.scenes_list);
 
-        this.festivalId = 1;  // TODO STUB
+        this.festivalId = 12;  // TODO STUB
 
         this.loadFestivalObject();
     }
@@ -330,34 +325,56 @@ public class DetailsActivity
 
         getFileRequete().add(sceneFestivalRequest);
     }
+
+    /**
+     * Met à jour la liste des spectacles programmés
+     */
     private void updateShowsList() {
-        ApiResponse callback = response -> {
-            Gson gson = new Gson();
-            Type showsType;
-            List<Show> showsFound;
 
-            showsType = new TypeToken<List<Show>>() {}.getType();
-            showsFound = gson.fromJson(response, showsType);
+        JsonArrayRequest showsFestivalRequest = new JsonArrayRequest(FestiplanApi.getURLFestivalShows(this.currentFestival.getIdFestival()),
+                response -> {
+                    ArrayList<Show> showsFound = new ArrayList<>();
 
-            if (showsFound.isEmpty()) {
-                return;
-            }
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject show = response.getJSONObject(i);
+                            showsFound.add(new Show(
+                                    show.getInt("idSpectacle"),
+                                    show.getString("titreSpectacle"),
+                                    show.getString("descriptionSpectacle"),
+                                    show.getString("imagePath")
+                            ));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.println(showsFound);
 
-            for (Show currentShow: showsFound) {
-                this.createShowRow(currentShow);
-            }
-        };
+                    if (!showsFound.isEmpty()) {
+                        for (Show currentShow : showsFound) {
+                            createShowRow(currentShow);
+                        }
+                    }
+                },
+                error -> {
+                    System.out.println("Erreur lors de la récupération des spectacles du festival");
+                    error.printStackTrace();
+                });
 
-        FestiplanApi.createFestivalShowsApiListener(this.currentFestival,
-                                                    callback);
+        getFileRequete().add(showsFestivalRequest);
     }
 
+    /**
+     * Ajoute un sepcatcle à la liste des spectacles
+     *
+     * @param currentShow le spectacle à ajouter
+     */
     private void createShowRow(Show currentShow) {
         ConstraintLayout.LayoutParams showLayoutParams;
 
         showLayoutParams
                 = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
-                                                    ConstraintLayout.LayoutParams.WRAP_CONTENT);
+                ConstraintLayout.LayoutParams.WRAP_CONTENT);
         showLayoutParams.bottomMargin
                 = getResources().getDimensionPixelSize(R.dimen.show_bottomMargin);
         this.showLayout = new ConstraintLayout(this);
@@ -375,7 +392,7 @@ public class DetailsActivity
      */
     private void newShowPicture(Show currentShow) {
         int showPictureWidth,
-            showPictureHeight;
+                showPictureHeight;
 
         ConstraintSet showPictureSet;
 
@@ -383,15 +400,15 @@ public class DetailsActivity
 
         showPictureWidth
                 = this.getResources()
-                      .getDimensionPixelSize(R.dimen.show_picture_width);
+                .getDimensionPixelSize(R.dimen.show_picture_width);
 
         showPictureHeight
                 = this.getResources()
-                      .getDimensionPixelSize(R.dimen.show_picture_height);
+                .getDimensionPixelSize(R.dimen.show_picture_height);
 
         showPictureParams
                 = new ConstraintLayout.LayoutParams(showPictureWidth,
-                                                    showPictureHeight);
+                showPictureHeight);
 
         this.showPicture = new ImageView(this);
         this.showPicture.setId(View.generateViewId());
@@ -399,8 +416,8 @@ public class DetailsActivity
         this.showPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         Glide.with(this)
-             .load(currentShow.getImagePath())
-             .into(this.showPicture);
+                .load(currentShow.getImagePath())
+                .into(this.showPicture);
 
         showPictureSet = new ConstraintSet();
         showPictureSet.clone(this.showLayout);
@@ -484,9 +501,9 @@ public class DetailsActivity
      */
     private void createShowDatesContainer() {
         ConstraintLayout.LayoutParams showDatesParams,
-                                      showStartDateParams,
-                                      showAngleParams,
-                                      showEndDateParams;
+                showStartDateParams,
+                showAngleParams,
+                showEndDateParams;
 
         //  CONTAINER DATES SPECTACLE
         showDatesParams = new ConstraintLayout.LayoutParams(
@@ -596,5 +613,20 @@ public class DetailsActivity
     public void logout(View view) {
         User.getInstance().logout();
         Navigator.clearAndGoToActivity(this, LoginActivity.class);
+    }
+
+    /**
+     * Renvoie la file d'attente pour les requêtes Web :
+     * - si la file n'existe pas encore : elle est créée puis renvoyée
+     * - si une file d'attente existe déjà : elle est renvoyée
+     * On assure ainsi l'unicité de la file d'attente
+     *
+     * @return RequestQueue une file d'attente pour les requêtes Volley
+     */
+    private RequestQueue getFileRequete() {
+        if (fileRequete == null) {
+            fileRequete = Volley.newRequestQueue(this);
+        }
+        return fileRequete;
     }
 }
