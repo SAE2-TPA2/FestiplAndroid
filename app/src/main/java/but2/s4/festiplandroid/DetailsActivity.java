@@ -189,47 +189,57 @@ public class DetailsActivity
 
     private void updateOrganizersList() {
         final String PATTERN_LIST
-            = "<ul>%s</ul>";
+                = "<ul>%s</ul>";
 
-        ApiResponse callback = response -> {
-            Gson gson = new Gson();
-            Type organizersType;
-            List<Organizer> organizersFound;
-            StringBuilder listContent;
-            String currentOrganizerCompleteName;
+        JsonArrayRequest organizersFestivalRequest = new JsonArrayRequest(FestiplanApi.getURLFestivalOrganizers(this.currentFestival.getIdFestival()),
+                response -> {
+                    StringBuilder listContent;
+                    System.out.println(response);
 
-            organizersType = new TypeToken<List<Organizer>>() {}.getType();
-            organizersFound = gson.fromJson(response, organizersType);
+                    ArrayList<Organizer> organizersFound = new ArrayList<>();
 
-            if (organizersFound.isEmpty()) {
-                return;
-            }
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject organizer = response.getJSONObject(i);
+                            organizersFound.add(new Organizer(
+                                    organizer.getInt("idUser"),
+                                    organizer.getString("nomUser"),
+                                    organizer.getString("prenomUser"),
+                                    organizer.getString("loginUser"),
+                                    organizer.getInt("idFestival")
+                            ));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.println(organizersFound);
 
-            listContent = new StringBuilder();
+                    if (!organizersFound.isEmpty()) {
+                        listContent = new StringBuilder();
 
-            for (Organizer currentOrganizer: organizersFound) {
-                currentOrganizerCompleteName
-                    = currentOrganizer.getPrenomUser()
-                      + " "
-                      + currentOrganizer.getNomUser();
+                        for (Organizer currentOrganizer : organizersFound) {
+                            String currentOrganizerCompleteName
+                                    = currentOrganizer.getPrenomUser()
+                                    + " "
+                                    + currentOrganizer.getNomUser();
 
-                listContent.append("<li>&nbsp;&nbsp;&nbsp;")
-                           .append(currentOrganizerCompleteName)
-                           .append("</li>");
-            }
+                            listContent.append("<li>&nbsp;&nbsp;&nbsp;")
+                                    .append(currentOrganizerCompleteName)
+                                    .append("</li>");
+                        }
 
-            listContent
-                = new StringBuilder(
-                    String.format(PATTERN_LIST,
-                                  listContent.toString()));
+                        organizersList
+                                .setText(Html.fromHtml(
+                                        String.format(PATTERN_LIST, listContent.toString()),
+                                        Html.FROM_HTML_MODE_COMPACT));
+                    }
+                },
+                error -> {
+                    System.out.println("Erreur lors de la récupération des organisateurs du festival");
+                    error.printStackTrace();
+                });
 
-            organizersList
-                .setText(Html.fromHtml(listContent.toString(),
-                                       Html.FROM_HTML_MODE_COMPACT));
-        };
-
-        FestiplanApi.createFestivalOrganizersApiListener(this.currentFestival,
-                                                         callback);
+        getFileRequete().add(organizersFestivalRequest);
     }
 
     private void updateScenesList() {
