@@ -90,7 +90,6 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
 
         });
     }
-
     @Override
     public int getItemCount() {
         return festivalList.size();

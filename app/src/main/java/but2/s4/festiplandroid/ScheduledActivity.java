@@ -23,6 +23,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import but2.s4.festiplandroid.adaptater.FestivalAdapter;
 import but2.s4.festiplandroid.api.ApiResponse;
 import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.festivals.Festival;
@@ -42,6 +43,8 @@ public class ScheduledActivity extends AppCompatActivity {
     private ArrayList<Festival> festivalList;
 
     private RequestQueue fileRequete;
+
+    private RecyclerView recyclerView;
 
     /**
      * Cette méthode est appelée à la création de
@@ -63,7 +66,7 @@ public class ScheduledActivity extends AppCompatActivity {
         // association de la vue avec l'activité
         setContentView(R.layout.activity_scheduled);
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -147,8 +150,8 @@ public class ScheduledActivity extends AppCompatActivity {
                         textError.setVisibility(View.VISIBLE);
                     } else {
                         festivalList.addAll(festivals);
-                        //TODO : afficher les festivals
                         System.out.println(festivalList);
+                        arrayToRecycler(festivalList);
                     }
 
                 },
@@ -157,6 +160,16 @@ public class ScheduledActivity extends AppCompatActivity {
                 });
 
         getFileRequete().add(allScheduledFestival);
+    }
+
+    /**
+     * Permet de placer l'ensemble des festivals de la liste
+     * dans le recyclerView en appelent l'adaptateur
+     * @param festivalList
+     */
+    private void arrayToRecycler(ArrayList<Festival> festivalList) {
+        FestivalAdapter festiAdapter = new FestivalAdapter(festivalList);
+        recyclerView.setAdapter(festiAdapter);
     }
 
     /**

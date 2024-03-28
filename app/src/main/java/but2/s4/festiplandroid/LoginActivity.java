@@ -104,6 +104,7 @@ public class LoginActivity
      */
     private void attemptLogin() throws UnsupportedEncodingException {
         System.out.println("Click");
+        Navigator.toActivity(LoginActivity.this, ScheduledActivity.class);
         final String[] loginAttemptApiResponse = new String[1];
 
         if (this.login.getText().length() == 0 || this.password.getText().length() == 0) {
