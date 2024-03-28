@@ -12,6 +12,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -39,7 +53,12 @@ import but2.s4.festiplandroid.session.User;
  * de base pour les activités qui utilisent la barre d'action.
  */
 public class DetailsActivity
-extends AppCompatActivity {
+        extends AppCompatActivity {
+
+    /**
+     * File d'attente pour les requêtes Web (en lien avec l'utilisation de Volley)
+     */
+    private RequestQueue fileRequete;
 
     private TextView festivalName;
 
@@ -108,43 +127,64 @@ extends AppCompatActivity {
     }
 
     private void loadFestivalObject() {
-        ApiResponse callback = response -> {
-            Gson gson = new Gson();
-            Type festivalType;
-            List<Festival> festivalFound;
 
-            festivalType = new TypeToken<List<Festival>>() {}.getType();
-            festivalFound = gson.fromJson(response, festivalType);
+        String urlDetailFestival = FestiplanApi.getURLDetailFestival(this.festivalId);
 
-            if (festivalFound.isEmpty()) {
-                Navigator.toActivity(DetailsActivity.this,
-                                     ScheduledActivity.class);
-                return;
-            }
+        JsonArrayRequest festivalDetailRequest = new JsonArrayRequest(urlDetailFestival,
+                response -> {
+                    try {
+                        System.out.println(response.get(0));
+                        response.get(0);
 
-            this.currentFestival = festivalFound.get(0);
+                        JSONObject festivalRecu = (JSONObject) response.get(0);
 
-            this.picture.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        this.currentFestival = new Festival(
+                                (int) festivalRecu.get("idFestival"),
+                                (String) festivalRecu.get("nomFestival"),
+                                (String) festivalRecu.get("descriptionFestival"),
+                                (int) festivalRecu.get("idImage"),
+                                (String) festivalRecu.get("imagePath"),
+                                (String) festivalRecu.get("dateDebutFestival"),
+                                (String) festivalRecu.get("dateFinFestival"),
+                                (int) festivalRecu.get("idGriJ"),
+                                (int) festivalRecu.get("idResponsable"),
+                                (String) festivalRecu.get("ville"),
+                                (String) festivalRecu.get("codePostal")
+                        );
 
-            Glide.with(this)
-                    .load(this.currentFestival.getImagePath())
-                    .into(this.picture);
 
-            this.festivalName.setText(this.currentFestival
-                                  .getNomFestival());
-            this.description.setText(this.currentFestival
-                                 .getDescriptionFestival());
-            this.startDate.setText(this.currentFestival
-                               .getDateDebutFestival());
-            this.endDate.setText(this.currentFestival
-                             .getDateFinFestival());
+                        this.picture.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            updateOrganizersList();
-            updateScenesList();
-            updateShowsList();
-        };
 
-        FestiplanApi.createFestivalApiListener(this.festivalId, callback);
+
+                        Glide.with(this)
+                                .load(this.currentFestival.getImagePath())
+                                .into(this.picture);
+
+                        this.festivalName.setText(this.currentFestival
+                                .getNomFestival());
+                        this.description.setText(this.currentFestival
+                                .getDescriptionFestival());
+                        this.startDate.setText(this.currentFestival
+                                .getDateDebutFestival());
+                        this.endDate.setText(this.currentFestival
+                                .getDateFinFestival());
+
+                        updateOrganizersList();
+                        updateScenesList();
+                        updateShowsList();
+
+                    } catch (JSONException e) {
+                        Navigator.toActivity(DetailsActivity.this, ScheduledActivity.class);
+                        throw new RuntimeException(e);
+                    }
+                },
+                error -> {
+                    System.out.println("Erreur lors de la récupération des détails du festival");
+                    error.printStackTrace();
+                });
+
+        getFileRequete().add(festivalDetailRequest);
     }
 
     private void updateOrganizersList() {

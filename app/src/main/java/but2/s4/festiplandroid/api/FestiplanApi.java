@@ -453,4 +453,8 @@ public class FestiplanApi {
     public static String getURLConnexon(String login, String mdp) {
         return String.format(URI_LOGIN_API_REQUEST, DOMAIN_API, login, mdp);
     }
+
+    public static String getURLDetailFestival(int id) {
+        return String.format(URI_FESTIVAL_API_REQUEST, DOMAIN_API, id);
+    }
 }
