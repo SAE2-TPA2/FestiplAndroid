@@ -14,21 +14,15 @@ import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
-import but2.s4.festiplandroid.api.ApiResponse;
 import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.festivals.Festival;
 import but2.s4.festiplandroid.festivals.Organizer;

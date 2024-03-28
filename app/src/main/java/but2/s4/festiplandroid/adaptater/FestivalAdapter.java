@@ -15,13 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import but2.s4.festiplandroid.DetailsActivity;
-import but2.s4.festiplandroid.FavoritesActivity;
 import but2.s4.festiplandroid.R;
-import but2.s4.festiplandroid.ScheduledActivity;
 import but2.s4.festiplandroid.api.ApiResponse;
 import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.festivals.Festival;
-import but2.s4.festiplandroid.navigation.Navigator;
 import but2.s4.festiplandroid.session.User;
 
 public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.FestivalViewHolder> {

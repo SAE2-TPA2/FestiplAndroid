@@ -14,18 +14,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Arrays;
 
-import but2.s4.festiplandroid.api.ApiResponse;
 import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.errors.Error;
 import but2.s4.festiplandroid.navigation.Navigator;

@@ -145,7 +145,6 @@ public class ScheduledActivity extends AppCompatActivity {
                             throw new RuntimeException(e);
                         }
                     }
-
                     if (festivals.isEmpty()) {
                         textError.setVisibility(View.VISIBLE);
                     } else {
@@ -153,7 +152,6 @@ public class ScheduledActivity extends AppCompatActivity {
                         System.out.println(festivalList);
                         arrayToRecycler(festivalList);
                     }
-
                 },
                 error -> {
                     error.printStackTrace();
