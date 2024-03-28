@@ -461,4 +461,8 @@ public class FestiplanApi {
     public static String getURLFestivalOrganizers(int idFestival) {
         return String.format(URI_FESTIVAL_ORGANIZERS_API_REQUEST, DOMAIN_API, idFestival);
     }
+
+    public static String getURLFestivalScenes(int idFestival) {
+        return String.format(URI_FESTIVAL_SCENES_API_REQUEST, DOMAIN_API, idFestival);
+    }
 }

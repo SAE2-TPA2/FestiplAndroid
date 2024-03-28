@@ -243,80 +243,93 @@ public class DetailsActivity
     }
 
     private void updateScenesList() {
-        ApiResponse callback = response -> {
-            final String SCENE_DESCRIPTION_PATTERN
+        final String SCENE_DESCRIPTION_PATTERN
                 = "%s places · %s scène";
 
-            Gson gson = new Gson();
-            Type scenesType;
-            List<Scene> scenesFound;
+        JsonArrayRequest sceneFestivalRequest = new JsonArrayRequest(FestiplanApi.getURLFestivalScenes(this.currentFestival.getIdFestival()),
+                response -> {
+                    StringBuilder listContent;
+                    LinearLayout sceneLayout;
+                    TextView sceneName;
+                    TextView sceneDescription;
 
-            LinearLayout sceneLayout;
-            TextView sceneName;
-            TextView sceneDescription;
+                    String sceneDescriptionContent,
+                            sceneSize;
+                    System.out.println(response);
 
-            String sceneDescriptionContent,
-                   sceneSize;
+                    ArrayList<Scene> scenesFound = new ArrayList<>();
 
-            scenesType = new TypeToken<List<Scene>>() {}.getType();
-            scenesFound = gson.fromJson(response, scenesType);
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject scene = response.getJSONObject(i);
+                            scenesFound.add(new Scene(
+                                    scene.getInt("idScene"),
+                                    scene.getString("nomScene"),
+                                    scene.getString("tailleScene"),
+                                    scene.getInt("spectateurMax"),
+                                    scene.getString("coordonneesGPS"),
+                                    scene.getInt("idFestival")
+                            ));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.println(scenesFound);
 
-            if (scenesFound.isEmpty()) {
-                return;
-            }
+                    if (!scenesFound.isEmpty()) {
+                        for (Scene scene : scenesFound) {
+                            sceneLayout = new LinearLayout(DetailsActivity.this);
+                            sceneLayout.getContext()
+                                    .setTheme(R.style.details_scenes_list_item);
+                            sceneLayout.setOrientation(LinearLayout.VERTICAL);
 
-            for (Scene scene: scenesFound) {
-                sceneLayout = new LinearLayout(DetailsActivity.this);
-                sceneLayout.getContext()
-                           .setTheme(R.style.details_scenes_list_item);
-                sceneLayout.setOrientation(LinearLayout.VERTICAL);
+                            System.out.println(sceneLayout.getOrientation());
 
-                System.out.println(sceneLayout.getOrientation());
+                            sceneName = new TextView(DetailsActivity.this);
+                            sceneName.setTextAppearance(
+                                    R.style.details_scenes_list_item_title);
+                            sceneName.setText(scene.getNomScene());
 
-                sceneName = new TextView(DetailsActivity.this);
-                sceneName.setTextAppearance(
-                    R.style.details_scenes_list_item_title);
-                sceneName.setText(scene.getNomScene());
+                            switch (scene.getTailleScene()) {
+                                case "1":
+                                    sceneSize = "petite";
+                                    break;
+                                case "2":
+                                    sceneSize = "moyenne";
+                                    break;
+                                case "3":
+                                    sceneSize = "grande";
+                                    break;
+                                default:
+                                    sceneSize = "";
+                                    break;
+                            }
 
-                switch (scene.getTailleScene()) {
-                    case "1":
-                        sceneSize = "petite";
-                        break;
-
-                    case "2":
-                        sceneSize = "moyenne";
-                        break;
-
-                    case "3":
-                        sceneSize = "grande";
-                        break;
-
-                    default:
-                        sceneSize = "";
-                        break;
-                }
-
-                sceneDescriptionContent
-                    = String.format(SCENE_DESCRIPTION_PATTERN,
+                            sceneDescriptionContent
+                                    = String.format(SCENE_DESCRIPTION_PATTERN,
                                     scene.getSpectateurMax(),
                                     sceneSize);
 
-                sceneDescription = new TextView(DetailsActivity.this);
-                sceneDescription.setTextAppearance(
-                    R.style.details_scenes_list_item_description);
-                sceneDescription.setText(sceneDescriptionContent);
+                            sceneDescription = new TextView(DetailsActivity.this);
+                            sceneDescription.setTextAppearance(
+                                    R.style.details_scenes_list_item_description);
+                            sceneDescription.setText(sceneDescriptionContent);
 
-                sceneLayout.addView(sceneName);
-                sceneLayout.addView(sceneDescription);
+                            sceneLayout.addView(sceneName);
+                            sceneLayout.addView(sceneDescription);
 
-                this.scenesList.addView(sceneLayout);
-            }
-        };
+                            this.scenesList.addView(sceneLayout);
+                        }
 
-        FestiplanApi.createFestivalScenesApiListener(this.currentFestival,
-                                                     callback);
+                    }
+                },
+                error -> {
+                    System.out.println("Erreur lors de la récupération des scènes du festival");
+                    error.printStackTrace();
+                });
+
+        getFileRequete().add(sceneFestivalRequest);
     }
-
     private void updateShowsList() {
         ApiResponse callback = response -> {
             Gson gson = new Gson();
