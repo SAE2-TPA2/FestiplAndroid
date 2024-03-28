@@ -29,6 +29,30 @@ public class Festival {
 
     private boolean favorite;
 
+<<<<<<< Updated upstream
+=======
+    public Festival(int idFestival, String nomFestival, String categorie,
+                    String descriptionFestival, int idImage, String imagePath,
+                    String dateDebutFestival, String dateFinFestival, int idGriJ,
+                    int idResponsable, String ville, String codePostal,
+                    boolean favorite) {
+
+        this.idFestival = idFestival;
+        this.nomFestival = nomFestival;
+        this.categorie = categorie;
+        this.descriptionFestival = descriptionFestival;
+        this.idImage = idImage;
+        this.imagePath = imagePath;
+        this.dateDebutFestival = dateDebutFestival;
+        this.dateFinFestival = dateFinFestival;
+        this.idGriJ = idGriJ;
+        this.idResponsable = idResponsable;
+        this.ville = ville;
+        this.codePostal = codePostal;
+        this.favorite = favorite;
+    }
+
+>>>>>>> Stashed changes
     public int getIdFestival() {
         return this.idFestival;
     }

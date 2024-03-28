@@ -120,7 +120,25 @@ extends AppCompatActivity {
 
             System.out.println(festivalFound.get(0));
 
+<<<<<<< Updated upstream
             this.currentFestival = festivalFound.get(0);
+=======
+                        this.currentFestival = new Festival(
+                                (int) festivalRecu.get("idFestival"),
+                                (String) festivalRecu.get("nomFestival"),
+                                (String) festivalRecu.get("categorieFestival"),
+                                (String) festivalRecu.get("descriptionFestival"),
+                                (int) festivalRecu.get("idImage"),
+                                (String) festivalRecu.get("imagePath"),
+                                (String) festivalRecu.get("dateDebutFestival"),
+                                (String) festivalRecu.get("dateFinFestival"),
+                                (int) festivalRecu.get("idGriJ"),
+                                (int) festivalRecu.get("idResponsable"),
+                                (String) festivalRecu.get("ville"),
+                                (String) festivalRecu.get("codePostal"),
+                                (boolean) festivalRecu.get("favorite")
+                        );
+>>>>>>> Stashed changes
 
             this.picture.setScaleType(ImageView.ScaleType.CENTER_CROP);
 

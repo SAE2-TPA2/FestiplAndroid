@@ -70,7 +70,12 @@ public class ScheduledActivity extends AppCompatActivity {
 
         // appel de la métode de remplissage du recyclerView
         // avec les différents festival
-        loadAllFestivalsObject();
+        //loadAllFestivalsObject();
+        //festivalList.add(new Festival(0,"nomFesti","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(1,"nomFesti","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",false));
+
+        FestivalAdapter adapter = new FestivalAdapter(festivalList);
+        recyclerView.setAdapter(adapter);
     }
 
     /**
@@ -102,6 +107,7 @@ public class ScheduledActivity extends AppCompatActivity {
      * récupère l'ensemble des festivals programmés
      */
     private void loadAllFestivalsObject() {
+<<<<<<< Updated upstream
         ApiResponse callback = response -> {
             Gson gson = new Gson();
             Type festivalType = new TypeToken<List<Festival>>() {
@@ -115,5 +121,67 @@ public class ScheduledActivity extends AppCompatActivity {
             }
         };
         FestiplanApi.createAllFestivalsApiListener(callback);
+=======
+        System.out.print("e_urnuçevçyuebrvçybeuyvb");
+        JsonArrayRequest allScheduledFestival = new JsonArrayRequest(FestiplanApi.getAllFestivalsScheduled(),
+                response -> {
+
+                    ArrayList<Festival> festivals = new ArrayList<>();
+
+                    // récupération des festivals programmés
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject festivalJSON = response.getJSONObject(i);
+
+                            // ajout du festivalJSON à la liste
+                            festivals.add(new Festival(
+                                    festivalJSON.getInt("idFestival"),
+                                    festivalJSON.getString("nomFestival"),
+                                    festivalJSON.getString("catégorie"),
+                                    festivalJSON.getString("descriptionFestival"),
+                                    festivalJSON.getInt("idImage"),
+                                    "",
+                                    festivalJSON.getString("dateDebutFestival"),
+                                    festivalJSON.getString("dateFinFestival"),
+                                    festivalJSON.getInt("idGriJ"),
+                                    festivalJSON.getInt("idResponsable"),
+                                    festivalJSON.getString("ville"),
+                                    festivalJSON.getString("codePostal"),
+                                    festivalJSON.getBoolean("true")
+                            ));
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    if (festivals.isEmpty()) {
+                        System.out.print("e_urnuçevçyuebrvçybeuyvb");
+                        textError.setVisibility(View.VISIBLE);
+                    } else {
+                        System.out.print("e_urnuçevçyuebrvçybeuyvb");
+                        festivalList.addAll(festivals);
+                        System.out.println(festivalList);
+                    }
+                },
+                error -> {
+                    error.printStackTrace();
+                });
+
+        getFileRequete().add(allScheduledFestival);
+    }
+
+    /**
+     * Renvoie la file d'attente pour les requêtes Web :
+     * - si la file n'existe pas encore : elle est créée puis renvoyée
+     * - si une file d'attente existe déjà : elle est renvoyée
+     * On assure ainsi l'unicité de la file d'attente
+     *
+     * @return RequestQueue une file d'attente pour les requêtes Volley
+     */
+    private RequestQueue getFileRequete() {
+        if (fileRequete == null) {
+            fileRequete = Volley.newRequestQueue(this);
+        }
+        return fileRequete;
+>>>>>>> Stashed changes
     }
 }

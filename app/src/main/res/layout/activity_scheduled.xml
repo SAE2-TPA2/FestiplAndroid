@@ -103,7 +103,11 @@
         android:text="@string/error.festival.not.found"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/scheduled_form_presentation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
