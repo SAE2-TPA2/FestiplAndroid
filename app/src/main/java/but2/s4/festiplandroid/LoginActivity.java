@@ -79,6 +79,9 @@ extends AppCompatActivity {
      */
     private void attemptLogin() {
         System.out.println("Click");
+        /**************TEMPORAIRE*****************/
+        Navigator.toActivity(LoginActivity.this, ScheduledActivity.class);
+        /******************/
         final String[] loginAttemptApiResponse = new String[1];
 
         if (this.login.getText().length() == 0 || this.password.getText().length() == 0) {

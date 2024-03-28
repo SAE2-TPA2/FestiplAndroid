@@ -21,7 +21,7 @@ import but2.s4.festiplandroid.festivals.Festival;
 public class FestiplanApi {
     // Domaine de l'API
     public static final String DOMAIN_API
-            = "http://10.0.2.2:8888";
+            = "http://10.0.2.2";
 
     // URI pour la requête de connexion
     private static final String URI_LOGIN_API_REQUEST
