@@ -46,19 +46,20 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
         holder.dateDebut.setText(festival.getDateDebutFestival());
         holder.dateFin.setText(festival.getDateFinFestival());
         holder.buttonAddToFavorites.setId(festival.getIdFestival());
-        holder.buttonShowDetails.setOnClickListener(new View.OnClickListener() {
+        /*holder.buttonShowDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), DetailsActivity.class);
                 intent.putExtra("ID_EXTRA", festival.getDateFinFestival());
                 v.getContext().startActivity(intent);
             }
-        });
+        });*/
         holder.buttonAddToFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ImageButton imageButton = (ImageButton) v;
                 int idUser = User.getInstance().getIdUser();
+
                 if (festival.getFavorite()) {
                     imageButton.setImageResource(R.drawable.favorites_deselected);
                     final String[] apiResponse = new String[1];
@@ -69,8 +70,8 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
                             System.out.println(apiResponse[0]);
                         }
                     };
-                    FestiplanApi.deleteFavoritesFestivalsDeleteListener(idUser, festival.getIdFestival(), response);
 
+                    FestiplanApi.deleteFavoritesFestivalsDeleteListener(idUser, festival.getIdFestival(), response);
                 } else {
                     imageButton.setImageResource(R.drawable.favorites_selected);
                     final String[] apiResponse = new String[1];
