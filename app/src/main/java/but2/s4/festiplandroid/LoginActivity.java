@@ -99,8 +99,6 @@ public class LoginActivity
      * affiche un message d'erreur si nécessaire.
      */
     private void attemptLogin() throws UnsupportedEncodingException {
-        System.out.println("Click");
-        Navigator.toActivity(LoginActivity.this, ScheduledActivity.class);
         final String[] loginAttemptApiResponse = new String[1];
 
         if (this.login.getText().length() == 0 || this.password.getText().length() == 0) {
@@ -119,36 +117,34 @@ public class LoginActivity
              * est de type StringRequest
              */
             JsonObjectRequest requeteVolley = new JsonObjectRequest(Request.Method.GET, url, null,
-                    // écouteur de la réponse renvoyée par la requête
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject reponse) {
-                            Log.d(TAG, "onResponse: " + reponse);
+                // écouteur de la réponse renvoyée par la requête
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject reponse) {
+                        User user = User.getInstance();
 
-                            User user = User.getInstance();
+                        try {
+                            user.setLoginUser(reponse.getString("loginUser"));
+                            user.setNomUser(reponse.getString("nomUser"));
+                            user.setPrenomUser(reponse.getString("prenomUser"));
+                            user.setIdUser(reponse.getInt("idUser"));
+                            user.setAPIKey(reponse.getString("APIKey"));
 
-                            try {
-                                user.setLoginUser(reponse.getString("loginUser"));
-                                user.setNomUser(reponse.getString("nomUser"));
-                                user.setPrenomUser(reponse.getString("prenomUser"));
-                                user.setIdUser(reponse.getInt("idUser"));
-                                user.setAPIKey(reponse.getString("APIKey"));
-
-                                Navigator.toActivity(LoginActivity.this, ScheduledActivity.class);
-                            } catch (JSONException e) {
-                                throw new RuntimeException(e);
-                            }
-
+                            Navigator.toActivity(LoginActivity.this, ScheduledActivity.class);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
                         }
-                    },
-                    // écouteur du retour de la requête si aucun résultat n'est renvoyé
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError erreur) {
-                            erreur.printStackTrace();
-//                        Log.d(TAG, "onErrorResponse: "+ );
-                        }
+
                     }
+                },
+                // écouteur du retour de la requête si aucun résultat n'est renvoyé
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError erreur) {
+                        erreur.printStackTrace();
+//                        Log.d(TAG, "onErrorResponse: "+ );
+                    }
+                }
             );
 
             // la requête est placée dans la file d'attente des requêtes

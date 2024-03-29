@@ -87,9 +87,9 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
 //                    FestiplanApi.createFavoritesFestivalsPostListener(idUser, festival.getIdFestival(), response);
                 }
             }
+
         });
     }
-
     @Override
     public int getItemCount() {
         return festivalList.size();
@@ -108,6 +108,7 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
 
         public FestivalViewHolder(@NonNull View itemView) {
             super(itemView);
+
             imageFestival = itemView.findViewById(R.id.image_festival);
             nomFestival = itemView.findViewById(R.id.nom_festival);
             categorieFestival = itemView.findViewById(R.id.categorie_festival);

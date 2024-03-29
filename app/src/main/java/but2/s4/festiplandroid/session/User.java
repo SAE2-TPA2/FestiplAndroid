@@ -11,7 +11,6 @@ public final class User {
 
     private String loginUser;
 
-
     private String APIKey;
 
     private static User instance;

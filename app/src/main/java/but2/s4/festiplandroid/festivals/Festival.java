@@ -49,6 +49,7 @@ public class Festival {
         this.codePostal = codePostal;
         this.favorite = favorite;
     }
+  
     public int getIdFestival() {
         return this.idFestival;
     }
