@@ -29,10 +29,11 @@ public class Festival {
 
     private boolean favorite;
 
-    public Festival(int idFestival, String nomFestival,
+    public Festival(int idFestival, String nomFestival, String categorie,
                     String descriptionFestival, int idImage, String imagePath,
                     String dateDebutFestival, String dateFinFestival, int idGriJ,
-                    int idResponsable, String ville, String codePostal) {
+                    int idResponsable, String ville, String codePostal,
+                    boolean favorite) {
 
         this.idFestival = idFestival;
         this.nomFestival = nomFestival;
@@ -48,7 +49,7 @@ public class Festival {
         this.codePostal = codePostal;
         this.favorite = favorite;
     }
-
+  
     public int getIdFestival() {
         return this.idFestival;
     }
