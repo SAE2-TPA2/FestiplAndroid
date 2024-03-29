@@ -87,18 +87,50 @@
             app:layout_constraintWidth_percent=".9"
             style="@style/body_details">
 
-            <TextView
-                android:id="@+id/festivalName"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/festivalNameAndFavoriteToggler"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                style="@style/details.title"
-                android:text="festival.name" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/festivalName"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/details.title"
+                    android:text="festival.name" />
+
+                <!-- TODO DYN -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/favorite_toggler"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/details.favorite.button.on"
+                    android:gravity="center"
+                    android:onClick="logout">
+
+                    <ImageView
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="fitXY"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/favorites_selected"
+                        android:contentDescription="Festival mis en favoris" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/introduction"
                 style="@style/details.section"
-                app:layout_constraintTop_toBottomOf="@id/festivalName"
+                app:layout_constraintTop_toBottomOf="@id/festivalNameAndFavoriteToggler"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
