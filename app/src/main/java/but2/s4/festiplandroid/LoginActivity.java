@@ -99,8 +99,6 @@ public class LoginActivity
      * affiche un message d'erreur si nécessaire.
      */
     private void attemptLogin() throws UnsupportedEncodingException {
-        System.out.println("Click");
-        Navigator.toActivity(LoginActivity.this, ScheduledActivity.class);
         final String[] loginAttemptApiResponse = new String[1];
 
         if (this.login.getText().length() == 0 || this.password.getText().length() == 0) {
@@ -123,8 +121,6 @@ public class LoginActivity
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject reponse) {
-                        Log.d(TAG, "onResponse: " + reponse);
-
                         User user = User.getInstance();
 
                         try {
