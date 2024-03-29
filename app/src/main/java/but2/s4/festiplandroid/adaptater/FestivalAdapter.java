@@ -40,15 +40,9 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
     public void onBindViewHolder(@NonNull FestivalViewHolder holder, int position) {
         Festival festival = festivalList.get(position);
         holder.nomFestival.setText(festival.getNomFestival());
-        holder.categorieFestival.setText(festival.getCategorieFestival());
         holder.dateDebutFestival.setText(festival.getDateDebutFestival());
         holder.dateFinFestival.setText(festival.getDateFinFestival());
         holder.buttonShowDetails.setId(festival.getIdFestival());
-        if(festival.getFavorite()){
-            holder.buttonAddToFavorites.setImageResource(R.drawable.favorites_selected);
-        } else {
-            holder.buttonAddToFavorites.setImageResource(R.drawable.favorites_deselected);
-        }
         holder.buttonShowDetails.setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View v) {
@@ -57,38 +51,6 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
                     v.getContext().startActivity(intent);
                 }
             });
-        holder.buttonAddToFavorites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImageButton imageButton = (ImageButton) v;
-                int idUser = User.getInstance().getIdUser();
-                if (festival.getFavorite()) {
-                    imageButton.setImageResource(R.drawable.favorites_deselected);
-//                    final String[] apiResponse = new String[1];
-//                    ApiResponse response = new ApiResponse() {
-//                        @Override
-//                        public void onResponse(String response) {
-//                            apiResponse[0] = response;
-//                            System.out.println(apiResponse[0]);
-//                        }
-//                        };
-//                    FestiplanApi.deleteFavoritesFestivalsDeleteListener(idUser, festival.getIdFestival(), response);
-//
-                } else {
-                    imageButton.setImageResource(R.drawable.favorites_selected);
-//                    final String[] apiResponse = new String[1];
-//                    ApiResponse response = new ApiResponse() {
-//                        @Override
-//                        public void onResponse(String response) {
-//                            apiResponse[0] = response;
-//                            System.out.println(apiResponse[0]);
-//                        }
-//                    };
-//                    FestiplanApi.createFavoritesFestivalsPostListener(idUser, festival.getIdFestival(), response);
-                }
-            }
-
-        });
     }
     @Override
     public int getItemCount() {
@@ -115,7 +77,6 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
             dateDebutFestival = itemView.findViewById(R.id.date_debut_festival);
             dateFinFestival = itemView.findViewById(R.id.date_fin_festival);
             buttonShowDetails = itemView.findViewById(R.id.button_show_details);
-            buttonAddToFavorites = itemView.findViewById(R.id.button_add_to_favorites);
         }
     }
 }
