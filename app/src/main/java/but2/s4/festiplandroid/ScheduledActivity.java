@@ -118,7 +118,8 @@ public class ScheduledActivity extends AppCompatActivity {
      * récupère l'ensemble des festivals programmés
      */
     private void loadAllFestivalsObject() {
-        JsonArrayRequest allScheduledFestival = new JsonArrayRequest(FestiplanApi.getAllFestivalsScheduled(),
+        JsonArrayRequest allScheduledFestival = new JsonArrayRequest(
+                            FestiplanApi.getURLAllFestivalsScheduled(),
                 response -> {
 
                     ArrayList<Festival> festivals = new ArrayList<>();
@@ -132,7 +133,7 @@ public class ScheduledActivity extends AppCompatActivity {
                             festivals.add(new Festival(
                                     festivalJSON.getInt("idFestival"),
                                     festivalJSON.getString("nomFestival"),
-                                    festivalJSON.getString("categorieFestival"),
+                                    "",
                                     festivalJSON.getString("descriptionFestival"),
                                     festivalJSON.getInt("idImage"),
                                     "",
@@ -142,7 +143,7 @@ public class ScheduledActivity extends AppCompatActivity {
                                     festivalJSON.getInt("idResponsable"),
                                     festivalJSON.getString("ville"),
                                     festivalJSON.getString("codePostal"),
-                                    festivalJSON.getBoolean("favorite")
+                                    false
                             ));
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
