@@ -13,15 +13,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
-import java.util.List;
-import java.util.Objects;
+import java.util.ArrayList;
 
-import but2.s4.festiplandroid.api.ApiResponse;
 import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.festivals.Festival;
 import but2.s4.festiplandroid.festivals.Organizer;
@@ -41,7 +43,12 @@ import but2.s4.festiplandroid.session.User;
  * de base pour les activités qui utilisent la barre d'action.
  */
 public class DetailsActivity
-extends AppCompatActivity {
+        extends AppCompatActivity {
+
+    /**
+     * File d'attente pour les requêtes Web (en lien avec l'utilisation de Volley)
+     */
+    private RequestQueue fileRequete;
 
     private TextView festivalName;
 
@@ -108,50 +115,69 @@ extends AppCompatActivity {
         this.showsList = this.findViewById(R.id.shows_list);
         this.scenesList = this.findViewById(R.id.scenes_list);
 
-        this.festivalId = 1;  // TODO STUB
+        this.festivalId = 12;  // TODO STUB
 
         this.loadFestivalObject();
     }
 
     private void loadFestivalObject() {
-        ApiResponse callback = response -> {
-            Gson gson = new Gson();
-            Type festivalType;
-            List<Festival> festivalFound;
+        String urlDetailFestival = FestiplanApi.getURLDetailFestival(this.festivalId);
 
-            festivalType = new TypeToken<List<Festival>>() {}.getType();
-            festivalFound = gson.fromJson(response, festivalType);
+        JsonArrayRequest festivalDetailRequest = new JsonArrayRequest(urlDetailFestival,
+                response -> {
+                    try {
+                        System.out.println(response.get(0));
+                        response.get(0);
 
-            if (festivalFound.isEmpty()) {
-                Navigator.toActivity(DetailsActivity.this,
-                                     ScheduledActivity.class);
-                return;
-            }
+                        JSONObject festivalRecu = (JSONObject) response.get(0);
 
-            this.currentFestival = festivalFound.get(0);
+                        this.currentFestival = new Festival(
+                                (int) festivalRecu.get("idFestival"),
+                                (String) festivalRecu.get("nomFestival"),
+                                (String) festivalRecu.get("descriptionFestival"),
+                                (int) festivalRecu.get("idImage"),
+                                (String) festivalRecu.get("imagePath"),
+                                (String) festivalRecu.get("dateDebutFestival"),
+                                (String) festivalRecu.get("dateFinFestival"),
+                                (int) festivalRecu.get("idGriJ"),
+                                (int) festivalRecu.get("idResponsable"),
+                                (String) festivalRecu.get("ville"),
+                                (String) festivalRecu.get("codePostal")
+                        );
 
-            this.picture.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            Glide.with(this)
-                    .load(this.currentFestival.getImagePath())
-                    .into(this.picture);
+                        this.picture.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            this.festivalName.setText(this.currentFestival
-                                  .getNomFestival());
-            this.description.setText(this.currentFestival
-                                 .getDescriptionFestival());
-            this.startDate.setText(this.currentFestival
-                               .getDateDebutFestival());
-            this.endDate.setText(this.currentFestival
-                             .getDateFinFestival());
 
-            updateFavoriteToggler();
-            updateOrganizersList();
-            updateScenesList();
-            updateShowsList();
-        };
 
-        FestiplanApi.createFestivalApiListener(this.festivalId, callback);
+                        Glide.with(this)
+                                .load(this.currentFestival.getImagePath())
+                                .into(this.picture);
+
+                        this.festivalName.setText(this.currentFestival
+                                .getNomFestival());
+                        this.description.setText(this.currentFestival
+                                .getDescriptionFestival());
+                        this.startDate.setText(this.currentFestival
+                                .getDateDebutFestival());
+                        this.endDate.setText(this.currentFestival
+                                .getDateFinFestival());
+
+                        updateOrganizersList();
+                        updateScenesList();
+                        updateShowsList();
+
+                    } catch (JSONException e) {
+                        Navigator.toActivity(DetailsActivity.this, ScheduledActivity.class);
+                        throw new RuntimeException(e);
+                    }
+                },
+                error -> {
+                    System.out.println("Erreur lors de la récupération des détails du festival");
+                    error.printStackTrace();
+                });
+
+        getFileRequete().add(festivalDetailRequest);
     }
 
     private void updateFavoriteToggler() {
@@ -181,151 +207,197 @@ extends AppCompatActivity {
 
     private void updateOrganizersList() {
         final String PATTERN_LIST
-            = "<ul>%s</ul>";
+                = "<ul>%s</ul>";
 
-        ApiResponse callback = response -> {
-            Gson gson = new Gson();
-            Type organizersType;
-            List<Organizer> organizersFound;
-            StringBuilder listContent;
-            String currentOrganizerCompleteName;
+        JsonArrayRequest organizersFestivalRequest = new JsonArrayRequest(FestiplanApi.getURLFestivalOrganizers(this.currentFestival.getIdFestival()),
+                response -> {
+                    StringBuilder listContent;
+                    System.out.println(response);
 
-            organizersType = new TypeToken<List<Organizer>>() {}.getType();
-            Log.d("François", response);
-            organizersFound = gson.fromJson(response, organizersType);
+                    ArrayList<Organizer> organizersFound = new ArrayList<>();
 
-            if (organizersFound.isEmpty()) {
-                return;
-            }
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject organizer = response.getJSONObject(i);
+                            organizersFound.add(new Organizer(
+                                    organizer.getInt("idUser"),
+                                    organizer.getString("nomUser"),
+                                    organizer.getString("prenomUser"),
+                                    organizer.getString("loginUser"),
+                                    organizer.getInt("idFestival")
+                            ));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.println(organizersFound);
 
-            listContent = new StringBuilder();
+                    if (!organizersFound.isEmpty()) {
+                        listContent = new StringBuilder();
 
-            for (Organizer currentOrganizer: organizersFound) {
-                currentOrganizerCompleteName
-                    = currentOrganizer.getPrenomUser()
-                      + " "
-                      + currentOrganizer.getNomUser();
+                        for (Organizer currentOrganizer : organizersFound) {
+                            String currentOrganizerCompleteName
+                                    = currentOrganizer.getPrenomUser()
+                                    + " "
+                                    + currentOrganizer.getNomUser();
 
-                listContent.append("<li>&nbsp;&nbsp;&nbsp;")
-                           .append(currentOrganizerCompleteName)
-                           .append("</li>");
-            }
+                            listContent.append("<li>&nbsp;&nbsp;&nbsp;")
+                                    .append(currentOrganizerCompleteName)
+                                    .append("</li>");
+                        }
 
-            listContent
-                = new StringBuilder(
-                    String.format(PATTERN_LIST,
-                                  listContent.toString()));
+                        organizersList
+                                .setText(Html.fromHtml(
+                                        String.format(PATTERN_LIST, listContent.toString()),
+                                        Html.FROM_HTML_MODE_COMPACT));
+                    }
+                },
+                error -> {
+                    System.out.println("Erreur lors de la récupération des organisateurs du festival");
+                    error.printStackTrace();
+                });
 
-            organizersList
-                .setText(Html.fromHtml(listContent.toString(),
-                                       Html.FROM_HTML_MODE_COMPACT));
-        };
-
-        FestiplanApi.createFestivalOrganizersApiListener(this.currentFestival,
-                                                         callback);
+        getFileRequete().add(organizersFestivalRequest);
     }
 
     private void updateScenesList() {
-        ApiResponse callback = response -> {
-            final String SCENE_DESCRIPTION_PATTERN
+        final String SCENE_DESCRIPTION_PATTERN
                 = "%s places · %s scène";
 
-            Gson gson = new Gson();
-            Type scenesType;
-            List<Scene> scenesFound;
+        JsonArrayRequest sceneFestivalRequest = new JsonArrayRequest(FestiplanApi.getURLFestivalScenes(this.currentFestival.getIdFestival()),
+                response -> {
+                    StringBuilder listContent;
+                    LinearLayout sceneLayout;
+                    TextView sceneName;
+                    TextView sceneDescription;
 
-            LinearLayout sceneLayout;
-            TextView sceneName;
-            TextView sceneDescription;
+                    String sceneDescriptionContent,
+                            sceneSize;
+                    System.out.println(response);
 
-            String sceneDescriptionContent,
-                   sceneSize;
+                    ArrayList<Scene> scenesFound = new ArrayList<>();
 
-            scenesType = new TypeToken<List<Scene>>() {}.getType();
-            scenesFound = gson.fromJson(response, scenesType);
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject scene = response.getJSONObject(i);
+                            scenesFound.add(new Scene(
+                                    scene.getInt("idScene"),
+                                    scene.getString("nomScene"),
+                                    scene.getString("tailleScene"),
+                                    scene.getInt("spectateurMax"),
+                                    scene.getString("coordonneesGPS"),
+                                    scene.getInt("idFestival")
+                            ));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.println(scenesFound);
 
-            if (scenesFound.isEmpty()) {
-                return;
-            }
+                    if (!scenesFound.isEmpty()) {
+                        for (Scene scene : scenesFound) {
+                            sceneLayout = new LinearLayout(DetailsActivity.this);
+                            sceneLayout.getContext()
+                                    .setTheme(R.style.details_scenes_list_item);
+                            sceneLayout.setOrientation(LinearLayout.VERTICAL);
 
-            for (Scene scene: scenesFound) {
-                sceneLayout = new LinearLayout(DetailsActivity.this);
-                sceneLayout.getContext()
-                           .setTheme(R.style.details_scenes_list_item);
-                sceneLayout.setOrientation(LinearLayout.VERTICAL);
+                            System.out.println(sceneLayout.getOrientation());
 
-                sceneName = new TextView(DetailsActivity.this);
-                sceneName.setTextAppearance(
-                    R.style.details_scenes_list_item_title);
-                sceneName.setText(scene.getNomScene());
+                            sceneName = new TextView(DetailsActivity.this);
+                            sceneName.setTextAppearance(
+                                    R.style.details_scenes_list_item_title);
+                            sceneName.setText(scene.getNomScene());
 
-                switch (scene.getTailleScene()) {
-                    case "1":
-                        sceneSize = "petite";
-                        break;
+                            switch (scene.getTailleScene()) {
+                                case "1":
+                                    sceneSize = "petite";
+                                    break;
+                                case "2":
+                                    sceneSize = "moyenne";
+                                    break;
+                                case "3":
+                                    sceneSize = "grande";
+                                    break;
+                                default:
+                                    sceneSize = "";
+                                    break;
+                            }
 
-                    case "2":
-                        sceneSize = "moyenne";
-                        break;
-
-                    case "3":
-                        sceneSize = "grande";
-                        break;
-
-                    default:
-                        sceneSize = "";
-                        break;
-                }
-
-                sceneDescriptionContent
-                    = String.format(SCENE_DESCRIPTION_PATTERN,
+                            sceneDescriptionContent
+                                    = String.format(SCENE_DESCRIPTION_PATTERN,
                                     scene.getSpectateurMax(),
                                     sceneSize);
 
-                sceneDescription = new TextView(DetailsActivity.this);
-                sceneDescription.setTextAppearance(
-                    R.style.details_scenes_list_item_description);
-                sceneDescription.setText(sceneDescriptionContent);
+                            sceneDescription = new TextView(DetailsActivity.this);
+                            sceneDescription.setTextAppearance(
+                                    R.style.details_scenes_list_item_description);
+                            sceneDescription.setText(sceneDescriptionContent);
 
-                sceneLayout.addView(sceneName);
-                sceneLayout.addView(sceneDescription);
+                            sceneLayout.addView(sceneName);
+                            sceneLayout.addView(sceneDescription);
 
-                this.scenesList.addView(sceneLayout);
-            }
-        };
+                            this.scenesList.addView(sceneLayout);
+                        }
 
-        FestiplanApi.createFestivalScenesApiListener(this.currentFestival,
-                                                     callback);
+                    }
+                },
+                error -> {
+                    System.out.println("Erreur lors de la récupération des scènes du festival");
+                    error.printStackTrace();
+                });
+
+        getFileRequete().add(sceneFestivalRequest);
     }
 
+    /**
+     * Met à jour la liste des spectacles programmés
+     */
     private void updateShowsList() {
-        ApiResponse callback = response -> {
-            Gson gson = new Gson();
-            Type showsType;
-            List<Show> showsFound;
 
-            showsType = new TypeToken<List<Show>>() {}.getType();
-            showsFound = gson.fromJson(response, showsType);
+        JsonArrayRequest showsFestivalRequest = new JsonArrayRequest(FestiplanApi.getURLFestivalShows(this.currentFestival.getIdFestival()),
+                response -> {
+                    ArrayList<Show> showsFound = new ArrayList<>();
 
-            if (showsFound.isEmpty()) {
-                return;
-            }
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject show = response.getJSONObject(i);
+                            showsFound.add(new Show(
+                                    show.getInt("idSpectacle"),
+                                    show.getString("titreSpectacle"),
+                                    show.getString("descriptionSpectacle"),
+                                    show.getString("imagePath")
+                            ));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.println(showsFound);
 
-            for (Show currentShow: showsFound) {
-                this.createShowRow(currentShow);
-            }
-        };
+                    if (!showsFound.isEmpty()) {
+                        for (Show currentShow : showsFound) {
+                            createShowRow(currentShow);
+                        }
+                    }
+                },
+                error -> {
+                    System.out.println("Erreur lors de la récupération des spectacles du festival");
+                    error.printStackTrace();
+                });
 
-        FestiplanApi.createFestivalShowsApiListener(this.currentFestival,
-                                                    callback);
+        getFileRequete().add(showsFestivalRequest);
     }
 
+    /**
+     * Ajoute un sepcatcle à la liste des spectacles
+     *
+     * @param currentShow le spectacle à ajouter
+     */
     private void createShowRow(Show currentShow) {
         ConstraintLayout.LayoutParams showLayoutParams;
 
         showLayoutParams
                 = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
-                                                    ConstraintLayout.LayoutParams.WRAP_CONTENT);
+                ConstraintLayout.LayoutParams.WRAP_CONTENT);
         showLayoutParams.bottomMargin
                 = getResources().getDimensionPixelSize(R.dimen.show_bottomMargin);
         this.showLayout = new ConstraintLayout(this);
@@ -343,7 +415,7 @@ extends AppCompatActivity {
      */
     private void newShowPicture(Show currentShow) {
         int showPictureWidth,
-            showPictureHeight;
+                showPictureHeight;
 
         ConstraintSet showPictureSet;
 
@@ -351,15 +423,15 @@ extends AppCompatActivity {
 
         showPictureWidth
                 = this.getResources()
-                      .getDimensionPixelSize(R.dimen.show_picture_width);
+                .getDimensionPixelSize(R.dimen.show_picture_width);
 
         showPictureHeight
                 = this.getResources()
-                      .getDimensionPixelSize(R.dimen.show_picture_height);
+                .getDimensionPixelSize(R.dimen.show_picture_height);
 
         showPictureParams
                 = new ConstraintLayout.LayoutParams(showPictureWidth,
-                                                    showPictureHeight);
+                showPictureHeight);
 
         this.showPicture = new ImageView(this);
         this.showPicture.setId(View.generateViewId());
@@ -367,8 +439,8 @@ extends AppCompatActivity {
         this.showPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         Glide.with(this)
-             .load(currentShow.getImagePath())
-             .into(this.showPicture);
+                .load(currentShow.getImagePath())
+                .into(this.showPicture);
 
         showPictureSet = new ConstraintSet();
         showPictureSet.clone(this.showLayout);
@@ -452,9 +524,9 @@ extends AppCompatActivity {
      */
     private void createShowDatesContainer() {
         ConstraintLayout.LayoutParams showDatesParams,
-                                      showStartDateParams,
-                                      showAngleParams,
-                                      showEndDateParams;
+                showStartDateParams,
+                showAngleParams,
+                showEndDateParams;
 
         //  CONTAINER DATES SPECTACLE
         showDatesParams = new ConstraintLayout.LayoutParams(
@@ -564,5 +636,20 @@ extends AppCompatActivity {
     public void logout(View view) {
         User.getInstance().logout();
         Navigator.clearAndGoToActivity(this, LoginActivity.class);
+    }
+
+    /**
+     * Renvoie la file d'attente pour les requêtes Web :
+     * - si la file n'existe pas encore : elle est créée puis renvoyée
+     * - si une file d'attente existe déjà : elle est renvoyée
+     * On assure ainsi l'unicité de la file d'attente
+     *
+     * @return RequestQueue une file d'attente pour les requêtes Volley
+     */
+    private RequestQueue getFileRequete() {
+        if (fileRequete == null) {
+            fileRequete = Volley.newRequestQueue(this);
+        }
+        return fileRequete;
     }
 }

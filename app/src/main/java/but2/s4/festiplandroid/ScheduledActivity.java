@@ -10,11 +10,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
+import but2.s4.festiplandroid.adaptater.FestivalAdapter;
 import but2.s4.festiplandroid.api.ApiResponse;
 import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.festivals.Festival;
@@ -31,7 +40,11 @@ import but2.s4.festiplandroid.session.User;
  */
 public class ScheduledActivity extends AppCompatActivity {
     private TextView textError;
-    private List<Festival> festivalList;
+    private ArrayList<Festival> festivalList;
+
+    private RequestQueue fileRequete;
+
+    private RecyclerView recyclerView;
 
     /**
      * Cette méthode est appelée à la création de
@@ -48,10 +61,12 @@ public class ScheduledActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        festivalList = new ArrayList<>();
+
         // association de la vue avec l'activité
         setContentView(R.layout.activity_scheduled);
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -102,18 +117,71 @@ public class ScheduledActivity extends AppCompatActivity {
      * récupère l'ensemble des festivals programmés
      */
     private void loadAllFestivalsObject() {
-        ApiResponse callback = response -> {
-            Gson gson = new Gson();
-            Type festivalType = new TypeToken<List<Festival>>() {
-            }.getType();
-            List<Festival> festivalFound = gson.fromJson(response, festivalType);
+        JsonArrayRequest allScheduledFestival = new JsonArrayRequest(FestiplanApi.getAllFestivalsScheduled(),
+                response -> {
 
-            if (festivalFound.isEmpty()) {
-                textError.setVisibility(View.VISIBLE);
-            } else {
-                festivalList.addAll(festivalFound);
-            }
-        };
-        FestiplanApi.createAllFestivalsApiListener(callback);
+                    ArrayList<Festival> festivals = new ArrayList<>();
+
+                    // récupération des festivals programmés
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject festivalJSON = response.getJSONObject(i);
+
+                            // ajout du festivalJSON à la liste
+                            festivals.add(new Festival(
+                                    festivalJSON.getInt("idFestival"),
+                                    festivalJSON.getString("nomFestival"),
+                                    festivalJSON.getString("descriptionFestival"),
+                                    festivalJSON.getInt("idImage"),
+                                    "",
+                                    festivalJSON.getString("dateDebutFestival"),
+                                    festivalJSON.getString("dateFinFestival"),
+                                    festivalJSON.getInt("idGriJ"),
+                                    festivalJSON.getInt("idResponsable"),
+                                    festivalJSON.getString("ville"),
+                                    festivalJSON.getString("codePostal")
+                            ));
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    if (festivals.isEmpty()) {
+                        textError.setVisibility(View.VISIBLE);
+                    } else {
+                        festivalList.addAll(festivals);
+                        System.out.println(festivalList);
+                        arrayToRecycler(festivalList);
+                    }
+                },
+                error -> {
+                    error.printStackTrace();
+                });
+
+        getFileRequete().add(allScheduledFestival);
+    }
+
+    /**
+     * Permet de placer l'ensemble des festivals de la liste
+     * dans le recyclerView en appelent l'adaptateur
+     * @param festivalList
+     */
+    private void arrayToRecycler(ArrayList<Festival> festivalList) {
+        FestivalAdapter festiAdapter = new FestivalAdapter(festivalList);
+        recyclerView.setAdapter(festiAdapter);
+    }
+
+    /**
+     * Renvoie la file d'attente pour les requêtes Web :
+     * - si la file n'existe pas encore : elle est créée puis renvoyée
+     * - si une file d'attente existe déjà : elle est renvoyée
+     * On assure ainsi l'unicité de la file d'attente
+     *
+     * @return RequestQueue une file d'attente pour les requêtes Volley
+     */
+    private RequestQueue getFileRequete() {
+        if (fileRequete == null) {
+            fileRequete = Volley.newRequestQueue(this);
+        }
+        return fileRequete;
     }
 }

@@ -20,9 +20,15 @@ import but2.s4.festiplandroid.session.User;
  * Classe pour gérer les appels API pour l'application Festiplan.
  */
 public class FestiplanApi {
+
+    /**
+     * Le port pour le serveur API.
+     */
+    public static final String PORT_API = "";
+
     // Domaine de l'API
     public static final String DOMAIN_API
-            = "http://10.0.2.2:8888";
+            = "http://10.0.2.2" + PORT_API;
 
     // URI pour la requête de connexion
     private static final String URI_LOGIN_API_REQUEST
@@ -490,5 +496,29 @@ public class FestiplanApi {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static String getURLConnexon(String login, String mdp) {
+        return String.format(URI_LOGIN_API_REQUEST, DOMAIN_API, login, mdp);
+    }
+
+    public static String getURLDetailFestival(int id) {
+        return String.format(URI_FESTIVAL_API_REQUEST, DOMAIN_API, id);
+    }
+
+    public static String getURLFestivalOrganizers(int idFestival) {
+        return String.format(URI_FESTIVAL_ORGANIZERS_API_REQUEST, DOMAIN_API, idFestival);
+    }
+
+    public static String getURLFestivalScenes(int idFestival) {
+        return String.format(URI_FESTIVAL_SCENES_API_REQUEST, DOMAIN_API, idFestival);
+    }
+
+    public static String getURLFestivalShows(int idFestival) {
+        return String.format(URI_FESTIVAL_SHOWS_API_REQUEST, DOMAIN_API, idFestival);
+    }
+
+    public static String getAllFestivalsScheduled() {
+        return String.format(URI_FESTIVAL_ALL_SCHEDULED, DOMAIN_API);
     }
 }

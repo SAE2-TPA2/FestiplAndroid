@@ -13,6 +13,13 @@ public class Show {
 
     private String imagePath;
 
+    public Show(int idSpectacle, String titreSpectacle, String descriptionSpectacle, String imagePath) {
+        this.idSpectacle = idSpectacle;
+        this.titreSpectacle = titreSpectacle;
+        this.descriptionSpectacle = descriptionSpectacle;
+        this.imagePath = imagePath;
+    }
+
     public int getIdSpectacle() {
         return idSpectacle;
     }
