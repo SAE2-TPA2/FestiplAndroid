@@ -82,9 +82,7 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
 //                    FestiplanApi.createFavoritesFestivalsPostListener(idUser, festival.getIdFestival(), response);
                 }
             }
-
         });
-
     }
 
     @Override

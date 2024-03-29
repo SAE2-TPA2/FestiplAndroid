@@ -55,7 +55,7 @@
                 android:text="Date_Debut(stub)" />
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/angle_down_dates">
 
@@ -71,7 +71,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/favorites_selected"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="40dp"
+            android:layout_marginHorizontal="15dp">
         </ImageButton>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
