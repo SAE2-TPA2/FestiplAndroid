@@ -2,7 +2,6 @@ package but2.s4.festiplandroid;
 
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,16 +12,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.festivals.Festival;
@@ -51,6 +54,10 @@ public class DetailsActivity
     private RequestQueue fileRequete;
 
     private TextView festivalName;
+
+    private ConstraintLayout favoriteToggler;
+
+    private ImageView favoriteIcon;
 
     private ImageView picture;
 
@@ -107,6 +114,8 @@ public class DetailsActivity
         this.festivalNameAndFavoriteTogglerContainer
             = this.findViewById(R.id.festivalNameAndFavoriteToggler);
         this.festivalName = this.findViewById(R.id.festivalName);
+        this.favoriteToggler = this.findViewById(R.id.favorite_toggler);
+        this.favoriteIcon = this.findViewById(R.id.favorite_icon);
         this.picture = this.findViewById(R.id.picture);
         this.description = this.findViewById(R.id.description);
         this.startDate = this.findViewById(R.id.start);
@@ -115,7 +124,7 @@ public class DetailsActivity
         this.showsList = this.findViewById(R.id.shows_list);
         this.scenesList = this.findViewById(R.id.scenes_list);
 
-        this.festivalId = 12;  // TODO STUB
+        this.festivalId = 1;  // TODO STUB
 
         this.loadFestivalObject();
     }
@@ -145,10 +154,7 @@ public class DetailsActivity
                                 (String) festivalRecu.get("codePostal")
                         );
 
-
                         this.picture.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-
 
                         Glide.with(this)
                                 .load(this.currentFestival.getImagePath())
@@ -163,6 +169,7 @@ public class DetailsActivity
                         this.endDate.setText(this.currentFestival
                                 .getDateFinFestival());
 
+                        updateFavoriteToggler();
                         updateOrganizersList();
                         updateScenesList();
                         updateShowsList();
@@ -181,28 +188,137 @@ public class DetailsActivity
     }
 
     private void updateFavoriteToggler() {
-        ApiResponse callback;
-        callback = response -> {
-            Gson gson = new Gson();
-            Type festivalType;
-            List<Festival> festivalFound;
+        String uriFestivalFavorites
+            = FestiplanApi.getURLFestivalAllFavorites(User.getInstance().getIdUser());
 
-            if (Objects.equals(response, "false")) {
-                // TODO: bouton OFF
+        JsonArrayRequest favoriteFestivalRequest
+                = new JsonArrayRequest(uriFestivalFavorites,
+                response -> {
+                    try {
+                        JSONObject responseObject;
 
-                System.out.println("Aucun favoris.");
+                        this.currentFestival.setFavorite(false);
 
-                return;
+                        for (int i = 0; i < response.length(); i++) {
+                            responseObject = response.getJSONObject(i);
+
+                            if (responseObject.getInt("idFestival")
+                                    == this.currentFestival.getIdFestival()) {
+
+                                this.currentFestival.setFavorite(true);
+                                break;
+                            }
+                        }
+
+                        if (this.currentFestival.getFavorite()) {
+                            this.favoriteToggler.setBackground(
+                                    getDrawable(R.drawable.favorites_on_button));
+                            this.favoriteIcon.setImageResource(R.drawable.favorites_selected);
+                        } else {
+                            this.favoriteToggler.setBackground(
+                                    getDrawable(R.drawable.favorites_off_button));
+                            this.favoriteIcon.setImageResource(R.drawable.favorites_deselected);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    if (error.networkResponse != null && error.networkResponse.statusCode == 400) {
+                        this.favoriteToggler.setBackground(
+                                getDrawable(R.drawable.favorites_off_button));
+                        this.favoriteIcon.setImageResource(R.drawable.favorites_deselected);
+                    }
+
+                    System.out.println("Erreur lors de la récupération des favoris du festival");
+                    error.printStackTrace();
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("APIKEY", User.getInstance().getAPIKey());
+                return headers;
             }
-
-            festivalType = new TypeToken<List<Festival>>() {}.getType();
-            festivalFound = gson.fromJson(response, festivalType);
-
-            System.out.println(festivalFound);
         };
 
-        FestiplanApi.createFavoritesFestivalsApiListener(User.getInstance().getIdUser(),
-                                                         callback);
+        getFileRequete().add(favoriteFestivalRequest);
+    }
+
+    public void toggleFavoriteState(View view) {
+        if (this.currentFestival.getFavorite()) {
+            this.removeFavorite();
+        } else {
+            this.addFavorite();
+        }
+    }
+
+    private void addFavorite() {
+        String uriAddFavorite
+            = FestiplanApi.getURLFestivalSetFavorites();
+
+        StringRequest addFavoriteRequest
+            = new StringRequest(Request.Method.POST,
+                uriAddFavorite,
+                response -> {
+                    this.currentFestival.setFavorite(true);
+                    updateFavoriteToggler();
+                },
+                error -> {
+                    System.out.println("Erreur lors de l'ajout du festival aux favoris");
+                    error.printStackTrace();
+                }) {
+
+            @Override
+            public byte[] getBody() {
+                Map<String, String> params = new HashMap<>();
+                params.put("idUser", String.valueOf(User.getInstance().getIdUser()));
+                params.put("idFestival", String.valueOf(currentFestival.getIdFestival()));
+                return new JSONObject(params).toString().getBytes(StandardCharsets.UTF_8);
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("APIKEY", User.getInstance().getAPIKey());
+                return headers;
+            }
+        };
+
+        getFileRequete().add(addFavoriteRequest);
+    }
+
+    private void removeFavorite() {
+        String uriRemoveFavorite
+            = FestiplanApi.getURLFestivalDeleteFavorites(User.getInstance().getIdUser(),
+                                                         this.currentFestival.getIdFestival());
+
+        StringRequest removeFavoriteRequest
+            = new StringRequest(Request.Method.DELETE,
+                uriRemoveFavorite,
+                response -> {
+                    this.currentFestival.setFavorite(false);
+                    updateFavoriteToggler();
+                },
+                error -> {
+                    System.out.println("Erreur lors de la suppression du festival des favoris");
+                    error.printStackTrace();
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("APIKEY", User.getInstance().getAPIKey());
+                return headers;
+            }
+        };
+
+        getFileRequete().add(removeFavoriteRequest);
     }
 
     private void updateOrganizersList() {
@@ -650,6 +766,7 @@ public class DetailsActivity
         if (fileRequete == null) {
             fileRequete = Volley.newRequestQueue(this);
         }
+
         return fileRequete;
     }
 }
