@@ -20,6 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import but2.s4.festiplandroid.adaptater.FestivalAdapter;
 
@@ -31,10 +33,10 @@ import but2.s4.festiplandroid.session.User;
 public class FavoritesActivity extends AppCompatActivity {
 
     private TextView textError;
-    private ArrayList<Festival> festivalList;
-
     private RequestQueue fileRequete;
     private RecyclerView recyclerView;
+
+    private ArrayList<Festival> festivals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,6 @@ public class FavoritesActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_favorites);
 
-        festivalList = new ArrayList<>();
         recyclerView = findViewById(R.id.recycler_view_from_favorites);
         int numberOfColumns = calculateNoOfColumns();
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
@@ -56,29 +57,20 @@ public class FavoritesActivity extends AppCompatActivity {
 
         // Bouton de deconnexion
         ImageButton deconnexionButton = findViewById(R.id.sign_out_from_favorite);
-        deconnexionButton.setOnClickListener(v -> navigateTosignOut());
 
-        FestivalAdapter adapter = new FestivalAdapter(festivalList);
-        recyclerView.setAdapter(adapter);
+        this.festivals = new ArrayList<>();
 
         // Méthode récupération de l'ensemble des festivals
         loadFavoritesFestivalsObject();
+    }
 
-        //ajout temporaire en dur
-//        festivalList.add(new Festival(0,"nomFesti","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
-//        festivalList.add(new Festival(1,"nomFesti2","categorie2","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",false));
-//        festivalList.add(new Festival(2,"nomFesti3","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
-//        festivalList.add(new Festival(3,"nomFesti4","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
-//        festivalList.add(new Festival(0,"nomFesti5","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
-//        festivalList.add(new Festival(1,"nomFesti6","categorie2","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",false));
-//        festivalList.add(new Festival(2,"nomFesti7","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
-//        festivalList.add(new Festival(0,"nomFesti8","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
-//        festivalList.add(new Festival(1,"nomFesti9","categorie2","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",false));
-//        festivalList.add(new Festival(2,"nomFesti10","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
-//        festivalList.add(new Festival(0,"nomFesti11","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
-//        festivalList.add(new Festival(1,"nomFesti12","categorie2","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",false));
-//        festivalList.add(new Festival(2,"nomFesti13","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
-
+    /**
+     * Déconnexion du compte utilisateur courant,
+     * et redirection vers l'activité de connexion.
+     */
+    public void logout(View view) {
+        User.getInstance().logout();
+        Navigator.clearAndGoToActivity(this, LoginActivity.class);
     }
 
     /**
@@ -92,19 +84,6 @@ public class FavoritesActivity extends AppCompatActivity {
         int columnCount = (int) (screenWidthDp / columnWidthDp + 0.5); // Arrondi au nombre entier le plus proche
         return Math.max(columnCount, 1); // Au moins une colonne
     }
-    /**
-     * Méthode appelé lors du clique sur le bouton de deconnexion
-     *
-     * Redirige l'utilisateur vers la page de connexion et
-     * réinitialise le singleton de l'utilisateur
-     */
-    private void navigateTosignOut() {
-        User.getInstance().setPrenomUser(null);
-        User.getInstance().setNomUser(null);
-        User.getInstance().setIdUser(-1);
-        User.getInstance().setLoginUser(null);
-        Navigator.toActivity(FavoritesActivity.this, LoginActivity.class);
-    }
 
     /**
      * Méthode appelé lors du clique sur le bouton permettant à
@@ -116,6 +95,7 @@ public class FavoritesActivity extends AppCompatActivity {
     private void navigateToScheduled() {
         Navigator.toActivity(FavoritesActivity.this, ScheduledActivity.class);
     }
+
     /**
      * récupère l'ensemble des festivals programmés
      */
@@ -125,46 +105,80 @@ public class FavoritesActivity extends AppCompatActivity {
                         FestiplanApi.getURLFestivalAllFavorites(User.getInstance().getIdUser()),
                 response -> {
 
-                    ArrayList<Festival> festivals = new ArrayList<>();
+                    // récupération des festivals programmés
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject festivalJSON = response.getJSONObject(i);
 
+                            System.out.println(festivalJSON.toString());
+
+                            // ajout du festivalJSON à la liste
+                            this.loadFavoriteFestivalObject(festivalJSON.getInt("idFestival"));
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                },
+                error -> {
+                    error.printStackTrace();
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("APIKEY", User.getInstance().getAPIKey());
+                return headers;
+            }
+        };
+
+        getFileRequete().add(allScheduledFestival);
+    }
+
+    private void loadFavoriteFestivalObject(int festivalId) {
+        JsonArrayRequest favoriteFestival = new JsonArrayRequest(
+                FestiplanApi.getURLDetailFestival(festivalId),
+                response -> {
                     // récupération des festivals programmés
                     for (int i = 0; i < response.length(); i++) {
                         try {
                             JSONObject festivalJSON = response.getJSONObject(i);
 
                             // ajout du festivalJSON à la liste
-                            festivals.add(new Festival(
+                            this.festivals.add(new Festival(
                                     festivalJSON.getInt("idFestival"),
                                     festivalJSON.getString("nomFestival"),
-
-                                    festivalJSON.getString("categorieFestival"),
                                     festivalJSON.getString("descriptionFestival"),
                                     festivalJSON.getInt("idImage"),
-                                    "",
+                                    festivalJSON.getString("imagePath"),
                                     festivalJSON.getString("dateDebutFestival"),
                                     festivalJSON.getString("dateFinFestival"),
                                     festivalJSON.getInt("idGriJ"),
                                     festivalJSON.getInt("idResponsable"),
                                     festivalJSON.getString("ville"),
                                     festivalJSON.getString("codePostal"),
-                                    festivalJSON.getBoolean("favorite")
+                                    false
                             ));
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
                     }
-                    if (festivals.isEmpty()) {
-                        textError.setVisibility(View.VISIBLE);
-                    } else {
-                        festivalList.addAll(festivals);
-                        System.out.println(festivalList);
-                    }
+
+                    FestivalAdapter adapter = new FestivalAdapter(this.festivals);
+                    recyclerView.setAdapter(adapter);
                 },
                 error -> {
                     error.printStackTrace();
-                });
+                }) {
 
-        getFileRequete().add(allScheduledFestival);
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("APIKEY", User.getInstance().getAPIKey());
+                return headers;
+            }
+        };
+
+        getFileRequete().add(favoriteFestival);
     }
 
     /**
