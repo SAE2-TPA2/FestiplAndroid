@@ -1,5 +1,6 @@
 package but2.s4.festiplandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -124,9 +125,20 @@ public class DetailsActivity
         this.showsList = this.findViewById(R.id.shows_list);
         this.scenesList = this.findViewById(R.id.scenes_list);
 
-        this.festivalId = 1;  // TODO STUB
+        this.festivalId = setFestivalId();
 
         this.loadFestivalObject();
+    }
+
+    private int setFestivalId() {
+        Intent intent;
+        intent = getIntent();
+
+        if (intent != null && intent.hasExtra("ID_EXTRA")) {
+            return intent.getIntExtra("ID_EXTRA", 1);
+        }
+
+        return 1;
     }
 
     private void loadFestivalObject() {
@@ -143,7 +155,6 @@ public class DetailsActivity
                         this.currentFestival = new Festival(
                                 (int) festivalRecu.get("idFestival"),
                                 (String) festivalRecu.get("nomFestival"),
-                                (String) festivalRecu.get("categorie"),
                                 (String) festivalRecu.get("descriptionFestival"),
                                 (int) festivalRecu.get("idImage"),
                                 (String) festivalRecu.get("imagePath"),
@@ -153,7 +164,7 @@ public class DetailsActivity
                                 (int) festivalRecu.get("idResponsable"),
                                 (String) festivalRecu.get("ville"),
                                 (String) festivalRecu.get("codePostal"),
-                                (boolean) festivalRecu.get("favorite")
+                                false
                         );
 
                         this.picture.setScaleType(ImageView.ScaleType.CENTER_CROP);
