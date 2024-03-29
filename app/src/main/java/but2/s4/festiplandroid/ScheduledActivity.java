@@ -117,7 +117,7 @@ public class ScheduledActivity extends AppCompatActivity {
      * récupère l'ensemble des festivals programmés
      */
     private void loadAllFestivalsObject() {
-        JsonArrayRequest allScheduledFestival = new JsonArrayRequest(FestiplanApi.getAllFestivalsScheduled(),
+        JsonArrayRequest allScheduledFestival = new JsonArrayRequest(FestiplanApi.getURLAllFestivalsScheduled(),
                 response -> {
 
                     ArrayList<Festival> festivals = new ArrayList<>();
