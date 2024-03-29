@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import but2.s4.festiplandroid.festivals.Festival;
+import but2.s4.festiplandroid.session.User;
 
 /**
  * Classe pour gérer les appels API pour l'application Festiplan.
@@ -235,7 +236,7 @@ public class FestiplanApi {
         new Thread(() -> {
             String test;
 
-            test = callApi(requestUri);
+            test = callApiWithKey(requestUri, User.getInstance().getAPIKey());
             handler.post(() -> callback.onResponse(test));
         }).start();
     }
@@ -312,8 +313,55 @@ public class FestiplanApi {
 
             responseCode = connection.getResponseCode();
 
-            System.out.println(responseCode);
-            System.out.println(apiUrl);
+            if (responseCode == 200) {
+                InputStream inputStream;
+                BufferedReader reader;
+                String line;
+                StringBuilder content;
+
+                content = new StringBuilder();
+                inputStream = connection.getInputStream();
+                reader = new BufferedReader(
+                        new InputStreamReader(inputStream));
+
+                while ((line = reader.readLine()) != null) {
+                    content.append(line);
+                }
+
+                reader.close();
+                return content.toString();
+            } else if (responseCode == 400) {
+                return "false";
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Version de callApi avec authentification
+     * par clé API.
+     *
+     * @param uri
+     * @param apiKey
+     * @return
+     */
+    private static String callApiWithKey(String uri, final String apiKey) {
+        URL apiUrl;
+        HttpURLConnection connection;
+        int responseCode;
+
+        try {
+            apiUrl = new URL(uri);
+            connection = (HttpURLConnection) apiUrl.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("APIKEY", apiKey);
+            connection.connect();
+
+            responseCode = connection.getResponseCode();
 
             if (responseCode == 200) {
                 InputStream inputStream;
