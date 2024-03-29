@@ -9,11 +9,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
-import java.util.Arrays;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import but2.s4.festiplandroid.api.ApiResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.errors.Error;
 import but2.s4.festiplandroid.navigation.Navigator;
@@ -27,7 +35,9 @@ import but2.s4.festiplandroid.session.User;
  * de base pour les activités qui utilisent la barre d'action.
  */
 public class LoginActivity
-extends AppCompatActivity {
+        extends AppCompatActivity {
+
+    private static final String TAG = "François.LoginActivity";
 
     private EditText login;
 
@@ -38,9 +48,14 @@ extends AppCompatActivity {
     private Button loginButton;
 
     /**
+     * File d'attente pour les requêtes Web (en lien avec l'utilisation de Volley)
+     */
+    private RequestQueue fileRequete;
+
+    /**
      * Cette méthode est appelée à la création de
      * l'activité.
-     *
+     * <p>
      * Elle initialise les vues et définit les
      * comportements des boutons.
      */
@@ -62,7 +77,13 @@ extends AppCompatActivity {
         // définition de son comportement lorsqu'il est
         // cliqué
         this.loginButton = findViewById(R.id.login_form__login_button);
-        this.loginButton.setOnClickListener(v -> attemptLogin());
+        this.loginButton.setOnClickListener(v -> {
+            try {
+                attemptLogin();
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         // Appel de la méthode pour gérer le
         // redimensionnement de la mise en page lorsque
@@ -73,83 +94,73 @@ extends AppCompatActivity {
     /**
      * Cette méthode est appelée lorsque l'utilisateur
      * tente de se connecter.
-     *
+     * <p>
      * Elle vérifie les informations de connexion et
      * affiche un message d'erreur si nécessaire.
      */
-    private void attemptLogin() {
+    private void attemptLogin() throws UnsupportedEncodingException {
         System.out.println("Click");
-        /**************TEMPORAIRE*****************/
         Navigator.toActivity(LoginActivity.this, ScheduledActivity.class);
-        /******************/
         final String[] loginAttemptApiResponse = new String[1];
 
         if (this.login.getText().length() == 0 || this.password.getText().length() == 0) {
             this.erreurIdentifiants();
-            return;
+        } else {
+            // les ientifiants saisi par l'utilisateur sont récupéré et encodé en UTF-8
+            String loginSaisie = URLEncoder.encode(this.login.getText().toString(), "UTF-8");
+            String passwordSaisie = URLEncoder.encode(this.password.getText().toString(), "UTF-8");
+
+            String url = FestiplanApi.getURLConnexon(loginSaisie, passwordSaisie);
+            Log.d(TAG, url);
+
+            /*
+             * on crée une requête GET, paramètrée par l'url préparée ci-dessus,
+             * Le résultat de cette requête sera une chaîne de caractères, donc la requête
+             * est de type StringRequest
+             */
+            JsonObjectRequest requeteVolley = new JsonObjectRequest(Request.Method.GET, url, null,
+                    // écouteur de la réponse renvoyée par la requête
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject reponse) {
+                            Log.d(TAG, "onResponse: " + reponse);
+
+                            User user = User.getInstance();
+
+                            try {
+                                user.setLoginUser(reponse.getString("loginUser"));
+                                user.setNomUser(reponse.getString("nomUser"));
+                                user.setPrenomUser(reponse.getString("prenomUser"));
+                                user.setIdUser(reponse.getInt("idUser"));
+                                user.setAPIKey(reponse.getString("APIKey"));
+
+                                Navigator.toActivity(LoginActivity.this, ScheduledActivity.class);
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                        }
+                    },
+                    // écouteur du retour de la requête si aucun résultat n'est renvoyé
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError erreur) {
+                            erreur.printStackTrace();
+//                        Log.d(TAG, "onErrorResponse: "+ );
+                        }
+                    }
+            );
+
+            // la requête est placée dans la file d'attente des requêtes
+            getFileRequete().add(requeteVolley);
         }
 
-        ApiResponse response = new ApiResponse() {
-            @Override
-            public void onResponse(String response) {
-                loginAttemptApiResponse[0] = response;
-
-                if (loginAttemptApiResponse[0] == null) {
-                    if (error.getVisibility() == TextView.GONE) {
-                        error.setVisibility(TextView.VISIBLE);
-                    }
-
-                    String introduction,
-                           message;
-
-                    introduction = getText(R.string.error_introduction).toString();
-                    message = getText(R.string.error_server_down).toString();
-
-                    error.setText(Error.getPreparedMessage(introduction, message));
-
-                    return;
-                }
-
-                if (!loginAttemptApiResponse[0].equals("false")) {
-                    // Si on a pas "false" en réponse, c'est que la connexion a réussi
-                    if (error.getVisibility() == TextView.VISIBLE) {
-                        error.setVisibility(TextView.GONE);
-                    }
-
-                    Gson gson;
-                    User user;
-
-                    gson = new Gson();
-                    System.out.println(loginAttemptApiResponse[0]);
-                    user = gson.fromJson(loginAttemptApiResponse[0], User.class);
-
-                    System.out.println(user.getIdUser());
-
-                    User userInstance;
-                    userInstance = User.getInstance();
-
-                    userInstance.setIdUser(user.getIdUser());
-                    userInstance.setPrenomUser(user.getPrenomUser());
-                    userInstance.setNomUser(user.getNomUser());
-                    userInstance.setLoginUser(user.getLoginUser());
-                    userInstance.setAPIKey(user.getAPIKey());
-
-                    Navigator.toActivity(LoginActivity.this, ScheduledActivity.class);
-                } else {
-                    erreurIdentifiants();
-                }
-            }
-        };
-
-        FestiplanApi.createLoginApiListener(this.login.getText().toString(),
-                                            this.password.getText().toString(),
-                                            response);  // TODO: STUB
 
     }
 
     private void erreurIdentifiants() {
         String introduction,
-               message;
+                message;
 
         introduction = getText(R.string.error_introduction).toString();
         message = getText(R.string.login_form_error_wrong_credentials).toString();
@@ -167,7 +178,24 @@ extends AppCompatActivity {
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams
                         .SOFT_INPUT_STATE_HIDDEN
-                | WindowManager.LayoutParams
+                        | WindowManager.LayoutParams
                         .SOFT_INPUT_ADJUST_RESIZE);
     }
+
+    /**
+     * Renvoie la file d'attente pour les requêtes Web :
+     * - si la file n'existe pas encore : elle est créée puis renvoyée
+     * - si une file d'attente existe déjà : elle est renvoyée
+     * On assure ainsi l'unicité de la file d'attente
+     *
+     * @return RequestQueue une file d'attente pour les requêtes Volley
+     */
+    private RequestQueue getFileRequete() {
+        if (fileRequete == null) {
+            fileRequete = Volley.newRequestQueue(this);
+        }
+        return fileRequete;
+    }
+
+
 }

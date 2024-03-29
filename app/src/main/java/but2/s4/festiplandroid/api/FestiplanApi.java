@@ -14,14 +14,21 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import but2.s4.festiplandroid.festivals.Festival;
+import but2.s4.festiplandroid.session.User;
 
 /**
  * Classe pour gérer les appels API pour l'application Festiplan.
  */
 public class FestiplanApi {
+
+    /**
+     * Le port pour le serveur API.
+     */
+    public static final String PORT_API = "";
+
     // Domaine de l'API
     public static final String DOMAIN_API
-            = "http://10.0.2.2";
+            = "http://10.0.2.2" + PORT_API;
 
     // URI pour la requête de connexion
     private static final String URI_LOGIN_API_REQUEST
@@ -235,7 +242,7 @@ public class FestiplanApi {
         new Thread(() -> {
             String test;
 
-            test = callApi(requestUri);
+            test = callApiWithKey(requestUri, User.getInstance().getAPIKey());
             handler.post(() -> callback.onResponse(test));
         }).start();
     }
@@ -312,8 +319,55 @@ public class FestiplanApi {
 
             responseCode = connection.getResponseCode();
 
-            System.out.println(responseCode);
-            System.out.println(apiUrl);
+            if (responseCode == 200) {
+                InputStream inputStream;
+                BufferedReader reader;
+                String line;
+                StringBuilder content;
+
+                content = new StringBuilder();
+                inputStream = connection.getInputStream();
+                reader = new BufferedReader(
+                        new InputStreamReader(inputStream));
+
+                while ((line = reader.readLine()) != null) {
+                    content.append(line);
+                }
+
+                reader.close();
+                return content.toString();
+            } else if (responseCode == 400) {
+                return "false";
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Version de callApi avec authentification
+     * par clé API.
+     *
+     * @param uri
+     * @param apiKey
+     * @return
+     */
+    private static String callApiWithKey(String uri, final String apiKey) {
+        URL apiUrl;
+        HttpURLConnection connection;
+        int responseCode;
+
+        try {
+            apiUrl = new URL(uri);
+            connection = (HttpURLConnection) apiUrl.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("APIKEY", apiKey);
+            connection.connect();
+
+            responseCode = connection.getResponseCode();
 
             if (responseCode == 200) {
                 InputStream inputStream;
@@ -442,5 +496,29 @@ public class FestiplanApi {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static String getURLConnexon(String login, String mdp) {
+        return String.format(URI_LOGIN_API_REQUEST, DOMAIN_API, login, mdp);
+    }
+
+    public static String getURLDetailFestival(int id) {
+        return String.format(URI_FESTIVAL_API_REQUEST, DOMAIN_API, id);
+    }
+
+    public static String getURLFestivalOrganizers(int idFestival) {
+        return String.format(URI_FESTIVAL_ORGANIZERS_API_REQUEST, DOMAIN_API, idFestival);
+    }
+
+    public static String getURLFestivalScenes(int idFestival) {
+        return String.format(URI_FESTIVAL_SCENES_API_REQUEST, DOMAIN_API, idFestival);
+    }
+
+    public static String getURLFestivalShows(int idFestival) {
+        return String.format(URI_FESTIVAL_SHOWS_API_REQUEST, DOMAIN_API, idFestival);
+    }
+
+    public static String getAllFestivalsScheduled() {
+        return String.format(URI_FESTIVAL_ALL_SCHEDULED, DOMAIN_API);
     }
 }
