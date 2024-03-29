@@ -13,6 +13,15 @@ public class Scene {
 
     private int idFestival;
 
+    public Scene(int idScene, String nomScene, String tailleScene, int spectateurMax, String coordonneesGPS, int idFestival) {
+        this.idScene = idScene;
+        this.nomScene = nomScene;
+        this.tailleScene = tailleScene;
+        this.spectateurMax = spectateurMax;
+        this.coordonneesGPS = coordonneesGPS;
+        this.idFestival = idFestival;
+    }
+
     public int getIdScene() {
         return idScene;
     }

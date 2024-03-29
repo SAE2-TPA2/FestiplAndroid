@@ -60,7 +60,7 @@ public class FestiplanApi {
     private static final String URI_FESTIVAL_SET_FAVORITES
             = "%s/sae-s4-festiplan-b-green-b/festiplan/api/ajouterFavori";
     private static final String URI_FESTIVAL_DELETE_FAVORITES
-            = "%s/sae-s4-festiplan-b-green-b/festiplan/api/supprimerFavori";
+            = "%s/sae-s4-festiplan-b-green-b/festiplan/api/supprimerFavori?idUser=%s&idFestival=%s";
 
 
     /**
@@ -518,7 +518,19 @@ public class FestiplanApi {
         return String.format(URI_FESTIVAL_SHOWS_API_REQUEST, DOMAIN_API, idFestival);
     }
 
-    public static String getAllFestivalsScheduled() {
+    public static String getURLAllFestivalsScheduled() {
         return String.format(URI_FESTIVAL_ALL_SCHEDULED, DOMAIN_API);
+    }
+
+    public static String getURLFestivalAllFavorites(int id) {
+        return String.format(URI_FESTIVAL_ALL_FAVORITES, DOMAIN_API, id);
+    }
+
+    public static String getURLFestivalSetFavorites() {
+        return String.format(URI_FESTIVAL_SET_FAVORITES, DOMAIN_API);
+    }
+
+    public static String getURLFestivalDeleteFavorites(int idUser, int idFestival) {
+        return String.format(URI_FESTIVAL_DELETE_FAVORITES, DOMAIN_API, idUser, idFestival);
     }
 }

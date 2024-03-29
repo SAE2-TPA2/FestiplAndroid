@@ -11,6 +11,14 @@ public class Organizer {
 
     private int idFestival;
 
+    public Organizer(int idUser, String nomUser, String prenomUser, String loginUser, int idFestival) {
+        this.idUser = idUser;
+        this.nomUser = nomUser;
+        this.prenomUser = prenomUser;
+        this.loginUser = loginUser;
+        this.idFestival = idFestival;
+    }
+
     public int getIdUser() {
         return this.idUser;
     }

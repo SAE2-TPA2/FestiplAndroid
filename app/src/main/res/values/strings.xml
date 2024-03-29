@@ -121,12 +121,4 @@
     <string name="error.festival.not.found">
         Aucun festival n\'est encore programmé
     </string>
-
-
-
-
-
-    <string name="LOREM_TEMP">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent scelerisque ornare ullamcorper. Aliquam eleifend ligula ac justo dapibus eleifend. Quisque non pretium diam. Integer maximus nisl sed lacus dapibus egestas. Proin diam arcu, maximus et ultrices ut, bibendum sit amet ante. Donec vel viverra mi, eu aliquam ex.
-    </string>
 </resources>

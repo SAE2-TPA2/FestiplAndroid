@@ -14,14 +14,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import but2.s4.festiplandroid.adaptater.FestivalAdapter;
-
 import but2.s4.festiplandroid.festivals.Festival;
 import but2.s4.festiplandroid.navigation.Navigator;
 import but2.s4.festiplandroid.session.User;
@@ -34,6 +32,7 @@ public class ScheduledActivity extends AppCompatActivity {
     private ArrayList<Festival> festivalList;
 
     private RequestQueue fileRequete;
+
     private RecyclerView recyclerView;
 
     @Override
@@ -119,7 +118,6 @@ public class ScheduledActivity extends AppCompatActivity {
      * récupère l'ensemble des festivals programmés
      */
     private void loadAllFestivalsObject() {
-
         JsonArrayRequest allScheduledFestival = new JsonArrayRequest(FestiplanApi.getAllFestivalsScheduled(),
                 response -> {
 
@@ -134,7 +132,6 @@ public class ScheduledActivity extends AppCompatActivity {
                             festivals.add(new Festival(
                                     festivalJSON.getInt("idFestival"),
                                     festivalJSON.getString("nomFestival"),
-
                                     festivalJSON.getString("categorieFestival"),
                                     festivalJSON.getString("descriptionFestival"),
                                     festivalJSON.getInt("idImage"),
