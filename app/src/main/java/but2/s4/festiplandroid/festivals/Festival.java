@@ -29,11 +29,6 @@ public class Festival {
 
     private boolean favorite;
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
     public Festival(int idFestival, String nomFestival, String categorie,
                     String descriptionFestival, int idImage, String imagePath,
                     String dateDebutFestival, String dateFinFestival, int idGriJ,
@@ -54,8 +49,6 @@ public class Festival {
         this.codePostal = codePostal;
         this.favorite = favorite;
     }
-
->>>>>>> Stashed changes
     public int getIdFestival() {
         return this.idFestival;
     }

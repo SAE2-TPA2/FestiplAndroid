@@ -11,17 +11,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import but2.s4.festiplandroid.adaptater.FestivalAdapter;
 
-import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.festivals.Festival;
 import but2.s4.festiplandroid.navigation.Navigator;
 import but2.s4.festiplandroid.session.User;
@@ -117,54 +113,54 @@ public class ScheduledActivity extends AppCompatActivity {
     /**
      * récupère l'ensemble des festivals programmés
      */
-    private void loadAllFestivalsObject() {
-
-        JsonArrayRequest allScheduledFestival = new JsonArrayRequest(FestiplanApi.getAllFestivalsScheduled(),
-                response -> {
-
-                    ArrayList<Festival> festivals = new ArrayList<>();
-
-                    // récupération des festivals programmés
-                    for (int i = 0; i < response.length(); i++) {
-                        try {
-                            JSONObject festivalJSON = response.getJSONObject(i);
-
-                            // ajout du festivalJSON à la liste
-                            festivals.add(new Festival(
-                                    festivalJSON.getInt("idFestival"),
-                                    festivalJSON.getString("nomFestival"),
-
-                                    festivalJSON.getString("categorieFestival"),
-                                    festivalJSON.getString("descriptionFestival"),
-                                    festivalJSON.getInt("idImage"),
-                                    "",
-                                    festivalJSON.getString("dateDebutFestival"),
-                                    festivalJSON.getString("dateFinFestival"),
-                                    festivalJSON.getInt("idGriJ"),
-                                    festivalJSON.getInt("idResponsable"),
-                                    festivalJSON.getString("ville"),
-                                    festivalJSON.getString("codePostal"),
-                                    festivalJSON.getBoolean("favorite")
-                            ));
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    if (festivals.isEmpty()) {
-                        System.out.print("e_urnuçevçyuebrvçybeuyvb");
-                        textError.setVisibility(View.VISIBLE);
-                    } else {
-                        System.out.print("e_urnuçevçyuebrvçybeuyvb");
-                        festivalList.addAll(festivals);
-                        System.out.println(festivalList);
-                    }
-                },
-                error -> {
-                    error.printStackTrace();
-                });
-
-        getFileRequete().add(allScheduledFestival);
-    }
+//    private void loadAllFestivalsObject() {
+//
+//        JsonArrayRequest allScheduledFestival = new JsonArrayRequest(FestiplanApi.getAllFestivalsScheduled(),
+//                response -> {
+//
+//                    ArrayList<Festival> festivals = new ArrayList<>();
+//
+//                    // récupération des festivals programmés
+//                    for (int i = 0; i < response.length(); i++) {
+//                        try {
+//                            JSONObject festivalJSON = response.getJSONObject(i);
+//
+//                            // ajout du festivalJSON à la liste
+//                            festivals.add(new Festival(
+//                                    festivalJSON.getInt("idFestival"),
+//                                    festivalJSON.getString("nomFestival"),
+//
+//                                    festivalJSON.getString("categorieFestival"),
+//                                    festivalJSON.getString("descriptionFestival"),
+//                                    festivalJSON.getInt("idImage"),
+//                                    "",
+//                                    festivalJSON.getString("dateDebutFestival"),
+//                                    festivalJSON.getString("dateFinFestival"),
+//                                    festivalJSON.getInt("idGriJ"),
+//                                    festivalJSON.getInt("idResponsable"),
+//                                    festivalJSON.getString("ville"),
+//                                    festivalJSON.getString("codePostal"),
+//                                    festivalJSON.getBoolean("favorite")
+//                            ));
+//                        } catch (JSONException e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                    }
+//                    if (festivals.isEmpty()) {
+//                        System.out.print("e_urnuçevçyuebrvçybeuyvb");
+//                        textError.setVisibility(View.VISIBLE);
+//                    } else {
+//                        System.out.print("e_urnuçevçyuebrvçybeuyvb");
+//                        festivalList.addAll(festivals);
+//                        System.out.println(festivalList);
+//                    }
+//                },
+//                error -> {
+//                    error.printStackTrace();
+//                });
+//
+//        getFileRequete().add(allScheduledFestival);
+//    }
 
     /**
      * Renvoie la file d'attente pour les requêtes Web :
