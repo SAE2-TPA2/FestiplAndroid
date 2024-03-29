@@ -122,7 +122,7 @@ public class FavoritesActivity extends AppCompatActivity {
     private void loadFavoritesFestivalsObject() {
 
         JsonArrayRequest allScheduledFestival = new JsonArrayRequest(
-                        FestiplanApi.getFavoritesFestivals(User.getInstance().getIdUser()),
+                        FestiplanApi.getURLFestivalAllFavorites(User.getInstance().getIdUser()),
                 response -> {
 
                     ArrayList<Festival> festivals = new ArrayList<>();
