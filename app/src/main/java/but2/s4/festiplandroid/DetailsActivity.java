@@ -2,6 +2,7 @@ package but2.s4.festiplandroid;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -65,6 +66,8 @@ public class DetailsActivity
 
     private LinearLayout showsList;
 
+    private ConstraintLayout festivalNameAndFavoriteTogglerContainer;
+
     private ConstraintLayout showLayout;
 
     private ConstraintLayout showInformation;
@@ -101,6 +104,8 @@ public class DetailsActivity
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_details);
 
+        this.festivalNameAndFavoriteTogglerContainer
+            = this.findViewById(R.id.festivalNameAndFavoriteToggler);
         this.festivalName = this.findViewById(R.id.festivalName);
         this.picture = this.findViewById(R.id.picture);
         this.description = this.findViewById(R.id.description);
@@ -116,7 +121,6 @@ public class DetailsActivity
     }
 
     private void loadFestivalObject() {
-
         String urlDetailFestival = FestiplanApi.getURLDetailFestival(this.festivalId);
 
         JsonArrayRequest festivalDetailRequest = new JsonArrayRequest(urlDetailFestival,
@@ -174,6 +178,31 @@ public class DetailsActivity
                 });
 
         getFileRequete().add(festivalDetailRequest);
+    }
+
+    private void updateFavoriteToggler() {
+        ApiResponse callback;
+        callback = response -> {
+            Gson gson = new Gson();
+            Type festivalType;
+            List<Festival> festivalFound;
+
+            if (Objects.equals(response, "false")) {
+                // TODO: bouton OFF
+
+                System.out.println("Aucun favoris.");
+
+                return;
+            }
+
+            festivalType = new TypeToken<List<Festival>>() {}.getType();
+            festivalFound = gson.fromJson(response, festivalType);
+
+            System.out.println(festivalFound);
+        };
+
+        FestiplanApi.createFavoritesFestivalsApiListener(User.getInstance().getIdUser(),
+                                                         callback);
     }
 
     private void updateOrganizersList() {
