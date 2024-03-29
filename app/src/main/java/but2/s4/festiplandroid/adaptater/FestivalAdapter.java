@@ -1,17 +1,13 @@
 package but2.s4.festiplandroid.adaptater;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+<<<<<<< Updated upstream
 
 import java.util.List;
 
@@ -27,26 +23,38 @@ import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.festivals.Festival;
 import but2.s4.festiplandroid.navigation.Navigator;
 import but2.s4.festiplandroid.session.User;
+=======
+
+import java.util.ArrayList;
+
+import but2.s4.festiplandroid.R;
+import but2.s4.festiplandroid.festivals.Festival;
+>>>>>>> Stashed changes
 
 public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.FestivalViewHolder> {
+    private ArrayList<Festival> festivalList;
 
-    private final List<Festival> festivalList;
-
-    public FestivalAdapter(List<Festival> festivalList) {
+    public FestivalAdapter(ArrayList<Festival> festivalList) {
         this.festivalList = festivalList;
     }
 
     @NonNull
     @Override
     public FestivalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+<<<<<<< Updated upstream
         Context context = parent.getContext();
         View itemView = LayoutInflater.from(context).inflate(R.layout.item_festival, parent, false);
         return new FestivalViewHolder(itemView);
+=======
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_festival, parent, false);
+        return new FestivalViewHolder(view);
+>>>>>>> Stashed changes
     }
 
     @Override
     public void onBindViewHolder(@NonNull FestivalViewHolder holder, int position) {
         Festival festival = festivalList.get(position);
+<<<<<<< Updated upstream
         holder.nomFestival.setText(festival.getNomFestival());
         holder.categorie.setText(festival.getCategorieFestival());
         holder.dateDebut.setText(festival.getDateDebutFestival());
@@ -95,6 +103,9 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
 >>>>>>> Stashed changes
             }
         });
+=======
+        holder.bind(festival);
+>>>>>>> Stashed changes
     }
 
     @Override
@@ -103,16 +114,13 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
     }
 
     public static class FestivalViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageFestival;
-        public TextView nomFestival;
-        public TextView categorie;
-        public TextView dateDebut;
-        public TextView dateFin;
-        public Button buttonShowDetails;
-        public ImageButton buttonAddToFavorites;
+        private TextView nomTextView;
+        private TextView categorieTextView;
+        private TextView descriptionTextView;
 
         public FestivalViewHolder(@NonNull View itemView) {
             super(itemView);
+<<<<<<< Updated upstream
             imageFestival = itemView.findViewById(R.id.image_festival);
             nomFestival = itemView.findViewById(R.id.nom_festival);
             categorie = itemView.findViewById(R.id.categorie_festival);
@@ -120,6 +128,15 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
             dateFin = itemView.findViewById(R.id.date_fin_festival);
             buttonShowDetails = itemView.findViewById(R.id.button_show_details);
             buttonAddToFavorites = itemView.findViewById(R.id.button_add_to_favorites);
+=======
+            nomTextView = itemView.findViewById(R.id.nom_festival);
+            categorieTextView = itemView.findViewById(R.id.categorie_festival);
+        }
+
+        public void bind(Festival festival) {
+            nomTextView.setText(festival.getNomFestival());
+            categorieTextView.setText(festival.getCategorieFestival());
+>>>>>>> Stashed changes
         }
     }
 }

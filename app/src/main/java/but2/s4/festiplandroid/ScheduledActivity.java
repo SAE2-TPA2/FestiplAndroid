@@ -7,57 +7,66 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+<<<<<<< Updated upstream
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
 import but2.s4.festiplandroid.api.ApiResponse;
+=======
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import but2.s4.festiplandroid.adaptater.FestivalAdapter;
+>>>>>>> Stashed changes
 import but2.s4.festiplandroid.api.FestiplanApi;
 import but2.s4.festiplandroid.festivals.Festival;
 import but2.s4.festiplandroid.navigation.Navigator;
 import but2.s4.festiplandroid.session.User;
 
-/**
- * ScheduledActivity permet d'affiché l'ensemble des festivals
- * programmées et de gérer la deconnexion et la navigation vers
- * la page des festival en favoris.
- * <p>
- * Elle hérite de AppCompatActivity qui est une classe
- * de base pour les activités qui utilisent la barre d'action.
- */
 public class ScheduledActivity extends AppCompatActivity {
-    private TextView textError;
-    private List<Festival> festivalList;
 
-    /**
-     * Cette méthode est appelée à la création de
-     * l'activité.
-     *
-     * Initialise la vue des festivals programmés
-     * et associe un comportement à chaque bouton
-     *
-     * @param savedInstanceState If the activity is being re-initialized after
-     *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
-     */
+    private TextView textError;
+<<<<<<< Updated upstream
+    private List<Festival> festivalList;
+=======
+    private ArrayList<Festival> festivalList;
+
+    private RequestQueue fileRequete;
+    private RecyclerView recyclerView;
+>>>>>>> Stashed changes
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+<<<<<<< Updated upstream
         // association de la vue avec l'activité
         setContentView(R.layout.activity_scheduled);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+=======
+        setContentView(R.layout.activity_scheduled);
 
-        // initialisation du texte error affiché
-        // si aucun festival n'a été trouvé
-        textError = this.findViewById(R.id.error_festival_not_found);
+        festivalList = new ArrayList<>();
+        recyclerView = findViewById(R.id.recycler_view);
+        int numberOfColumns = calculateNoOfColumns();
+        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+>>>>>>> Stashed changes
+
+        textError = findViewById(R.id.error_festival_not_found);
         textError.setVisibility(View.INVISIBLE);
 
         // LinearLayout permettant de naviger vers les activités en favoris
@@ -68,6 +77,7 @@ public class ScheduledActivity extends AppCompatActivity {
         ImageButton deconnexionButton = findViewById(R.id.sign_out_from_scheduled);
         deconnexionButton.setOnClickListener(v -> navigateTosignOut());
 
+<<<<<<< Updated upstream
         // appel de la métode de remplissage du recyclerView
         // avec les différents festival
         //loadAllFestivalsObject();
@@ -76,8 +86,43 @@ public class ScheduledActivity extends AppCompatActivity {
 
         FestivalAdapter adapter = new FestivalAdapter(festivalList);
         recyclerView.setAdapter(adapter);
+=======
+
+        FestivalAdapter adapter = new FestivalAdapter(festivalList);
+        recyclerView.setAdapter(adapter);
+
+        // Méthode récupération de l'ensemble des festivals
+        //loadAllFestivalsObject();
+
+        //ajout temporaire en dur
+        festivalList.add(new Festival(0,"nomFesti","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(1,"nomFesti2","categorie2","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",false));
+        festivalList.add(new Festival(2,"nomFesti3","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(3,"nomFesti4","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(0,"nomFesti5","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(1,"nomFesti6","categorie2","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",false));
+        festivalList.add(new Festival(2,"nomFesti7","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(0,"nomFesti8","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(1,"nomFesti9","categorie2","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",false));
+        festivalList.add(new Festival(2,"nomFesti10","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(0,"nomFesti11","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(1,"nomFesti12","categorie2","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",false));
+        festivalList.add(new Festival(2,"nomFesti13","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+
+>>>>>>> Stashed changes
     }
 
+    /**
+     * Méthode pour calculer le nombre de colonnes en fonction de la taille de l'écran
+     * et des items
+     */
+
+    private int calculateNoOfColumns() {
+        int columnWidthDp = 450; // Largeur souhaitée d'une colonne en dp
+        float screenWidthDp = getResources().getDisplayMetrics().widthPixels / getResources().getDisplayMetrics().density;
+        int columnCount = (int) (screenWidthDp / columnWidthDp + 0.5); // Arrondi au nombre entier le plus proche
+        return Math.max(columnCount, 1); // Au moins une colonne
+    }
     /**
      * Méthode appelé lors du clique sur le bouton de deconnexion
      *
@@ -102,7 +147,6 @@ public class ScheduledActivity extends AppCompatActivity {
     private void navigateToFavorites() {
         Navigator.toActivity(ScheduledActivity.this, FavoritesActivity.class);
     }
-
     /**
      * récupère l'ensemble des festivals programmés
      */
@@ -137,7 +181,11 @@ public class ScheduledActivity extends AppCompatActivity {
                             festivals.add(new Festival(
                                     festivalJSON.getInt("idFestival"),
                                     festivalJSON.getString("nomFestival"),
+<<<<<<< Updated upstream
                                     festivalJSON.getString("catégorie"),
+=======
+                                    festivalJSON.getString("categorieFestival"),
+>>>>>>> Stashed changes
                                     festivalJSON.getString("descriptionFestival"),
                                     festivalJSON.getInt("idImage"),
                                     "",
@@ -147,7 +195,11 @@ public class ScheduledActivity extends AppCompatActivity {
                                     festivalJSON.getInt("idResponsable"),
                                     festivalJSON.getString("ville"),
                                     festivalJSON.getString("codePostal"),
+<<<<<<< Updated upstream
                                     festivalJSON.getBoolean("true")
+=======
+                                    festivalJSON.getBoolean("favorite")
+>>>>>>> Stashed changes
                             ));
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
@@ -185,3 +237,4 @@ public class ScheduledActivity extends AppCompatActivity {
 >>>>>>> Stashed changes
     }
 }
+
