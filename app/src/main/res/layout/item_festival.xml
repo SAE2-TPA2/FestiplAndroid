@@ -46,12 +46,13 @@
             android:layout_margin="5dp"
             android:layout_height="wrap_content"
              android:layout_width="wrap_content">
+
             <TextView
                 android:id="@+id/date_debut_festival"
-                android:layout_width="wrap_content"
+                android:layout_width="95dp"
                 android:layout_height="wrap_content"
-                android:text="Date_Debut(stub)"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp"
+                android:text="Date_Debut(stub)" />
 
             <ImageView
                 android:layout_width="wrap_content"
