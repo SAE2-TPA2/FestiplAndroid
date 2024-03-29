@@ -44,6 +44,11 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
         holder.dateDebutFestival.setText(festival.getDateDebutFestival());
         holder.dateFinFestival.setText(festival.getDateFinFestival());
         holder.buttonShowDetails.setId(festival.getIdFestival());
+        if(festival.getFavorite()){
+            holder.buttonAddToFavorites.setImageResource(R.drawable.favorites_selected);
+        } else {
+            holder.buttonAddToFavorites.setImageResource(R.drawable.favorites_deselected);
+        }
         holder.buttonShowDetails.setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View v) {

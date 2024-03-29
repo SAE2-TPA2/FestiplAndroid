@@ -40,7 +40,6 @@ public class ScheduledActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         int numberOfColumns = calculateNoOfColumns();
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-
         textError = findViewById(R.id.error_festival_not_found);
         textError.setVisibility(View.INVISIBLE);
 
