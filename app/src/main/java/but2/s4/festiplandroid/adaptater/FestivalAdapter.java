@@ -115,7 +115,6 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
             dateDebutFestival = itemView.findViewById(R.id.date_debut_festival);
             dateFinFestival = itemView.findViewById(R.id.date_fin_festival);
             buttonShowDetails = itemView.findViewById(R.id.button_show_details);
-            buttonAddToFavorites = itemView.findViewById(R.id.button_add_to_favorites);
         }
     }
 }

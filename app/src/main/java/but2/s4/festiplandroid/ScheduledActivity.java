@@ -150,10 +150,8 @@ public class ScheduledActivity extends AppCompatActivity {
                         }
                     }
                     if (festivals.isEmpty()) {
-                        System.out.print("e_urnuçevçyuebrvçybeuyvb");
                         textError.setVisibility(View.VISIBLE);
                     } else {
-                        System.out.print("e_urnuçevçyuebrvçybeuyvb");
                         festivalList.addAll(festivals);
                         System.out.println(festivalList);
                     }
