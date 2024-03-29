@@ -250,6 +250,44 @@
         </item>
     </style>
 
+    <style name="details.favorite" />
+
+    <style name="details.favorite.button">
+        <item name="android:layout_width">
+            60dp
+        </item>
+
+        <item name="android:layout_height">
+            60dp
+        </item>
+
+        <item name="android:scaleType">
+            centerInside
+        </item>
+
+        <item name="android:padding">
+            10dp
+        </item>
+    </style>
+
+    <style
+        name="details.favorite.button.on"
+        parent="details.favorite.button">
+
+        <item name="android:background">
+            @drawable/favorites_on_button
+        </item>
+    </style>
+
+    <style
+        name="details.favorite.button.off"
+        parent="details.favorite.button">
+
+        <item name="android:background">
+            @color/input.background
+        </item>
+    </style>
+
     <style name="details.section">
         <item name="android:layout_width">
             0dp
