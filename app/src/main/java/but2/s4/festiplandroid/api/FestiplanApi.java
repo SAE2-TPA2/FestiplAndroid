@@ -521,4 +521,7 @@ public class FestiplanApi {
     public static String getAllFestivalsScheduled() {
         return String.format(URI_FESTIVAL_ALL_SCHEDULED, DOMAIN_API);
     }
+    public static String getFavoritesFestivals(int idFestival) {
+        return String.format(URI_FESTIVAL_ALL_FAVORITES, DOMAIN_API, idFestival);
+    }
 }
