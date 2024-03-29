@@ -103,7 +103,6 @@
                     style="@style/details.title"
                     android:text="festival.name" />
 
-                <!-- TODO DYN -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/favorite_toggler"
                     app:layout_constraintTop_toTopOf="parent"
@@ -111,9 +110,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     style="@style/details.favorite.button.on"
                     android:gravity="center"
-                    android:onClick="logout">
+                    android:onClick="toggleFavoriteState">
 
                     <ImageView
+                        android:id="@+id/favorite_icon"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
