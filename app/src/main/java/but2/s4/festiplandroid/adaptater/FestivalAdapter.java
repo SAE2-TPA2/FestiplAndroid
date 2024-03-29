@@ -48,7 +48,7 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
             @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), DetailsActivity.class);
-                    intent.putExtra("ID_EXTRA", festival.getDateFinFestival());
+                    intent.putExtra("ID_EXTRA", festival.getIdFestival());
                     v.getContext().startActivity(intent);
                 }
             });
@@ -57,8 +57,8 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
             public void onClick(View v) {
                 ImageButton imageButton = (ImageButton) v;
                 int idUser = User.getInstance().getIdUser();
-//                if (festival.getFavorite()) {
-//                    imageButton.setImageResource(R.drawable.favorites_deselected);
+                if (festival.getFavorite()) {
+                    imageButton.setImageResource(R.drawable.favorites_deselected);
 //                    final String[] apiResponse = new String[1];
 //                    ApiResponse response = new ApiResponse() {
 //                        @Override
@@ -69,8 +69,8 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
 //                        };
 //                    FestiplanApi.deleteFavoritesFestivalsDeleteListener(idUser, festival.getIdFestival(), response);
 //
-//                } else {
-//                    imageButton.setImageResource(R.drawable.favorites_selected);
+                } else {
+                    imageButton.setImageResource(R.drawable.favorites_selected);
 //                    final String[] apiResponse = new String[1];
 //                    ApiResponse response = new ApiResponse() {
 //                        @Override
@@ -80,7 +80,7 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
 //                        }
 //                    };
 //                    FestiplanApi.createFavoritesFestivalsPostListener(idUser, festival.getIdFestival(), response);
-//                }
+                }
             }
 
         });

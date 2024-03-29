@@ -57,7 +57,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/chevron_down_date">
+                android:background="@drawable/angle_down_dates">
 
             </ImageView>
             <TextView

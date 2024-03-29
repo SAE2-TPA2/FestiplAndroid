@@ -7,81 +7,85 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 
-import java.lang.reflect.Type;
+
 import java.util.ArrayList;
-import java.util.List;
 
 import but2.s4.festiplandroid.adaptater.FestivalAdapter;
-import but2.s4.festiplandroid.api.ApiResponse;
-import but2.s4.festiplandroid.api.FestiplanApi;
+
 import but2.s4.festiplandroid.festivals.Festival;
 import but2.s4.festiplandroid.navigation.Navigator;
 import but2.s4.festiplandroid.session.User;
 
-/**
- * FavoritesActivity permet d'affiché l'ensemble des festivals
- * favoris de l'utilisateur et de gérer la deconnexion et la navigation vers
- * la page des festival programmé.
- * <p>
- * Elle hérite de AppCompatActivity qui est une classe
- * de base pour les activités qui utilisent la barre d'action.
- */
 public class FavoritesActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
-    private TextView textError;
-    private List<Festival> festivalFavoritesList;
 
-    /**
-     * Cette méthode est appelée à la création de
-     * l'activité.
-     *
-     * Initialise la vue des festivals en favoris
-     * et associe un comportement à chaque bouton
-     *
-     * @param savedInstanceState If the activity is being re-initialized after
-     *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
-     *
-     */
+    private TextView textError;
+    private ArrayList<Festival> festivalList;
+
+    private RequestQueue fileRequete;
+    private RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_favorites);
 
-        recyclerView = findViewById(R.id.recycler_festival_favori);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        festivalList = new ArrayList<>();
+        recyclerView = findViewById(R.id.recycler_view_from_favorites);
+        int numberOfColumns = calculateNoOfColumns();
+        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
 
-        textError = this.findViewById(R.id.error_festival_not_found);
+        textError = findViewById(R.id.error_festival_not_found_from_favorites);
         textError.setVisibility(View.INVISIBLE);
 
-        //recyclerView.setAdapter(festivalAdapter);
-        LinearLayout scheduledButton = findViewById(R.id.buttonAllFestival);
-        scheduledButton.setOnClickListener(v -> navigateToScheduled());
-        ImageButton deconnexionButton = findViewById(R.id.sign_out_from_favorites);
+        // LinearLayout permettant de naviger vers les activités en favoris
+        LinearLayout allFestivalScheduledButton = findViewById(R.id.buttonScheduledFestival);
+        allFestivalScheduledButton.setOnClickListener(v -> navigateToScheduled());
+
+        // Bouton de deconnexion
+        ImageButton deconnexionButton = findViewById(R.id.sign_out_from_favorite);
         deconnexionButton.setOnClickListener(v -> navigateTosignOut());
 
-        loadFavoritesFestivalsObject();
+        FestivalAdapter adapter = new FestivalAdapter(festivalList);
+        recyclerView.setAdapter(adapter);
+
+        // Méthode récupération de l'ensemble des festivals
+        //loadAllFestivalsObject();
+
+        //ajout temporaire en dur
+        festivalList.add(new Festival(0,"nomFesti","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(1,"nomFesti2","categorie2","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",false));
+        festivalList.add(new Festival(2,"nomFesti3","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(3,"nomFesti4","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(0,"nomFesti5","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(1,"nomFesti6","categorie2","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",false));
+        festivalList.add(new Festival(2,"nomFesti7","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(0,"nomFesti8","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(1,"nomFesti9","categorie2","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",false));
+        festivalList.add(new Festival(2,"nomFesti10","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(0,"nomFesti11","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+        festivalList.add(new Festival(1,"nomFesti12","categorie2","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",false));
+        festivalList.add(new Festival(2,"nomFesti13","categorie","description",0,"zefgg","dateDeb","dateFin",8,3,"ville","codepostal",true));
+
     }
 
     /**
-     * Méthode appelé lors du clique sur le bouton permettant de
-     * consulter la liste de l'ensemble des festivals
-     * programmés
-     *
-     * Redirige l'utilisateur vers la page contenant l'ensemble
-     * des festivals mis en favoris par l'utilisateur
+     * Méthode pour calculer le nombre de colonnes en fonction de la taille de l'écran
+     * et des items
      */
-    private void navigateToScheduled() {
-        Navigator.toActivity(FavoritesActivity.this, ScheduledActivity.class);
-    }
 
+    private int calculateNoOfColumns() {
+        int columnWidthDp = 450; // Largeur souhaitée d'une colonne en dp
+        float screenWidthDp = getResources().getDisplayMetrics().widthPixels / getResources().getDisplayMetrics().density;
+        int columnCount = (int) (screenWidthDp / columnWidthDp + 0.5); // Arrondi au nombre entier le plus proche
+        return Math.max(columnCount, 1); // Au moins une colonne
+    }
     /**
      * Méthode appelé lors du clique sur le bouton de deconnexion
      *
@@ -97,21 +101,80 @@ public class FavoritesActivity extends AppCompatActivity {
     }
 
     /**
-     * récupère l'ensemble des festivals en favoris
+     * Méthode appelé lors du clique sur le bouton permettant à
+     * l'utilisateur de consulter les fetivals programmés
+     *
+     * Redirige l'utilisateur vers la page contenant l'ensemble
+     * des festivals programmés
      */
-    private void loadFavoritesFestivalsObject() {
-        ApiResponse callback = response -> {
-            Gson gson = new Gson();
-            Type festivalType = new TypeToken<List<Festival>>() {
-            }.getType();
-            List<Festival> festivalFound = gson.fromJson(response, festivalType);
+    private void navigateToScheduled() {
+        Navigator.toActivity(FavoritesActivity.this, ScheduledActivity.class);
+    }
+    /**
+     * récupère l'ensemble des festivals programmés
+     */
+//    private void loadAllFestivalsObject() {
+//
+//        JsonArrayRequest allScheduledFestival = new JsonArrayRequest(FestiplanApi.getAllFestivalsScheduled(),
+//                response -> {
+//
+//                    ArrayList<Festival> festivals = new ArrayList<>();
+//
+//                    // récupération des festivals programmés
+//                    for (int i = 0; i < response.length(); i++) {
+//                        try {
+//                            JSONObject festivalJSON = response.getJSONObject(i);
+//
+//                            // ajout du festivalJSON à la liste
+//                            festivals.add(new Festival(
+//                                    festivalJSON.getInt("idFestival"),
+//                                    festivalJSON.getString("nomFestival"),
+//
+//                                    festivalJSON.getString("categorieFestival"),
+//                                    festivalJSON.getString("descriptionFestival"),
+//                                    festivalJSON.getInt("idImage"),
+//                                    "",
+//                                    festivalJSON.getString("dateDebutFestival"),
+//                                    festivalJSON.getString("dateFinFestival"),
+//                                    festivalJSON.getInt("idGriJ"),
+//                                    festivalJSON.getInt("idResponsable"),
+//                                    festivalJSON.getString("ville"),
+//                                    festivalJSON.getString("codePostal"),
+//                                    festivalJSON.getBoolean("favorite")
+//                            ));
+//                        } catch (JSONException e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                    }
+//                    if (festivals.isEmpty()) {
+//                        System.out.print("e_urnuçevçyuebrvçybeuyvb");
+//                        textError.setVisibility(View.VISIBLE);
+//                    } else {
+//                        System.out.print("e_urnuçevçyuebrvçybeuyvb");
+//                        festivalList.addAll(festivals);
+//                        System.out.println(festivalList);
+//                    }
+//                },
+//                error -> {
+//                    error.printStackTrace();
+//                });
+//
+//        getFileRequete().add(allScheduledFestival);
+//    }
 
-            if (festivalFound.isEmpty()) {
-                textError.setVisibility(View.VISIBLE);
-            } else {
-                festivalFavoritesList.addAll(festivalFound);
-            }
-        };
-        FestiplanApi.createFavoritesFestivalsApiListener(User.getInstance().getIdUser(), callback);
+    /**
+     * Renvoie la file d'attente pour les requêtes Web :
+     * - si la file n'existe pas encore : elle est créée puis renvoyée
+     * - si une file d'attente existe déjà : elle est renvoyée
+     * On assure ainsi l'unicité de la file d'attente
+     *
+     * @return RequestQueue une file d'attente pour les requêtes Volley
+     */
+    private RequestQueue getFileRequete() {
+        if (fileRequete == null) {
+            fileRequete = Volley.newRequestQueue(this);
+        }
+        return fileRequete;
     }
 }
+

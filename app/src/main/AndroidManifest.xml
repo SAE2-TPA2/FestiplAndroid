@@ -41,7 +41,11 @@
         <activity
             android:name=".ScheduledActivity"
             android:exported="true">
+        </activity>
 
+        <activity
+            android:name=".FavoritesActivity"
+            android:exported="true">
         </activity>
 
 
