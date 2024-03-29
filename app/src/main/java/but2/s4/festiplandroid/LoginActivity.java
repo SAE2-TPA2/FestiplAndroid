@@ -143,6 +143,8 @@ public class LoginActivity
                     public void onErrorResponse(VolleyError erreur) {
                         erreur.printStackTrace();
 //                        Log.d(TAG, "onErrorResponse: "+ );
+
+                        erreurIdentifiants();
                     }
                 }
             );
