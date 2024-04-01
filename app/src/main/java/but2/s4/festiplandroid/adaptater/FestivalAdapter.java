@@ -51,6 +51,11 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
                     v.getContext().startActivity(intent);
                 }
             });
+        if(festival.getFavorite()){
+            holder.imageFavorites.setImageResource(R.drawable.favorites_selected);
+        } else {
+            holder.imageFavorites.setImageResource(R.drawable.favorites_deselected);
+        }
     }
     @Override
     public int getItemCount() {
@@ -64,7 +69,7 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
         TextView dateDebutFestival;
         TextView dateFinFestival;
         Button buttonShowDetails;
-        ImageButton buttonAddToFavorites;
+        ImageView imageFavorites;
 
 
 
@@ -77,6 +82,7 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
             dateDebutFestival = itemView.findViewById(R.id.date_debut_festival);
             dateFinFestival = itemView.findViewById(R.id.date_fin_festival);
             buttonShowDetails = itemView.findViewById(R.id.button_show_details);
+            imageFavorites = itemView.findViewById(R.id.image_favorites);
         }
     }
 }

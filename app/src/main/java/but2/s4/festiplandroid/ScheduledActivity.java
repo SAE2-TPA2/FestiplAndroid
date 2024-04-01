@@ -1,6 +1,5 @@
 package but2.s4.festiplandroid;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -67,7 +66,7 @@ public class ScheduledActivity extends AppCompatActivity {
      */
 
     private int calculateNoOfColumns() {
-        int columnWidthDp = 450; // Largeur souhaitée d'une colonne en dp
+        int columnWidthDp = 450; // Largeur de l'item
         float screenWidthDp = getResources().getDisplayMetrics().widthPixels / getResources().getDisplayMetrics().density;
         int columnCount = (int) (screenWidthDp / columnWidthDp + 0.5); // Arrondi au nombre entier le plus proche
         return Math.max(columnCount, 1); // Au moins une colonne
@@ -95,6 +94,7 @@ public class ScheduledActivity extends AppCompatActivity {
      */
     private void navigateToFavorites() {
         Navigator.toActivity(ScheduledActivity.this, FavoritesActivity.class);
+        finish();
     }
     /**
      * récupère l'ensemble des festivals programmés
@@ -115,6 +115,7 @@ public class ScheduledActivity extends AppCompatActivity {
                             festivals.add(new Festival(
                                     festivalJSON.getInt("idFestival"),
                                     festivalJSON.getString("nomFestival"),
+                                    festivalJSON.getString("categorieFestival"),
                                     festivalJSON.getString("descriptionFestival"),
                                     festivalJSON.getInt("idImage"),
                                     "",
@@ -131,10 +132,8 @@ public class ScheduledActivity extends AppCompatActivity {
                         }
                     }
                     if (festivals.isEmpty()) {
-                        System.out.print("e_urnuçevçyuebrvçybeuyvb");
                         textError.setVisibility(View.VISIBLE);
                     } else {
-                        System.out.print("e_urnuçevçyuebrvçybeuyvb");
                         festivalList.addAll(festivals);
                         System.out.println(festivalList);
                     }

@@ -1,9 +1,7 @@
 package but2.s4.festiplandroid;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,8 +53,6 @@ public class FavoritesActivity extends AppCompatActivity {
         LinearLayout allFestivalScheduledButton = findViewById(R.id.buttonScheduledFestival);
         allFestivalScheduledButton.setOnClickListener(v -> navigateToScheduled());
 
-        // Bouton de deconnexion
-        ImageButton deconnexionButton = findViewById(R.id.sign_out_from_favorite);
 
         this.festivals = new ArrayList<>();
 
@@ -71,6 +67,7 @@ public class FavoritesActivity extends AppCompatActivity {
     public void logout(View view) {
         User.getInstance().logout();
         Navigator.clearAndGoToActivity(this, LoginActivity.class);
+        finish();
     }
 
     /**
@@ -94,6 +91,7 @@ public class FavoritesActivity extends AppCompatActivity {
      */
     private void navigateToScheduled() {
         Navigator.toActivity(FavoritesActivity.this, ScheduledActivity.class);
+        finish();
     }
 
     /**
@@ -147,6 +145,7 @@ public class FavoritesActivity extends AppCompatActivity {
                             this.festivals.add(new Festival(
                                     festivalJSON.getInt("idFestival"),
                                     festivalJSON.getString("nomFestival"),
+                                    festivalJSON.getString("categorieFestival"),
                                     festivalJSON.getString("descriptionFestival"),
                                     festivalJSON.getInt("idImage"),
                                     festivalJSON.getString("imagePath"),
@@ -156,7 +155,7 @@ public class FavoritesActivity extends AppCompatActivity {
                                     festivalJSON.getInt("idResponsable"),
                                     festivalJSON.getString("ville"),
                                     festivalJSON.getString("codePostal"),
-                                    false
+                                    festivalJSON.getBoolean("favorite")
                             ));
                         } catch (JSONException e) {
                             throw new RuntimeException(e);

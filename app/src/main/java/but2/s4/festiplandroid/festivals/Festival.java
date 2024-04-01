@@ -11,6 +11,8 @@ public class Festival {
 
     private String descriptionFestival;
 
+    private String categorieFestival;
+
     private int idImage;
 
     private String imagePath;
@@ -29,7 +31,7 @@ public class Festival {
 
     private boolean favorite;
 
-    public Festival(int idFestival, String nomFestival,
+    public Festival(int idFestival, String nomFestival, String categorie,
                     String descriptionFestival, int idImage, String imagePath,
                     String dateDebutFestival, String dateFinFestival, int idGriJ,
                     int idResponsable, String ville, String codePostal,
@@ -37,6 +39,7 @@ public class Festival {
 
         this.idFestival = idFestival;
         this.nomFestival = nomFestival;
+        this.categorieFestival = categorie;
         this.descriptionFestival = descriptionFestival;
         this.idImage = idImage;
         this.imagePath = imagePath;

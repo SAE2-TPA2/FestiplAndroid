@@ -156,6 +156,7 @@ public class DetailsActivity
                                 (int) festivalRecu.get("idFestival"),
                                 (String) festivalRecu.get("nomFestival"),
                                 (String) festivalRecu.get("descriptionFestival"),
+                                (String) festivalRecu.get("categorieFestival"),
                                 (int) festivalRecu.get("idImage"),
                                 (String) festivalRecu.get("imagePath"),
                                 (String) festivalRecu.get("dateDebutFestival"),
@@ -164,7 +165,7 @@ public class DetailsActivity
                                 (int) festivalRecu.get("idResponsable"),
                                 (String) festivalRecu.get("ville"),
                                 (String) festivalRecu.get("codePostal"),
-                                false
+                                (boolean) festivalRecu.get("favorite")
                         );
 
                         this.picture.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -765,6 +766,7 @@ public class DetailsActivity
     public void logout(View view) {
         User.getInstance().logout();
         Navigator.clearAndGoToActivity(this, LoginActivity.class);
+        finish();
     }
 
     /**
