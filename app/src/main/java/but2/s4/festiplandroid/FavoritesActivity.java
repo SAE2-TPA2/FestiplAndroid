@@ -67,7 +67,6 @@ public class FavoritesActivity extends AppCompatActivity {
     public void logout(View view) {
         User.getInstance().logout();
         Navigator.clearAndGoToActivity(this, LoginActivity.class);
-        finish();
     }
 
     /**
@@ -90,8 +89,7 @@ public class FavoritesActivity extends AppCompatActivity {
      * des festivals programmés
      */
     private void navigateToScheduled() {
-        Navigator.toActivity(FavoritesActivity.this, ScheduledActivity.class);
-        finish();
+        Navigator.clearAndGoToActivity(FavoritesActivity.this, ScheduledActivity.class);
     }
 
     /**
@@ -154,7 +152,7 @@ public class FavoritesActivity extends AppCompatActivity {
                                     festivalJSON.getInt("idResponsable"),
                                     festivalJSON.getString("ville"),
                                     festivalJSON.getString("codePostal"),
-                                    festivalJSON.getBoolean("favorite")
+                                    true
                             ));
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
