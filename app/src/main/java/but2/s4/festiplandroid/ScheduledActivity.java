@@ -18,6 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import but2.s4.festiplandroid.adaptater.FestivalAdapter;
 import but2.s4.festiplandroid.festivals.Festival;
@@ -93,8 +95,7 @@ public class ScheduledActivity extends AppCompatActivity {
      * des festivals mis en favoris par l'utilisateur
      */
     private void navigateToFavorites() {
-        Navigator.toActivity(ScheduledActivity.this, FavoritesActivity.class);
-        finish();
+        Navigator.clearAndGoToActivity(ScheduledActivity.this, FavoritesActivity.class);
     }
     /**
      * récupère l'ensemble des festivals programmés
@@ -111,21 +112,9 @@ public class ScheduledActivity extends AppCompatActivity {
                         try {
                             JSONObject festivalJSON = response.getJSONObject(i);
 
-                            // ajout du festivalJSON à la liste
-                            festivals.add(new Festival(
-                                    festivalJSON.getInt("idFestival"),
-                                    festivalJSON.getString("nomFestival"),
-                                    festivalJSON.getString("descriptionFestival"),
-                                    festivalJSON.getInt("idImage"),
-                                    "",
-                                    festivalJSON.getString("dateDebutFestival"),
-                                    festivalJSON.getString("dateFinFestival"),
-                                    festivalJSON.getInt("idGriJ"),
-                                    festivalJSON.getInt("idResponsable"),
-                                    festivalJSON.getString("ville"),
-                                    festivalJSON.getString("codePostal"),
-                                    false
-                            ));
+                            System.out.println(festivalJSON.toString());
+
+                            this.updateFavoriteState(festivalJSON);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
@@ -145,6 +134,63 @@ public class ScheduledActivity extends AppCompatActivity {
                 });
 
         getFileRequete().add(allScheduledFestival);
+    }
+
+    private void updateFavoriteState(JSONObject festivalJSON) {
+        JsonArrayRequest userFavorites = new JsonArrayRequest(
+                FestiplanApi.getURLFestivalAllFavorites(User.getInstance().getIdUser()),
+                response -> {
+                    boolean isFavorite = false;
+
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject festivalFavoriteRow = response.getJSONObject(i);
+
+
+                            if (festivalFavoriteRow.getInt("idFestival")
+                                    == festivalJSON.getInt("idFestival")) {
+
+                                isFavorite = true;
+                            }
+
+                            festivalList.add(new Festival(
+                                    festivalJSON.getInt("idFestival"),
+                                    festivalJSON.getString("nomFestival"),
+                                    festivalJSON.getString("descriptionFestival"),
+                                    festivalJSON.getInt("idImage"),
+                                    "",
+                                    festivalJSON.getString("dateDebutFestival"),
+                                    festivalJSON.getString("dateFinFestival"),
+                                    festivalJSON.getInt("idGriJ"),
+                                    festivalJSON.getInt("idResponsable"),
+                                    festivalJSON.getString("ville"),
+                                    festivalJSON.getString("codePostal"),
+                                    isFavorite
+                            ));
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+
+                    if (festivalList.isEmpty()) {
+                        textError.setVisibility(View.VISIBLE);
+                    }
+
+                    FestivalAdapter adapter = new FestivalAdapter(festivalList);
+                    recyclerView.setAdapter(adapter);
+                },
+                error -> {
+                    error.printStackTrace();
+                }) {
+
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("APIKEY", User.getInstance().getAPIKey());
+                return headers;
+            }
+        };
+
+        getFileRequete().add(userFavorites);
     }
 
     /**
