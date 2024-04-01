@@ -27,12 +27,7 @@
                 android:layout_height="wrap_content"
                 android:text="Nom_Festival(stub)"
                 android:layout_margin="5dp"/>
-            <TextView
-                android:id="@+id/categorie_festival"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Catégorie(stub)"
-                android:layout_margin="5dp"/>
+
             <Button
                 android:id="@+id/button_show_details"
                 android:layout_width="wrap_content"
@@ -53,7 +48,7 @@
                 android:layout_width="95dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Date_Debut(stub)"
+                android:text="Date_Deb_stub"
                 android:layout_margin="5dp"/>
 
             <ImageView
@@ -67,7 +62,7 @@
                 android:id="@+id/date_fin_festival"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date_Fin(stub)"
+                android:text="Date_Fin_stub"
                 android:layout_margin="5dp"/>
         </LinearLayout>
         <ImageView

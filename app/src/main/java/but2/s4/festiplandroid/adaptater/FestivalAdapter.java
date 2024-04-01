@@ -65,7 +65,6 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
     public static class FestivalViewHolder extends RecyclerView.ViewHolder {
         ImageView imageFestival;
         TextView nomFestival;
-        TextView categorieFestival;
         TextView dateDebutFestival;
         TextView dateFinFestival;
         Button buttonShowDetails;
@@ -78,7 +77,6 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
 
             imageFestival = itemView.findViewById(R.id.image_festival);
             nomFestival = itemView.findViewById(R.id.nom_festival);
-            categorieFestival = itemView.findViewById(R.id.categorie_festival);
             dateDebutFestival = itemView.findViewById(R.id.date_debut_festival);
             dateFinFestival = itemView.findViewById(R.id.date_fin_festival);
             buttonShowDetails = itemView.findViewById(R.id.button_show_details);

@@ -145,7 +145,6 @@ public class FavoritesActivity extends AppCompatActivity {
                             this.festivals.add(new Festival(
                                     festivalJSON.getInt("idFestival"),
                                     festivalJSON.getString("nomFestival"),
-                                    festivalJSON.getString("categorieFestival"),
                                     festivalJSON.getString("descriptionFestival"),
                                     festivalJSON.getInt("idImage"),
                                     festivalJSON.getString("imagePath"),

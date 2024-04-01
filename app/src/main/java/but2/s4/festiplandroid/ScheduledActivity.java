@@ -115,7 +115,6 @@ public class ScheduledActivity extends AppCompatActivity {
                             festivals.add(new Festival(
                                     festivalJSON.getInt("idFestival"),
                                     festivalJSON.getString("nomFestival"),
-                                    festivalJSON.getString("categorieFestival"),
                                     festivalJSON.getString("descriptionFestival"),
                                     festivalJSON.getInt("idImage"),
                                     "",
