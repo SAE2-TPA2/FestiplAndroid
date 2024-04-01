@@ -130,7 +130,9 @@ public class LoginActivity
                             user.setIdUser(reponse.getInt("idUser"));
                             user.setAPIKey(reponse.getString("APIKey"));
 
-                            Navigator.toActivity(LoginActivity.this, ScheduledActivity.class);
+                            Navigator.clearAndGoToActivity(
+                                    LoginActivity.this,
+                                    ScheduledActivity.class);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
