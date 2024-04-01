@@ -156,7 +156,6 @@ public class DetailsActivity
                                 (int) festivalRecu.get("idFestival"),
                                 (String) festivalRecu.get("nomFestival"),
                                 (String) festivalRecu.get("descriptionFestival"),
-                                (String) festivalRecu.get("categorieFestival"),
                                 (int) festivalRecu.get("idImage"),
                                 (String) festivalRecu.get("imagePath"),
                                 (String) festivalRecu.get("dateDebutFestival"),
@@ -165,7 +164,7 @@ public class DetailsActivity
                                 (int) festivalRecu.get("idResponsable"),
                                 (String) festivalRecu.get("ville"),
                                 (String) festivalRecu.get("codePostal"),
-                                (boolean) festivalRecu.get("favorite")
+                                false
                         );
 
                         this.picture.setScaleType(ImageView.ScaleType.CENTER_CROP);
