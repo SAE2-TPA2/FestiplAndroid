@@ -3,75 +3,99 @@ package but2.s4.festiplandroid.api;
 import android.os.Handler;
 import android.os.Looper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import but2.s4.festiplandroid.festivals.Festival;
+import but2.s4.festiplandroid.session.User;
+
+/**
+ * Classe pour gérer les appels API pour l'application Festiplan.
+ */
 public class FestiplanApi {
+
+    /**
+     * Le port pour le serveur API.
+     */
+    public static final String PORT_API = "";
+
+    // Domaine de l'API
+    public static final String DOMAIN_API
+            = "http://10.0.2.2:" + PORT_API;
+
+    // URI pour la requête de connexion
     private static final String URI_LOGIN_API_REQUEST
-        = "http://10.0.2.2:8888/festiplan/api/connexion?login=%s&mdp=%s";
+            = "%s/sae-s4-festiplan-b-green-b/festiplan/api/connexion?login=%s&mdp=%s";
 
-    public static void createLoginApiListener(String login,
-                                              String password,
-                                              ApiResponse callback) {
+    // URI pour la requête de détails du festival
+    private static final String URI_FESTIVAL_API_REQUEST
+            = "%s/sae-s4-festiplan-b-green-b/festiplan/api/detailsfestival/%s";
 
-        String requestUri;
+    // URI pour la requête des organisateurs du festival
+    private static final String URI_FESTIVAL_ORGANIZERS_API_REQUEST
+            = "%s/sae-s4-festiplan-b-green-b/festiplan/api/organisateursfestival/%s";
 
-        Handler handler;
+    // URI pour la requête des scènes du festival
+    private static final String URI_FESTIVAL_SCENES_API_REQUEST
+            = "%s/sae-s4-festiplan-b-green-b/festiplan/api/scenesfestival/%s";
 
-        handler = new Handler(Looper.getMainLooper());
+    // URI pour la requête des spectacles du festival
+    private static final String URI_FESTIVAL_SHOWS_API_REQUEST
+            = "%s/sae-s4-festiplan-b-green-b/festiplan/api/spectaclesfestival/%s";
 
-        requestUri = String.format(URI_LOGIN_API_REQUEST, login, password);
+    // URI pour la requête de tous les festivals programmés
+    private static final String URI_FESTIVAL_ALL_SCHEDULED
+            = "%s/sae-s4-festiplan-b-green-b/festiplan/api/tousLesFestivals";
 
-        new Thread(() -> {
-            String test;
+    // URI pour la requête de tous les festivals favoris
+    private static final String URI_FESTIVAL_ALL_FAVORITES
+            = "%s/sae-s4-festiplan-b-green-b/festiplan/api/tousLesFavoris/%s";
+    private static final String URI_FESTIVAL_SET_FAVORITES
+            = "%s/sae-s4-festiplan-b-green-b/festiplan/api/ajouterFavori";
+    private static final String URI_FESTIVAL_DELETE_FAVORITES
+            = "%s/sae-s4-festiplan-b-green-b/festiplan/api/supprimerFavori?idUser=%s&idFestival=%s";
 
-            test = callApi(requestUri);
-            handler.post(() -> callback.onResponse(test));
-        }).start();
+
+    public static String getURLConnexon(String login, String mdp) {
+        return String.format(URI_LOGIN_API_REQUEST, DOMAIN_API, login, mdp);
     }
 
-    private static String callApi(String uri) {
-        URL apiUrl;
-        HttpURLConnection connection;
-        int responseCode;
+    public static String getURLDetailFestival(int id) {
+        return String.format(URI_FESTIVAL_API_REQUEST, DOMAIN_API, id);
+    }
 
-        try {
-            apiUrl = new URL(uri);
-            connection = (HttpURLConnection) apiUrl.openConnection();
-            connection.setRequestMethod("GET");
-            connection.connect();
+    public static String getURLFestivalOrganizers(int idFestival) {
+        return String.format(URI_FESTIVAL_ORGANIZERS_API_REQUEST, DOMAIN_API, idFestival);
+    }
 
-            responseCode = connection.getResponseCode();
+    public static String getURLFestivalScenes(int idFestival) {
+        return String.format(URI_FESTIVAL_SCENES_API_REQUEST, DOMAIN_API, idFestival);
+    }
 
-            System.out.println(responseCode);
-            System.out.println(apiUrl);
+    public static String getURLFestivalShows(int idFestival) {
+        return String.format(URI_FESTIVAL_SHOWS_API_REQUEST, DOMAIN_API, idFestival);
+    }
 
-            if (responseCode == 200) {
-                InputStream inputStream;
-                BufferedReader reader;
-                String line;
-                StringBuilder content;
+    public static String getURLAllFestivalsScheduled() {
+        return String.format(URI_FESTIVAL_ALL_SCHEDULED, DOMAIN_API);
+    }
 
-                content = new StringBuilder();
-                inputStream = connection.getInputStream();
-                reader = new BufferedReader(
-                    new InputStreamReader(inputStream));
+    public static String getURLFestivalAllFavorites(int id) {
+        return String.format(URI_FESTIVAL_ALL_FAVORITES, DOMAIN_API, id);
+    }
 
-                while ((line = reader.readLine()) != null) {
-                    content.append(line);
-                }
+    public static String getURLFestivalSetFavorites() {
+        return String.format(URI_FESTIVAL_SET_FAVORITES, DOMAIN_API);
+    }
 
-                reader.close();
-                return content.toString();
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public static String getURLFestivalDeleteFavorites(int idUser, int idFestival) {
+        return String.format(URI_FESTIVAL_DELETE_FAVORITES, DOMAIN_API, idUser, idFestival);
     }
 }

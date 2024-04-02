@@ -81,17 +81,84 @@
         </item>
     </style>
 
-    <style name="body">
+    <style name="header.button">
+        <item name="android:layout_width">
+            wrap_content
+        </item>
+
+        <item name="android:layout_height">
+            60dp
+        </item>
+
+        <item name="android:layout_marginEnd">
+            10dp
+        </item>
+
+        <item name="android:textSize">
+            20sp
+        </item>
+
+        <item name="android:textColor">
+            @color/white
+        </item>
+
+        <item name="android:paddingHorizontal">
+            10dp
+        </item>
+
         <item name="android:paddingVertical">
             20dp
         </item>
 
+        <item name="android:background">
+            @drawable/rounded_button
+        </item>
+    </style>
+
+    <style name="header.button.logout"
+           parent="header.button">
+
+        <item name="android:layout_width">
+            60dp
+        </item>
+    </style>
+
+    <style name="header.button.logout.icon">
+
+        <item name="android:layout_width">
+            60dp
+        </item>
+
+        <item name="android:layout_height">
+            60dp
+        </item>
+
+        <item name="android:scaleType">
+            centerInside
+        </item>
+    </style>
+
+    <style name="body">
         <item name="android:layout_width">
             0dp
         </item>
 
         <item name="android:layout_height">
             0dp
+        </item>
+    </style>
+
+    <style name="body_details">
+        <item name="android:layout_width">
+            0dp
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:paddingTop">
+            30dp
         </item>
     </style>
 
@@ -156,6 +223,414 @@
 
         <item name="android:textColor">
             @color/error.text
+        </item>
+    </style>
+
+    <style name="details" />
+
+    <style name="details.title">
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:textSize">
+            50sp
+        </item>
+
+        <item name="android:textStyle">
+            bold
+        </item>
+
+        <item name="android:paddingBottom">
+            20dp
+        </item>
+    </style>
+
+    <style name="details.favorite" />
+
+    <style name="details.favorite.button">
+        <item name="android:layout_width">
+            60dp
+        </item>
+
+        <item name="android:layout_height">
+            60dp
+        </item>
+
+        <item name="android:scaleType">
+            centerInside
+        </item>
+
+        <item name="android:padding">
+            10dp
+        </item>
+    </style>
+
+    <style
+        name="details.favorite.button.on"
+        parent="details.favorite.button">
+
+        <item name="android:background">
+            @drawable/favorites_on_button
+        </item>
+    </style>
+
+    <style
+        name="details.favorite.button.off"
+        parent="details.favorite.button">
+
+        <item name="android:background">
+            @color/input.background
+        </item>
+    </style>
+
+    <style name="details.section">
+        <item name="android:layout_width">
+            0dp
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:paddingBottom">
+            20dp
+        </item>
+    </style>
+
+    <style name="details.picture">
+        <item name="android:layout_width">
+            400dp
+        </item>
+
+        <item name="android:layout_height">
+            300dp
+        </item>
+
+        <item name="android:background">
+            @color/input.background
+        </item>
+    </style>
+
+    <style name="details.description">
+        <item name="android:layout_width">
+            0dp
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:textSize">
+            25sp
+        </item>
+
+        <item name="android:textColor">
+            @color/input.placeholder
+        </item>
+
+        <item name="android:paddingVertical">
+            0dp
+        </item>
+
+        <item name="android:paddingHorizontal">
+            50dp
+        </item>
+    </style>
+
+    <style name="details.dates">
+        <item name="android:layout_width">
+            0dp
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+    </style>
+
+    <style name="details.dates.date">
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:textSize">
+            40sp
+        </item>
+
+        <item name="android:textColor">
+            @color/input.placeholder
+        </item>
+
+        <item name="android:textAlignment">
+            center
+        </item>
+
+        <item name="android:textStyle">
+            bold
+        </item>
+    </style>
+
+    <style name="details.dates.angle">
+        <item name="android:layout_width">
+            0dp
+        </item>
+
+        <item name="android:scaleType">
+            fitCenter
+        </item>
+
+        <item name="android:paddingVertical">
+            75dp
+        </item>
+    </style>
+
+    <style name="details.section.title">
+        <item name="android:textSize">
+            40sp
+        </item>
+
+        <item name="android:textStyle">
+            bold
+        </item>
+
+        <item name="android:layout_marginVertical">
+            30dp
+        </item>
+    </style>
+
+    <style name="details.organizers" />
+
+    <style name="details.organizers.list">
+        <item name="android:textSize">
+            30sp
+        </item>
+
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:orientation">
+            vertical
+        </item>
+    </style>
+
+    <style name="details.organizers.list.item" />
+
+    <style name="details.scenes" />
+
+    <style name="details.scenes.list">
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:orientation">
+            vertical
+        </item>
+    </style>
+
+    <style name="details.scenes.list.item">
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:orientation">
+            vertical
+        </item>
+
+        <item name="android:paddingVertical">
+            10dp
+        </item>
+    </style>
+
+    <style name="details.scenes.list.item.title">
+        <item name="android:textSize">
+            30sp
+        </item>
+
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:textStyle">
+            bold
+        </item>
+    </style>
+
+    <style name="details.scenes.list.item.description">
+        <item name="android:textSize">
+            25sp
+        </item>
+
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:textColor">
+            @color/button.background
+        </item>
+    </style>
+
+    <style name="details.shows" />
+
+    <style name="details.shows.list">
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:orientation">
+            vertical
+        </item>
+    </style>
+
+    <style name="details.shows.list.item">
+        <item name="android:layout_width">
+            0dp
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+    </style>
+
+    <style name="details.shows.list.item.picture">
+        <item name="android:layout_width">
+            142dp
+        </item>
+
+        <item name="android:layout_height">
+            142dp
+        </item>
+    </style>
+
+    <style name="details.shows.list.item.title">
+        <item name="android:textSize">
+            30sp
+        </item>
+
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:textStyle">
+            bold
+        </item>
+    </style>
+
+    <style name="details.shows.list.item.category">
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:textSize">
+            22sp
+        </item>
+
+        <item name="android:textStyle">
+            bold
+        </item>
+
+        <item name="android:textColor">
+            @color/button.background
+        </item>
+    </style>
+
+    <style name="details.shows.list.item.description">
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:paddingTop">
+            10dp
+        </item>
+    </style>
+
+    <style name="details.shows.list.item.dates">
+        <item name="android:layout_width">
+            0dp
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+    </style>
+
+    <style name="details.shows.list.item.dates.date">
+        <item name="android:layout_width">
+            match_parent
+        </item>
+
+        <item name="android:layout_height">
+            wrap_content
+        </item>
+
+        <item name="android:textSize">
+            25sp
+        </item>
+
+        <item name="android:textColor">
+            @color/input.placeholder
+        </item>
+
+        <item name="android:textAlignment">
+            center
+        </item>
+
+        <item name="android:textStyle">
+            bold
+        </item>
+    </style>
+
+    <style name="details.shows.list.item.dates.angle">
+        <item name="android:layout_width">
+            100dp
+        </item>
+
+        <item name="android:scaleType">
+            fitCenter
         </item>
     </style>
 
