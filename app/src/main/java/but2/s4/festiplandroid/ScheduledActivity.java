@@ -73,124 +73,84 @@ public class ScheduledActivity extends AppCompatActivity {
         int columnCount = (int) (screenWidthDp / columnWidthDp + 0.5); // Arrondi au nombre entier le plus proche
         return Math.max(columnCount, 1); // Au moins une colonne
     }
+
     /**
-     * Méthode appelé lors du clique sur le bouton de deconnexion
+     * Méthode appelé lors du clique sur le bouton de deconnexion <br>
      *
      * Redirige l'utilisateur vers la page de connexion et
      * réinitialise le singleton de l'utilisateur
      */
     private void navigateTosignOut() {
-        User.getInstance().setPrenomUser(null);
-        User.getInstance().setNomUser(null);
-        User.getInstance().setIdUser(-1);
-        User.getInstance().setLoginUser(null);
-        Navigator.toActivity(ScheduledActivity.this, LoginActivity.class);
+        Navigator.clearAndGoToActivity(ScheduledActivity.this, LoginActivity.class);
+        finish();
     }
 
     /**
      * Méthode appelé lors du clique sur le bouton permettant à
      * l'utilisateur de consulter ces favoris
-     *
+     * <p>
      * Redirige l'utilisateur vers la page contenant l'ensemble
      * des festivals mis en favoris par l'utilisateur
      */
     private void navigateToFavorites() {
         Navigator.clearAndGoToActivity(ScheduledActivity.this, FavoritesActivity.class);
     }
+
     /**
      * récupère l'ensemble des festivals programmés
      */
     private void loadAllFestivalsObject() {
         JsonArrayRequest allScheduledFestival = new JsonArrayRequest(
-                FestiplanApi.getURLAllFestivalsScheduled(),
-                response -> {
+            FestiplanApi.getURLAllFestivalsScheduled(),
+            response -> {
 
-                    ArrayList<Festival> festivals = new ArrayList<>();
+                ArrayList<Festival> festivals = new ArrayList<>();
 
-                    // récupération des festivals programmés
-                    for (int i = 0; i < response.length(); i++) {
-                        try {
-                            JSONObject festivalJSON = response.getJSONObject(i);
+                // récupération des festivals programmés
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject festivalJSON = response.getJSONObject(i);
 
-                            System.out.println(festivalJSON.toString());
+                        System.out.println(festivalJSON.toString());
 
-                            this.updateFavoriteState(festivalJSON);
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
+                        //this.updateFavoriteState(festivalJSON); FIXME
+                        JSONObject festivalFavoriteRow = response.getJSONObject(i);
+
+                        festivals.add(new Festival(
+                                festivalJSON.getInt("idFestival"),
+                                festivalJSON.getString("nomFestival"),
+                                festivalJSON.getString("descriptionFestival"),
+                                festivalJSON.getInt("idImage"),
+                                festivalJSON.getString("imagePath"),
+                                festivalJSON.getString("dateDebutFestival"),
+                                festivalJSON.getString("dateFinFestival"),
+                                festivalJSON.getInt("idGriJ"),
+                                festivalJSON.getInt("idResponsable"),
+                                festivalJSON.getString("ville"),
+                                festivalJSON.getString("codePostal"),
+                                false
+                        ));
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
                     }
-                    if (festivals.isEmpty()) {
-                        textError.setVisibility(View.VISIBLE);
-                    } else {
-                        festivalList.addAll(festivals);
-                        System.out.println(festivalList);
-                    }
+                }
 
-                    FestivalAdapter adapter = new FestivalAdapter(getApplicationContext(),festivalList);
-                    recyclerView.setAdapter(adapter);
-                },
-                error -> {
-                    error.printStackTrace();
-                });
+                if (festivals.isEmpty()) {
+                    textError.setVisibility(View.VISIBLE);
+                } else {
+                    festivalList.addAll(festivals);
+                    System.out.println(festivalList);
+                }
+
+                FestivalAdapter adapter = new FestivalAdapter(getApplicationContext(), festivalList);
+                recyclerView.setAdapter(adapter);
+            },
+            error -> {
+                error.printStackTrace();
+            }
+        );
 
         getFileRequete().add(allScheduledFestival);
-    }
-
-    private void updateFavoriteState(JSONObject festivalJSON) {
-        JsonArrayRequest userFavorites = new JsonArrayRequest(
-                FestiplanApi.getURLFestivalAllFavorites(User.getInstance().getIdUser()),
-                response -> {
-                    boolean isFavorite = false;
-
-                    for (int i = 0; i < response.length(); i++) {
-                        try {
-                            JSONObject festivalFavoriteRow = response.getJSONObject(i);
-
-
-                            if (festivalFavoriteRow.getInt("idFestival")
-                                    == festivalJSON.getInt("idFestival")) {
-
-                                isFavorite = true;
-                            }
-
-                            festivalList.add(new Festival(
-                                    festivalJSON.getInt("idFestival"),
-                                    festivalJSON.getString("nomFestival"),
-                                    festivalJSON.getString("descriptionFestival"),
-                                    festivalJSON.getInt("idImage"),
-                                    festivalJSON.getString("imagePath"),
-                                    festivalJSON.getString("dateDebutFestival"),
-                                    festivalJSON.getString("dateFinFestival"),
-                                    festivalJSON.getInt("idGriJ"),
-                                    festivalJSON.getInt("idResponsable"),
-                                    festivalJSON.getString("ville"),
-                                    festivalJSON.getString("codePostal"),
-                                    isFavorite
-                            ));
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-
-                    if (festivalList.isEmpty()) {
-                        textError.setVisibility(View.VISIBLE);
-                    }
-
-                    FestivalAdapter adapter = new FestivalAdapter(getApplicationContext(),festivalList);
-                    recyclerView.setAdapter(adapter);
-                },
-                error -> {
-                    error.printStackTrace();
-                }) {
-
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("APIKEY", User.getInstance().getAPIKey());
-                return headers;
-            }
-        };
-
-        getFileRequete().add(userFavorites);
     }
 
     /**
