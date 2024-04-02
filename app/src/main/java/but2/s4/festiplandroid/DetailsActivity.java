@@ -334,6 +334,10 @@ public class DetailsActivity
         getFileRequete().add(removeFavoriteRequest);
     }
 
+    /**
+     * Récupère avec une requête API la liste des organisateurs
+     * et les ajoute à la vue
+     */
     private void updateOrganizersList() {
         final String PATTERN_LIST
                 = "<ul>%s</ul>";
@@ -389,6 +393,10 @@ public class DetailsActivity
         getFileRequete().add(organizersFestivalRequest);
     }
 
+    /**
+     * Récupère avec une requête API la liste des scènes
+     * et les ajoute à la vue
+     */
     private void updateScenesList() {
         final String SCENE_DESCRIPTION_PATTERN
                 = "%s places · %s scène";
