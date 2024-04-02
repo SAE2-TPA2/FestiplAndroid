@@ -17,6 +17,7 @@ public class Navigator {
         for (String key : extras.keySet()) {
             intent.putExtra(key, extras.get(key));
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         activity.startActivity(intent);
     }

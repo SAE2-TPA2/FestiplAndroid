@@ -52,6 +52,7 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.Festiv
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailsActivity.class);
                 intent.putExtra("ID_EXTRA", festival.getIdFestival());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
