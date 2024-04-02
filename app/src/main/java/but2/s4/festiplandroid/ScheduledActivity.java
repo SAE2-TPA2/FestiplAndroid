@@ -102,7 +102,7 @@ public class ScheduledActivity extends AppCompatActivity {
      */
     private void loadAllFestivalsObject() {
         JsonArrayRequest allScheduledFestival = new JsonArrayRequest(
-                            FestiplanApi.getURLAllFestivalsScheduled(),
+                FestiplanApi.getURLAllFestivalsScheduled(),
                 response -> {
 
                     ArrayList<Festival> festivals = new ArrayList<>();
@@ -126,7 +126,7 @@ public class ScheduledActivity extends AppCompatActivity {
                         System.out.println(festivalList);
                     }
 
-                    FestivalAdapter adapter = new FestivalAdapter(festivalList);
+                    FestivalAdapter adapter = new FestivalAdapter(getApplicationContext(),festivalList);
                     recyclerView.setAdapter(adapter);
                 },
                 error -> {
@@ -158,7 +158,7 @@ public class ScheduledActivity extends AppCompatActivity {
                                     festivalJSON.getString("nomFestival"),
                                     festivalJSON.getString("descriptionFestival"),
                                     festivalJSON.getInt("idImage"),
-                                    "",
+                                    festivalJSON.getString("imagePath"),
                                     festivalJSON.getString("dateDebutFestival"),
                                     festivalJSON.getString("dateFinFestival"),
                                     festivalJSON.getInt("idGriJ"),
@@ -176,7 +176,7 @@ public class ScheduledActivity extends AppCompatActivity {
                         textError.setVisibility(View.VISIBLE);
                     }
 
-                    FestivalAdapter adapter = new FestivalAdapter(festivalList);
+                    FestivalAdapter adapter = new FestivalAdapter(getApplicationContext(),festivalList);
                     recyclerView.setAdapter(adapter);
                 },
                 error -> {
@@ -208,4 +208,3 @@ public class ScheduledActivity extends AppCompatActivity {
         return fileRequete;
     }
 }
-

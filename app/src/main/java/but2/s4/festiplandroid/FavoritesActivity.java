@@ -98,7 +98,7 @@ public class FavoritesActivity extends AppCompatActivity {
     private void loadFavoritesFestivalsObject() {
 
         JsonArrayRequest allScheduledFestival = new JsonArrayRequest(
-                        FestiplanApi.getURLFestivalAllFavorites(User.getInstance().getIdUser()),
+                FestiplanApi.getURLFestivalAllFavorites(User.getInstance().getIdUser()),
                 response -> {
 
                     // récupération des festivals programmés
@@ -159,7 +159,7 @@ public class FavoritesActivity extends AppCompatActivity {
                         }
                     }
 
-                    FestivalAdapter adapter = new FestivalAdapter(this.festivals);
+                    FestivalAdapter adapter = new FestivalAdapter(getApplicationContext(),this.festivals);
                     recyclerView.setAdapter(adapter);
                 },
                 error -> {
@@ -192,4 +192,3 @@ public class FavoritesActivity extends AppCompatActivity {
         return fileRequete;
     }
 }
-
