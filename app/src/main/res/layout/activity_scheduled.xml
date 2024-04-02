@@ -67,10 +67,13 @@
 
                 <ImageButton
                     android:id="@+id/sign_out_from_scheduled"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:background="@drawable/sign_out"
-                    android:contentDescription="LeaveIcon"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/header.button.logout.icon"
+                    android:src="@drawable/logout_icon"
+                    android:contentDescription="Icône de déconnexion"/>
 
             </TableRow>
         </TableLayout>
