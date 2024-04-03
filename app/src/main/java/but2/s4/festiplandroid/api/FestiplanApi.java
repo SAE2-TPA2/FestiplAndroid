@@ -62,6 +62,17 @@ public class FestiplanApi {
     private static final String URI_FESTIVAL_DELETE_FAVORITES
             = "%s/sae-s4-festiplan-b-green-b/festiplan/api/supprimerFavori?idUser=%s&idFestival=%s";
 
+    public static boolean serveurAccesible() {
+        try {
+            URL url = new URL(DOMAIN_API);
+            HttpURLConnection urlConnexon = (HttpURLConnection) url.openConnection();
+            urlConnexon.connect();
+            return urlConnexon.getResponseCode() == 200;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
     public static String getURLConnexon(String login, String mdp) {
         return String.format(URI_LOGIN_API_REQUEST, DOMAIN_API, login, mdp);

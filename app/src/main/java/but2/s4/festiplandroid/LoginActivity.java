@@ -1,5 +1,6 @@
 package but2.s4.festiplandroid;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,6 +21,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -99,6 +103,9 @@ public class LoginActivity
      * affiche un message d'erreur si nécessaire.
      */
     private void attemptLogin() throws UnsupportedEncodingException {
+
+        Toast.makeText(this, "Serveur("+FestiplanApi.DOMAIN_API+") accessible : " + FestiplanApi.serveurAccesible(), Toast.LENGTH_SHORT).show();
+
         final String[] loginAttemptApiResponse = new String[1];
 
         if (this.login.getText().length() == 0 || this.password.getText().length() == 0) {
@@ -145,8 +152,19 @@ public class LoginActivity
                     public void onErrorResponse(VolleyError erreur) {
                         erreur.printStackTrace();
 //                        Log.d(TAG, "onErrorResponse: "+ );
-
                         erreurIdentifiants();
+                        StringWriter sw = new StringWriter();
+                        PrintWriter pw = new PrintWriter(sw);
+                        erreur.printStackTrace(pw);
+                        String stackTrace = sw.toString();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                        builder.setMessage(stackTrace)
+                                .setTitle("Erreur")
+                                .setPositiveButton("OK", (dialog, id) -> {
+                                    dialog.dismiss();
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
                 }
             );
