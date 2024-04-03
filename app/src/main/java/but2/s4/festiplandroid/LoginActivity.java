@@ -104,7 +104,7 @@ public class LoginActivity
      */
     private void attemptLogin() throws UnsupportedEncodingException {
 
-        Toast.makeText(this, "Serveur("+FestiplanApi.DOMAIN_API+") accessible : " + FestiplanApi.serveurAccesible(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Serveur("+FestiplanApi.DOMAIN_API+") accessible : " + FestiplanApi.serveurAccesible(), Toast.LENGTH_SHORT).show();
 
         final String[] loginAttemptApiResponse = new String[1];
 
@@ -164,7 +164,8 @@ public class LoginActivity
                                     dialog.dismiss();
                                 });
                         AlertDialog dialog = builder.create();
-                        dialog.show();
+
+                        //dialog.show();
                     }
                 }
             );
